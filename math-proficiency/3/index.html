@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Math Proficiency 3 — Econ 380</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<main>
+
+  <h1>Partial derivatives</h1>
+  <p class="kicker">ECON 380 · Math Proficiency 3 · About fifteen minutes</p>
+
+  <p class="jump">Jump to:
+    <a href="#s1">1 Holding the other variable constant</a> ·
+    <a href="#s2">2 Cobb-Douglas partials</a> ·
+    <a href="#s3">3 Partials involving e</a> ·
+    <a href="#s4">4 Partials involving ln</a> ·
+    <a href="#s5">5 Second partials</a> ·
+    <a href="#more">More practice</a>
+  </p>
+
+  <div class="betanote">
+    <b>This page covers the content you need to pass Math Proficiency 3.</b> Read the
+    five rules, work the practice problems, then retake the exam. The section numbers
+    match the exam's question groups, so if you missed a question about logs, section 4
+    is the one to read.
+  </div>
+
+  <p><b>If you have never seen a partial derivative before, you are not behind.</b> Plenty
+    of people arrive in this course without having met them, and they are much less new
+    than they look. Every derivative rule you already know still applies, unchanged. There
+    is exactly one thing added, and section 1 is entirely about that one thing. Take this
+    page slowly and you will be fine — we use partial derivatives constantly, so it is
+    worth the extra ten minutes now.</p>
+
+  <!-- 1 -->
+  <h2 id="s1">1 · Holding the other variable constant <span class="when">Exam group 1</span></h2>
+
+  <p>A partial derivative is an ordinary derivative with one extra instruction: every
+    variable except the one you are differentiating is treated as a number. That is the
+    whole idea. Nothing else changes.</p>
+
+  <div class="rules m">
+    <div><span class="frac"><span>&part;<var>f</var></span><span>&part;<var>x</var></span></span>
+      means: differentiate with respect to <var>x</var>, treat <var>y</var> as a constant</div>
+    <div><span class="frac"><span>&part;<var>f</var></span><span>&part;<var>y</var></span></span>
+      means: differentiate with respect to <var>y</var>, treat <var>x</var> as a constant</div>
+  </div>
+
+  <p>The curly <span class="m">&part;</span> instead of a straight
+    <span class="m">d</span> is just a signal that the function has more than one variable
+    and you are only moving one of them. You may also see the same thing written
+    <span class="m"><var>f</var><sub>x</sub></span> or
+    <span class="m"><var>f</var><sub>1</sub></span> — all three mean the same.</p>
+
+  <p>Here is what that looks like. A function of two variables is a surface rather than a
+    curve. Pin <span class="m"><var>y</var></span> at some value and the surface becomes an
+    ordinary curve, which has an ordinary slope:</p>
+
+  <figure class="fig">
+    <svg viewBox="95 82 558 306" role="img"
+         aria-label="A surface drawn as a family of curves. Each curve is the surface with y held at one fixed value, so along any one curve only x is changing. Two curves are highlighted at different values of y, showing that y can be held anywhere. The partial derivative with respect to x is the slope along whichever curve you are on.">
+      <defs>
+        <marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
+                markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" opacity=".55"/>
+        </marker>
+      </defs>
+
+      <polyline points="318.0,303.0 329.5,310.1 341.0,316.2 352.5,321.3 364.0,325.5 375.5,328.7 387.0,330.9 398.5,332.1 410.0,332.4 421.5,331.7 433.0,330.0 444.5,327.3 456.0,323.7 467.5,319.1 479.0,313.5 490.5,306.9 502.0,299.4 513.5,290.9 525.0,281.4 536.5,270.9 548.0,259.5" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".42"/>
+      <polyline points="283.5,306.4 295.0,312.4 306.5,317.5 318.0,321.5 329.5,324.6 341.0,326.7 352.5,327.9 364.0,328.1 375.5,327.2 387.0,325.5 398.5,322.7 410.0,319.0 421.5,314.2 433.0,308.6 444.5,301.9 456.0,294.3 467.5,285.7 479.0,276.1 490.5,265.5 502.0,254.0 513.5,241.5" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".42"/>
+      <polyline points="214.5,302.7 226.0,306.6 237.5,309.5 249.0,311.4 260.5,312.4 272.0,312.3 283.5,311.3 295.0,309.3 306.5,306.4 318.0,302.5 329.5,297.6 341.0,291.7 352.5,284.8 364.0,277.0 375.5,268.2 387.0,258.4 398.5,247.7 410.0,235.9 421.5,223.2 433.0,209.5 444.5,194.9" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".42"/>
+      <polyline points="145.5,285.0 157.0,286.7 168.5,287.5 180.0,287.2 191.5,286.1 203.0,283.9 214.5,280.7 226.0,276.6 237.5,271.5 249.0,265.4 260.5,258.4 272.0,250.3 283.5,241.3 295.0,231.4 306.5,220.4 318.0,208.5 329.5,195.6 341.0,181.7 352.5,166.9 364.0,151.1 375.5,134.2" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".42"/>
+      <polyline points="111.0,270.9 122.5,271.5 134.0,271.2 145.5,269.9 157.0,267.6 168.5,264.4 180.0,260.2 191.5,255.0 203.0,248.8 214.5,241.6 226.0,233.5 237.5,224.4 249.0,214.3 260.5,203.3 272.0,191.3 283.5,178.3 295.0,164.3 306.5,149.4 318.0,133.4 329.5,116.5 341.0,98.7" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".42"/>
+      <polyline points="318.0,303.0 306.5,304.5 295.0,305.7 283.5,306.4 272.0,306.8 260.5,306.8 249.0,306.3 237.5,305.5 226.0,304.3 214.5,302.7 203.0,300.8 191.5,298.4 180.0,295.6 168.5,292.5 157.0,288.9 145.5,285.0 134.0,280.7 122.5,276.0 111.0,270.9" fill="none" stroke="currentColor" stroke-width="1" opacity=".22"/>
+      <polyline points="433.0,330.0 421.5,328.0 410.0,325.5 398.5,322.7 387.0,319.5 375.5,315.9 364.0,311.9 352.5,307.5 341.0,302.7 329.5,297.6 318.0,292.0 306.5,286.1 295.0,279.7 283.5,273.0 272.0,265.9 260.5,258.4 249.0,250.5 237.5,242.2 226.0,233.5" fill="none" stroke="currentColor" stroke-width="1" opacity=".22"/>
+      <polyline points="548.0,259.5 536.5,253.9 525.0,247.9 513.5,241.5 502.0,234.7 490.5,227.5 479.0,219.9 467.5,212.0 456.0,203.6 444.5,194.9 433.0,185.8 421.5,176.2 410.0,166.3 398.5,156.0 387.0,145.3 375.5,134.2 364.0,122.8 352.5,110.9 341.0,98.7" fill="none" stroke="currentColor" stroke-width="1" opacity=".22"/>
+      <polyline points="249.0,306.3 260.5,311.3 272.0,315.2 283.5,318.2 295.0,320.2 306.5,321.3 318.0,321.4 329.5,320.5 341.0,318.6 352.5,315.7 364.0,311.9 375.5,307.1 387.0,301.3 398.5,294.5 410.0,286.8 421.5,278.1 433.0,268.4 444.5,257.8 456.0,246.1 467.5,233.5 479.0,219.9" fill="none" stroke="#D07000" stroke-width="2.4" opacity=".75"/>
+      <polyline points="180.0,295.6 191.5,298.4 203.0,300.2 214.5,301.1 226.0,301.0 237.5,299.9 249.0,297.8 260.5,294.7 272.0,290.7 283.5,285.7 295.0,279.7 306.5,272.8 318.0,264.8 329.5,255.9 341.0,246.1 352.5,235.2 364.0,223.4 375.5,210.6 387.0,196.8 398.5,182.0 410.0,166.3" fill="none" stroke="#005A9C" stroke-width="3.4"/>
+
+      <!-- the blue curve -->
+      <line x1="252" y1="341" x2="232" y2="304" stroke="#005A9C" stroke-width="1" opacity=".8"/>
+      <text x="246" y="356" font-size="12.5" font-weight="700" fill="#005A9C">hold y here</text>
+      <text x="246" y="372" font-size="12" fill="#005A9C">and you have an ordinary curve in x</text>
+
+      <!-- the orange curve -->
+      <line x1="492" y1="196" x2="468" y2="223" stroke="#D07000" stroke-width="1" opacity=".8"/>
+      <text x="500" y="184" font-size="12.5" font-weight="700" fill="#D07000">or hold y here</text>
+      <text x="500" y="200" font-size="12" fill="#D07000">for a different curve</text>
+
+      <!-- which way is which -->
+      <line x1="116" y1="344" x2="166" y2="366" stroke="currentColor" stroke-width="1.4"
+            opacity=".55" marker-end="url(#a3)"/>
+      <text x="172" y="372" font-size="12" fill="currentColor" opacity=".7">x</text>
+      <line x1="116" y1="344" x2="166" y2="323" stroke="currentColor" stroke-width="1.4"
+            opacity=".55" marker-end="url(#a3)"/>
+      <text x="172" y="322" font-size="12" fill="currentColor" opacity=".7">y</text>
+    </svg>
+    <figcaption>Every curve here is the same surface with <span class="m"><var>y</var></span>
+      pinned at one value, so walking along a curve changes only
+      <span class="m"><var>x</var></span>. That turns a two-variable function into an
+      ordinary one-variable one, and
+      <span class="m">&part;<var>f</var>/&part;<var>x</var></span> is just its slope. You can
+      pin <span class="m"><var>y</var></span> anywhere &mdash; two choices are drawn here, and
+      the formula you get covers all of them at once.
+    </figcaption>
+  </figure>
+
+  <p>You are not stuck with the value you pinned. Pin
+    <span class="m"><var>y</var></span> somewhere else and you get a different curve with a
+    different slope — and the formula you get for
+    <span class="m">&part;<var>f</var>/&part;<var>x</var></span> covers every one of them at
+    once. That is why the answer often still has
+    <span class="m"><var>y</var></span> in it.</p>
+
+  <h3>Why <span class="m"><var>y</var></span> sometimes disappears and sometimes doesn't</h3>
+
+  <p>This is the part that trips almost everyone, and it is worth getting straight before
+    you go further. Whether <span class="m"><var>y</var></span> survives depends entirely
+    on whether it is <em>added</em> or <em>multiplied</em>.</p>
+
+  <div class="contrast">
+    <div>
+      <p class="h" style="color:var(--warm)">Added</p>
+      <p class="m"><var>f</var> = 3<var>x</var><sup>2</sup> + 5<var>y</var><sup>3</sup></p>
+      <p class="m"><span class="frac"><span>&part;<var>f</var></span><span>&part;<var>x</var></span></span>
+        = 6<var>x</var></p>
+      <p>The <span class="m">5<var>y</var><sup>3</sup></span> is a separate term. It doesn't
+        move when <span class="m"><var>x</var></span> moves, so it adds nothing to the rate
+        of change. <b>It's gone.</b></p>
+    </div>
+    <div>
+      <p class="h" style="color:var(--accent)">Multiplied</p>
+      <p class="m"><var>f</var> = 3<var>x</var><sup>2</sup><var>y</var><sup>3</sup></p>
+      <p class="m"><span class="frac"><span>&part;<var>f</var></span><span>&part;<var>x</var></span></span>
+        = 6<var>x</var><var>y</var><sup>3</sup></p>
+      <p>The <span class="m"><var>y</var><sup>3</sup></span> multiplies the whole thing. It
+        scales the answer, exactly the way the 3 does. <b>It stays.</b></p>
+    </div>
+  </div>
+
+  <div class="keyidea">
+    <p class="h">The test that always works</p>
+    <p>Pretend <span class="m"><var>y</var></span> is just the number 8, and watch what
+      happens.</p>
+    <div class="rules m" style="background:transparent;border:0;padding:0;margin:10px 0">
+      <div><var>f</var> = 3<var>x</var><sup>2</sup> + 8 &nbsp;&rarr;&nbsp;
+        <var>f</var>&apos; = 6<var>x</var> &nbsp; — the 8 vanished</div>
+      <div><var>f</var> = 3<var>x</var><sup>2</sup> · 8 = 24<var>x</var><sup>2</sup>
+        &nbsp;&rarr;&nbsp; <var>f</var>&apos; = 48<var>x</var> = 6<var>x</var> · 8
+        &nbsp; — the 8 stayed</div>
+    </div>
+    <p>Adding a constant shifts a function up or down; it doesn't change any slope, so it
+      contributes nothing to the derivative. Multiplying by a constant stretches the whole
+      function, so it stretches the slope too. <b><span class="m"><var>y</var></span>
+      behaves exactly the same way</b> — because while you are differentiating with respect
+      to <span class="m"><var>x</var></span>, that is precisely what it is: a constant.</p>
+  </div>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example, with both kinds of term</p>
+    <div class="steps m">
+      <div><var>f</var>(<var>x</var>,<var>y</var>) = 2<var>x</var><sup>4</sup> + 2<var>y</var><sup>4</sup> + 4<var>xy</var></div>
+      <div><span class="frac"><span>&part;<var>f</var></span><span>&part;<var>x</var></span></span>
+        = 8<var>x</var><sup>3</sup> + 4<var>y</var></div>
+      <div class="note">2<var>y</var><sup>4</sup> is added on and has no <var>x</var> in it, so it is gone</div>
+      <div class="note">4<var>xy</var> has <var>y</var> multiplied in, so the <var>y</var> stays as a coefficient</div>
+    </div>
+  </div>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>The two mistakes are mirror images, and people often make both. Keeping the added
+      term, and answering
+      <span class="m">8<var>x</var><sup>3</sup> + 8<var>y</var><sup>3</sup> + 4<var>y</var></span>.
+      Or dropping the multiplied one, and answering
+      <span class="m">8<var>x</var><sup>3</sup> + 4</span>. If you are unsure which case
+      you are in, replace <span class="m"><var>y</var></span> with 8 and look again.</p>
+  </div>
+
+  <details>
+    <summary>Try it: find <span class="m">&part;<var>f</var>/&part;<var>y</var></span> for <span class="m"><var>f</var> = 3<var>x</var><sup>2</sup> + 5<var>y</var><sup>3</sup> + 2<var>xy</var></span></summary>
+    <p class="result m">15<var>y</var><sup>2</sup> + 2<var>x</var></p>
+    <p>The <span class="m">3<var>x</var><sup>2</sup></span> is added on with no
+      <span class="m"><var>y</var></span> in it, so it goes. The
+      <span class="m">5<var>y</var><sup>3</sup></span> differentiates normally. The
+      <span class="m">2<var>xy</var></span> has <span class="m"><var>x</var></span>
+      multiplied in, so the <span class="m"><var>x</var></span> stays.</p>
+  </details>
+
+  <!-- 2 -->
+  <h2 id="s2">2 · Cobb-Douglas partials <span class="when">Exam group 2</span></h2>
+
+  <p>You'll see a lot of this one, because it's where marginal utility comes from in one
+    of the most commonly used functional forms in economic theory. Bring the exponent of
+    your variable down in front, reduce that exponent by one, and leave the other
+    variable's power completely alone.</p>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example</p>
+    <div class="steps m">
+      <div><var>f</var>(<var>x</var>,<var>y</var>) = 7<var>x</var><sup>5</sup><var>y</var><sup>4</sup></div>
+      <div><span class="frac"><span>&part;<var>f</var></span><span>&part;<var>x</var></span></span>
+        = 35<var>x</var><sup>4</sup><var>y</var><sup>4</sup></div>
+      <div class="note">7 · 5 = 35, and the <var>x</var> exponent drops from 5 to 4</div>
+      <div class="note">the <var>y</var><sup>4</sup> is multiplied in, so it rides along untouched</div>
+    </div>
+  </div>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example, with symbols</p>
+    <div class="steps m">
+      <div><var>f</var>(<var>x</var>,<var>y</var>) = <var>x</var><sup>&alpha;</sup><var>y</var><sup>&beta;</sup></div>
+      <div><span class="frac"><span>&part;<var>f</var></span><span>&part;<var>x</var></span></span>
+        = &alpha;<var>x</var><sup>&alpha;−1</sup><var>y</var><sup>&beta;</sup></div>
+      <div class="note">identical rule; the symbols change nothing</div>
+    </div>
+  </div>
+
+  <p>That last one is worth recognizing on sight. It's the marginal utility of a
+    Cobb-Douglas utility function, and when you divide one of these by the other — using
+    the ratio move from Math Proficiency 1 — you get the MRS.</p>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>Dropping the other variable, and answering
+      <span class="m">35<var>x</var><sup>4</sup></span>. Everything here is multiplied
+      together, so nothing disappears — the
+      <span class="m"><var>y</var><sup>4</sup></span> is being held constant, not deleted.</p>
+  </div>
+
+  <details>
+    <summary>Try it: find <span class="m">&part;<var>f</var>/&part;<var>y</var></span> for <span class="m"><var>f</var> = 4<var>x</var><sup>3</sup><var>y</var><sup>2</sup></span></summary>
+    <p class="result m">8<var>x</var><sup>3</sup><var>y</var></p>
+    <p>4 · 2 = 8, the <span class="m"><var>y</var></span> exponent drops from 2 to 1, and
+      <span class="m"><var>x</var><sup>3</sup></span> comes along unchanged.</p>
+  </details>
+
+  <!-- 3 -->
+  <h2 id="s3">3 · Partials involving e <span class="when">Exam group 3</span></h2>
+
+  <p>The chain rule from Math Proficiency 2, with the same one extra instruction. Here
+    <span class="m"><var>u</var>(<var>x</var>,<var>y</var>)</span> stands for whatever
+    function sits up in the exponent — it is a function, not a variable, and it usually has
+    both <span class="m"><var>x</var></span> and <span class="m"><var>y</var></span> in it.</p>
+
+  <div class="rules m">
+    <div><var>f</var> = <var>e</var><sup><var>u</var>(<var>x</var>,<var>y</var>)</sup>
+      &nbsp;&rarr;&nbsp;
+      <span class="frac"><span>&part;<var>f</var></span><span>&part;<var>x</var></span></span>
+      = <span class="frac"><span>&part;<var>u</var>(<var>x</var>,<var>y</var>)</span><span>&part;<var>x</var></span></span>
+      · <var>e</var><sup><var>u</var>(<var>x</var>,<var>y</var>)</sup></div>
+  </div>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example</p>
+    <div class="steps m">
+      <div><var>f</var>(<var>x</var>,<var>y</var>) = 2<var>xy</var> + <var>e</var><sup>4<var>xy</var></sup></div>
+      <div class="note">here <var>u</var>(<var>x</var>,<var>y</var>) = 4<var>xy</var></div>
+      <div>first term: 2<var>xy</var> &rarr; 2<var>y</var></div>
+      <div><span class="frac"><span>&part;<var>u</var>(<var>x</var>,<var>y</var>)</span><span>&part;<var>x</var></span></span>
+        = 4<var>y</var></div>
+      <div class="note">differentiating 4<var>xy</var> with respect to <var>x</var> leaves the <var>y</var> behind</div>
+      <div><span class="frac"><span>&part;<var>f</var></span><span>&part;<var>x</var></span></span>
+        = 2<var>y</var> + 4<var>y</var><var>e</var><sup>4<var>xy</var></sup></div>
+    </div>
+  </div>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>Leaving the exponent's derivative off and answering
+      <span class="m">2<var>y</var> + <var>e</var><sup>4<var>xy</var></sup></span>. The
+      <span class="m"><var>e</var></span> part never changes, but the factor out front is
+      the whole point of the chain rule.</p>
+  </div>
+
+  <details>
+    <summary>Try it: find <span class="m">&part;<var>f</var>/&part;<var>y</var></span> for <span class="m"><var>f</var> = <var>e</var><sup>3<var>xy</var></sup></span></summary>
+    <p class="result m">3<var>x</var><var>e</var><sup>3<var>xy</var></sup></p>
+    <p>Here <span class="m"><var>u</var>(<var>x</var>,<var>y</var>) = 3<var>xy</var></span>,
+      and <span class="m">&part;<var>u</var>/&part;<var>y</var> = 3<var>x</var></span>. That
+      multiplies the unchanged
+      <span class="m"><var>e</var><sup>3<var>xy</var></sup></span>.</p>
+  </details>
+
+  <!-- 4 -->
+  <h2 id="s4">4 · Partials involving ln <span class="when">Exam group 4</span></h2>
+
+  <p>It's not necessary, but it can be helpful to split the log first, using the rules from
+    Math Proficiency 1. Once it's a sum, most of it turns out to be constants and the
+    problem collapses.</p>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example</p>
+    <div class="steps m">
+      <div><var>f</var>(<var>x</var>,<var>y</var>) = ln(<var>x</var><sup>3</sup><var>y</var><sup>5</sup>)</div>
+      <div>= 3 ln(<var>x</var>) + 5 ln(<var>y</var>)</div>
+      <div class="note">splitting it turns one messy log into two easy terms</div>
+      <div><span class="frac"><span>&part;<var>f</var></span><span>&part;<var>x</var></span></span>
+        = <span class="frac"><span>3</span><span><var>x</var></span></span></div>
+      <div class="note">5 ln(<var>y</var>) is constant <em>with respect to <var>x</var></em>, and it is added on, so it drops out</div>
+    </div>
+  </div>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>Going straight for <span class="m">1/<var>u</var></span> and answering
+      <span class="m">1/(<var>x</var><sup>3</sup><var>y</var><sup>5</sup>)</span>. That's the
+      chain rule half-done — you still owe the derivative of the inside. Splitting the log
+      first avoids the problem completely, and it's less work.</p>
+  </div>
+
+  <details>
+    <summary>Try it: find <span class="m">&part;<var>f</var>/&part;<var>y</var></span> for <span class="m"><var>f</var> = 4 ln(<var>xy</var>) · <var>z</var></span></summary>
+    <p class="result m"><span class="frac"><span>4<var>z</var></span><span><var>y</var></span></span></p>
+    <p>Split: <span class="m">4<var>z</var> ln(<var>x</var>) + 4<var>z</var> ln(<var>y</var>)</span>.
+      The first term is constant with respect to <span class="m"><var>y</var></span> and is
+      added on, so it goes. In the second, <span class="m">4<var>z</var></span> is
+      multiplied in, so it stays — giving
+      <span class="m">4<var>z</var>/<var>y</var></span>.</p>
+  </details>
+
+  <!-- 5 -->
+  <h2 id="s5">5 · Second partials <span class="when">Exam group 5</span></h2>
+
+  <p>Do it twice. Differentiate with respect to the first variable, then differentiate that
+    answer with respect to the second. There's no shortcut and no new rule — just don't
+    stop after the first step.</p>
+
+  <div class="rules m">
+    <div><span class="frac"><span>&part;<sup>2</sup><var>f</var></span><span>&part;<var>x</var>&part;<var>y</var></span></span>
+      &nbsp;=&nbsp; differentiate by <var>x</var>, then differentiate the result by <var>y</var></div>
+  </div>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example</p>
+    <div class="steps m">
+      <div><var>f</var>(<var>x</var>,<var>y</var>) = 4<var>x</var><sup>2</sup><var>y</var><sup>3</sup> + ln(<var>x</var>)<var>y</var></div>
+      <div>by <var>x</var>: &nbsp; 8<var>xy</var><sup>3</sup> +
+        <span class="frac"><span><var>y</var></span><span><var>x</var></span></span></div>
+      <div class="note">ln(<var>x</var>) differentiates to 1/<var>x</var>, and the <var>y</var> is multiplied in, so it stays</div>
+      <div>then by <var>y</var>: &nbsp; 24<var>xy</var><sup>2</sup> +
+        <span class="frac"><span>1</span><span><var>x</var></span></span></div>
+      <div class="note"><var>y</var>/<var>x</var> differentiates to 1/<var>x</var>, because 1/<var>x</var> is multiplied in</div>
+    </div>
+  </div>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>Stopping after the first derivative, or losing the log term along the way. It doesn't
+      vanish — <span class="m"><var>y</var>/<var>x</var></span> still has a
+      <span class="m"><var>y</var></span> in it, so it survives the second step and becomes
+      <span class="m">1/<var>x</var></span>.</p>
+  </div>
+
+  <details>
+    <summary>Try it: find <span class="m">&part;<sup>2</sup><var>f</var>/&part;<var>x</var>&part;<var>y</var></span> for <span class="m"><var>f</var> = 3<var>x</var><sup>2</sup><var>y</var><sup>4</sup></span></summary>
+    <p class="result m">24<var>x</var><var>y</var><sup>3</sup></p>
+    <p>By <span class="m"><var>x</var></span> first:
+      <span class="m">6<var>xy</var><sup>4</sup></span>. Then by
+      <span class="m"><var>y</var></span>: <span class="m">24<var>xy</var><sup>3</sup></span>.
+      Both exponents end up one lower than they started.</p>
+  </details>
+
+  <!-- more practice -->
+  <h2 id="more">More practice</h2>
+
+  <p>Work these on paper before you open the answers. If you only do some of them, do
+    number 1 — the whole additive-versus-multiplied distinction is in that one pair.</p>
+
+  <ol class="practice">
+    <li>
+      <div class="q">These two look almost identical. Find
+        <span class="m">&part;<var>f</var>/&part;<var>x</var></span> for each.
+        <br><span class="m">(a) <var>f</var> = <var>x</var><sup>2</sup> + <var>y</var><sup>5</sup></span>
+        &nbsp;&nbsp;&nbsp;
+        <span class="m">(b) <var>f</var> = <var>x</var><sup>2</sup><var>y</var><sup>5</sup></span></div>
+      <details>
+        <summary>Answer</summary>
+        <p class="result m">(a) 2<var>x</var> &nbsp;&nbsp;&nbsp; (b) 2<var>xy</var><sup>5</sup></p>
+        <p>In (a) the <span class="m"><var>y</var><sup>5</sup></span> is added on, so it
+          contributes nothing to how <span class="m"><var>f</var></span> changes with
+          <span class="m"><var>x</var></span>. In (b) it multiplies, so it scales the
+          answer. Same symbols, opposite fates.</p>
+      </details>
+    </li>
+    <li>
+      <div class="q">Find <span class="m">&part;<var>f</var>/&part;<var>x</var></span> for
+        <span class="m"><var>f</var> = 4<var>x</var><sup>3</sup> + 7<var>y</var><sup>2</sup> − 2<var>xy</var></span></div>
+      <details>
+        <summary>Answer</summary>
+        <p class="result m">12<var>x</var><sup>2</sup> − 2<var>y</var></p>
+        <p>The <span class="m">7<var>y</var><sup>2</sup></span> is added on and goes; the
+          <span class="m">−2<var>xy</var></span> keeps its <span class="m"><var>y</var></span>.</p>
+      </details>
+    </li>
+    <li>
+      <div class="q">Same function — now find
+        <span class="m">&part;<var>f</var>/&part;<var>y</var></span> for
+        <span class="m"><var>f</var> = 4<var>x</var><sup>3</sup> + 7<var>y</var><sup>2</sup> − 2<var>xy</var></span></div>
+      <details>
+        <summary>Answer</summary>
+        <p class="result m">14<var>y</var> − 2<var>x</var></p>
+        <p>Now it's <span class="m">4<var>x</var><sup>3</sup></span> that disappears, and
+          the cross term keeps its <span class="m"><var>x</var></span> instead.</p>
+      </details>
+    </li>
+    <li>
+      <div class="q">Find <span class="m">&part;<var>f</var>/&part;<var>y</var></span> for
+        <span class="m"><var>f</var> = 5<var>x</var><sup>2</sup><var>y</var><sup>4</sup></span></div>
+      <details>
+        <summary>Answer</summary>
+        <p class="result m">20<var>x</var><sup>2</sup><var>y</var><sup>3</sup></p>
+        <p>5 · 4 = 20, the <span class="m"><var>y</var></span> exponent drops to 3, and
+          <span class="m"><var>x</var><sup>2</sup></span> is untouched.</p>
+      </details>
+    </li>
+    <li>
+      <div class="q">Find <span class="m">&part;<var>f</var>/&part;<var>y</var></span> for
+        <span class="m"><var>f</var> = <var>x</var><sup>&alpha;</sup><var>y</var><sup>&beta;</sup></span></div>
+      <details>
+        <summary>Answer</summary>
+        <p class="result m">&beta;<var>x</var><sup>&alpha;</sup><var>y</var><sup>&beta;−1</sup></p>
+        <p>This is a marginal utility. You will write it many times this semester.</p>
+      </details>
+    </li>
+    <li>
+      <div class="q">Find <span class="m">&part;<var>f</var>/&part;<var>x</var></span> for
+        <span class="m"><var>f</var> = <var>e</var><sup>5<var>xy</var></sup></span></div>
+      <details>
+        <summary>Answer</summary>
+        <p class="result m">5<var>y</var><var>e</var><sup>5<var>xy</var></sup></p>
+        <p><span class="m"><var>u</var>(<var>x</var>,<var>y</var>) = 5<var>xy</var></span>,
+          so <span class="m">&part;<var>u</var>/&part;<var>x</var> = 5<var>y</var></span>.</p>
+      </details>
+    </li>
+    <li>
+      <div class="q">Find <span class="m">&part;<var>f</var>/&part;<var>y</var></span> for
+        <span class="m"><var>f</var> = 2<var>xy</var> + <var>e</var><sup>3<var>xy</var></sup></span></div>
+      <details>
+        <summary>Answer</summary>
+        <p class="result m">2<var>x</var> + 3<var>x</var><var>e</var><sup>3<var>xy</var></sup></p>
+        <p>Both terms keep an <span class="m"><var>x</var></span>, because in both it is
+          multiplied in rather than added on.</p>
+      </details>
+    </li>
+    <li>
+      <div class="q">Find <span class="m">&part;<var>f</var>/&part;<var>y</var></span> for
+        <span class="m"><var>f</var> = ln(<var>x</var><sup>4</sup><var>y</var><sup>2</sup>)</span></div>
+      <details>
+        <summary>Answer</summary>
+        <p class="result m"><span class="frac"><span>2</span><span><var>y</var></span></span></p>
+        <p>Split it: <span class="m">4 ln(<var>x</var>) + 2 ln(<var>y</var>)</span>. The
+          first term is constant with respect to <span class="m"><var>y</var></span> and
+          added on, so it goes.</p>
+      </details>
+    </li>
+    <li>
+      <div class="q">Find
+        <span class="m">&part;<sup>2</sup><var>f</var>/&part;<var>x</var>&part;<var>y</var></span> for
+        <span class="m"><var>f</var> = 6<var>x</var><sup>3</sup><var>y</var><sup>2</sup> + ln(<var>x</var>)<var>y</var></span></div>
+      <details>
+        <summary>Answer</summary>
+        <p class="result m">36<var>x</var><sup>2</sup><var>y</var> +
+          <span class="frac"><span>1</span><span><var>x</var></span></span></p>
+        <p>By <span class="m"><var>x</var></span> first:
+          <span class="m">18<var>x</var><sup>2</sup><var>y</var><sup>2</sup> + <var>y</var>/<var>x</var></span>.
+          Then by <span class="m"><var>y</var></span>:
+          <span class="m">36<var>x</var><sup>2</sup><var>y</var> + 1/<var>x</var></span>.</p>
+      </details>
+    </li>
+  </ol>
+
+  <h2>That's all of it</h2>
+
+  <p>If the practice problems went smoothly, go retake the exam now. It pulls eight
+    questions at random, so you'll get a different mix each time. You need seven of the
+    eight.</p>
+
+  <p>If they didn't, the section to reread is almost always section 1 — nearly every
+    mistake on this material traces back to whether the other variable was added or
+    multiplied.</p>
+
+  <div class="footer">
+    <p><a href="../">All Math Proficiency exams</a> · <a href="../../">All Econ 380 tools</a></p>
+  </div>
+
+</main>
+</body>
+</html>

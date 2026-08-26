@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Math Proficiency 5 — Econ 380</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<main>
+
+  <h1>Solving the optimization system</h1>
+  <p class="kicker">ECON 380 · Math Proficiency 5 · About ten minutes</p>
+
+  <p class="jump">Jump to:
+    <a href="#s1">1 Dividing the equations</a> ·
+    <a href="#s2">2 Substituting and solving</a> ·
+    <a href="#s3">3 The whole thing, with numbers</a> ·
+    <a href="#s4">4 The whole thing, with symbols</a>
+  </p>
+
+  <div class="betanote">
+    <b>This page covers the content you need to pass Math Proficiency 5.</b> Read the four
+    sections, work the practice problems, then retake the exam. The section numbers match
+    the exam's question groups.
+  </div>
+
+  <p>Many times this semester you will end up with a system of three equations that looks
+    something like one of these.</p>
+
+  <div class="contrast">
+    <div>
+      <p class="h" style="color:var(--accent)">A</p>
+      <div class="steps m">
+        <div>0 = 2<var>XY</var> − 2<var>&lambda;</var></div>
+        <div>0 = <var>X</var><sup>2</sup> − <var>&lambda;</var></div>
+        <div>0 = 12 − 2<var>X</var> − <var>Y</var></div>
+      </div>
+    </div>
+    <div>
+      <p class="h" style="color:var(--accent)">B</p>
+      <div class="steps m">
+        <div>0 = 2 − <var>&lambda;</var><var>Y</var><sup>2</sup></div>
+        <div>0 = 1 − 2<var>&lambda;</var><var>XY</var></div>
+        <div>0 = 128 − <var>XY</var><sup>2</sup></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="keyidea">
+    <p class="h">The route this page takes</p>
+    <p>As with any system of equations, there are several algebraic routes to the answer,
+      and none of them is the only correct one. This page walks through the one we will use
+      most often in class, because it works well on this particular shape.</p>
+    <div class="steps m" style="gap:8px">
+      <div><b>1.</b> Rearrange the first two equations so the
+        <var>&lambda;</var> terms are on one side and the <var>X</var> and
+        <var>Y</var> terms are on the other.</div>
+      <div><b>2.</b> Divide them by each other. The <var>&lambda;</var>s cancel.</div>
+      <div><b>3.</b> Solve what's left for <var>Y</var> in terms of
+        <var>X</var> — or <var>X</var> in terms of <var>Y</var>, whichever is easier.</div>
+      <div><b>4.</b> Substitute that into the third equation and solve.</div>
+    </div>
+    <p>You do not need to know what <span class="m"><var>&lambda;</var></span> <em>is</em>
+      to do any of this. For now it is a symbol that appears in the first two equations and
+      disappears when you divide them.</p>
+  </div>
+
+  <h3>Here is system A, worked all the way through</h3>
+
+  <div class="worked">
+    <p class="boxlabel">System A</p>
+    <div class="steps m">
+      <div class="note"><b>step 1</b> — get λ on its own side in each of the first two</div>
+      <div>2<var>XY</var> = 2<var>&lambda;</var>
+        &nbsp;&nbsp;&nbsp;&nbsp; <var>X</var><sup>2</sup> = <var>&lambda;</var></div>
+      <div class="note"><b>step 2</b> — divide the first by the second</div>
+      <div><span class="frac"><span>2<var>XY</var></span><span><var>X</var><sup>2</sup></span></span>
+        =
+        <span class="frac"><span>2<var>&lambda;</var></span><span><var>&lambda;</var></span></span>
+        &nbsp;&rarr;&nbsp;
+        <span class="frac"><span>2<var>Y</var></span><span><var>X</var></span></span> = 2</div>
+      <div class="note"><b>step 3</b> — solve for Y in terms of X</div>
+      <div><var>Y</var> = <var>X</var></div>
+      <div class="note"><b>step 4</b> — put that into the third equation</div>
+      <div>0 = 12 − 2<var>X</var> − <var>X</var> = 12 − 3<var>X</var></div>
+      <div><var>X</var> = 4, &nbsp; and so <var>Y</var> = 4</div>
+    </div>
+  </div>
+
+  <p>Sections 1 and 2 below take those steps one at a time. Sections 3 and 4 put them back
+    together — first with numbers, then with symbols.</p>
+
+  <!-- 1 -->
+  <h2 id="s1">1 · Dividing the equations <span class="when">Exam group 1</span></h2>
+
+  <p>Steps 1 and 2. Dividing works because
+    <span class="m"><var>&lambda;</var></span> appears in both equations, so it cancels.
+    What's left is a relationship between <span class="m"><var>X</var></span> and
+    <span class="m"><var>Y</var></span> with no
+    <span class="m"><var>&lambda;</var></span> in it at all.</p>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example</p>
+    <div class="steps m">
+      <div>0 = 2<var>XY</var><sup>3</sup> − 4<var>&lambda;</var>, &nbsp;&nbsp;
+        0 = 3<var>X</var><sup>2</sup><var>Y</var><sup>2</sup> − 3<var>&lambda;</var></div>
+      <div>2<var>XY</var><sup>3</sup> = 4<var>&lambda;</var>
+        &nbsp;&nbsp;&nbsp;&nbsp; 3<var>X</var><sup>2</sup><var>Y</var><sup>2</sup> = 3<var>&lambda;</var></div>
+      <div><span class="frac"><span>2<var>XY</var><sup>3</sup></span><span>3<var>X</var><sup>2</sup><var>Y</var><sup>2</sup></span></span>
+        =
+        <span class="frac"><span>4<var>&lambda;</var></span><span>3<var>&lambda;</var></span></span>
+        &nbsp;&rarr;&nbsp;
+        <span class="frac"><span>2<var>Y</var></span><span>3<var>X</var></span></span>
+        =
+        <span class="frac"><span>4</span><span>3</span></span></div>
+      <div class="note">the left side collapses using the ratio move from Math Proficiency 1</div>
+      <div>6<var>Y</var> = 12<var>X</var>, &nbsp; so <var>Y</var> = 2<var>X</var></div>
+    </div>
+  </div>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>Dividing the wrong way round and ending up with
+      <span class="m"><var>X</var> = 2<var>Y</var></span> instead. Whichever equation goes
+      on top, the same one has to be on top on both sides.</p>
+  </div>
+
+  <details>
+    <summary>Try it: <span class="m">0 = 3<var>X</var><sup>2</sup><var>Y</var><sup>2</sup> − 3<var>&lambda;</var></span> and <span class="m">0 = 2<var>X</var><sup>3</sup><var>Y</var> − 4<var>&lambda;</var></span>. Find <span class="m"><var>Y</var></span> in terms of <span class="m"><var>X</var></span></summary>
+    <p class="result m"><var>Y</var> = <span class="frac"><span><var>X</var></span><span>2</span></span></p>
+    <p>Dividing gives
+      <span class="m">(3<var>Y</var>)/(2<var>X</var>) = 3/4</span>, so
+      <span class="m">12<var>Y</var> = 6<var>X</var></span>.</p>
+  </details>
+
+  <!-- 2 -->
+  <h2 id="s2">2 · Substituting and solving <span class="when">Exam group 2</span></h2>
+
+  <p>Steps 3 and 4. Step 2 left you with a relationship between the two variables. The
+    third equation is the other thing you have. Put one into the other and a single unknown
+    is left.</p>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example</p>
+    <div class="steps m">
+      <div><var>Y</var> = 3<var>X</var>, &nbsp;&nbsp;
+        0 = 20 − 2<var>X</var> − <var>Y</var></div>
+      <div>0 = 20 − 2<var>X</var> − 3<var>X</var></div>
+      <div class="note">every Y becomes 3X, so the Y is gone</div>
+      <div>5<var>X</var> = 20, &nbsp; <var>X</var> = 4, &nbsp; and then
+        <var>Y</var> = 12</div>
+    </div>
+  </div>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>Stopping one step early. You solve for
+      <span class="m"><var>X</var></span> in terms of
+      <span class="m"><var>Y</var></span> — but the question wants
+      <span class="m"><var>X</var></span> and
+      <span class="m"><var>Y</var></span> in terms of the other numbers or parameters, not
+      in terms of each other.</p>
+  </div>
+
+  <details>
+    <summary>Try it: <span class="m"><var>Y</var> = <var>X</var>/2</span> and <span class="m">0 = 30 − 4<var>X</var> − 2<var>Y</var></span>. Find <span class="m"><var>X</var></span></summary>
+    <p class="result m"><var>X</var> = 6</p>
+    <p><span class="m">2<var>Y</var></span> becomes
+      <span class="m"><var>X</var></span>, so
+      <span class="m">30 = 4<var>X</var> + <var>X</var> = 5<var>X</var></span>.</p>
+  </details>
+
+  <!-- 3 -->
+  <h2 id="s3">3 · The whole thing, with numbers <span class="when">Exam group 3</span></h2>
+
+  <p>All four steps in one go. Here is system B from the top of the page. Notice that
+    <span class="m"><var>&lambda;</var></span> starts on the other side this time, and that
+    it changes nothing.</p>
+
+  <div class="worked">
+    <p class="boxlabel">System B</p>
+    <div class="steps m">
+      <div class="note"><b>step 1</b> — λ on its own side; here it is already there</div>
+      <div>2 = <var>&lambda;</var><var>Y</var><sup>2</sup>
+        &nbsp;&nbsp;&nbsp;&nbsp; 1 = 2<var>&lambda;</var><var>XY</var></div>
+      <div class="note"><b>step 2</b> — divide</div>
+      <div><span class="frac"><span>2</span><span>1</span></span>
+        =
+        <span class="frac"><span><var>&lambda;</var><var>Y</var><sup>2</sup></span><span>2<var>&lambda;</var><var>XY</var></span></span>
+        &nbsp;&rarr;&nbsp;
+        2 =
+        <span class="frac"><span><var>Y</var></span><span>2<var>X</var></span></span></div>
+      <div class="note"><b>step 3</b></div>
+      <div><var>Y</var> = 4<var>X</var></div>
+      <div class="note"><b>step 4</b> — into the third equation</div>
+      <div>128 = <var>X</var>(4<var>X</var>)<sup>2</sup> = 16<var>X</var><sup>3</sup></div>
+      <div><var>X</var><sup>3</sup> = 8, &nbsp; <var>X</var> = 2, &nbsp; and so
+        <var>Y</var> = 8</div>
+    </div>
+  </div>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>Forgetting that the substitution gets squared too. Putting
+      <span class="m"><var>Y</var> = 4<var>X</var></span> into
+      <span class="m"><var>XY</var><sup>2</sup></span> gives
+      <span class="m"><var>X</var>(4<var>X</var>)<sup>2</sup> = 16<var>X</var><sup>3</sup></span>,
+      not <span class="m">4<var>X</var><sup>3</sup></span> — the 4 is inside the square.</p>
+  </div>
+
+  <details>
+    <summary>Try it: <span class="m">0 = 3<var>X</var><sup>2</sup><var>Y</var> − 3<var>&lambda;</var></span>, <span class="m">0 = <var>X</var><sup>3</sup> − <var>&lambda;</var></span>, <span class="m">0 = 24 − 3<var>X</var> − <var>Y</var></span>. Find <span class="m"><var>X</var></span></summary>
+    <p class="result m"><var>X</var> = 6</p>
+    <p>Dividing gives
+      <span class="m">3<var>Y</var>/<var>X</var> = 3</span>, so
+      <span class="m"><var>Y</var> = <var>X</var></span>. Then
+      <span class="m">24 = 3<var>X</var> + <var>X</var> = 4<var>X</var></span>.</p>
+  </details>
+
+  <!-- 4 -->
+  <h2 id="s4">4 · The whole thing, with symbols <span class="when">Exam group 4</span></h2>
+
+  <p>Often there are no numbers at all. In their place you'll see letters standing in for
+    quantities nobody has pinned down —
+    <span class="m"><var>P</var><sub>X</sub></span> and
+    <span class="m"><var>P</var><sub>Y</sub></span>,
+    <span class="m"><var>I</var></span>, or Greek letters like
+    <span class="m">&alpha;</span> and <span class="m">&beta;</span> up in the exponents.
+    The four steps do not change. Nothing here is actually harder; it only feels harder,
+    because with no arithmetic to do you can't tell whether you're making progress.</p>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example — letters in place of the numbers</p>
+    <div class="steps m">
+      <div>0 = 2<var>XY</var> − <var>&lambda;</var><var>P</var><sub>X</sub>, &nbsp;&nbsp;
+        0 = <var>X</var><sup>2</sup> − <var>&lambda;</var><var>P</var><sub>Y</sub></div>
+      <div>0 = <var>I</var> − <var>P</var><sub>X</sub><var>X</var> − <var>P</var><sub>Y</sub><var>Y</var></div>
+      <div class="note">this is system A again, with letters where the numbers were</div>
+      <div><span class="frac"><span>2<var>XY</var></span><span><var>X</var><sup>2</sup></span></span>
+        =
+        <span class="frac"><span><var>P</var><sub>X</sub></span><span><var>P</var><sub>Y</sub></span></span>
+        &nbsp;&rarr;&nbsp;
+        <span class="frac"><span>2<var>Y</var></span><span><var>X</var></span></span>
+        =
+        <span class="frac"><span><var>P</var><sub>X</sub></span><span><var>P</var><sub>Y</sub></span></span></div>
+      <div><var>Y</var> =
+        <span class="frac"><span><var>P</var><sub>X</sub><var>X</var></span><span>2<var>P</var><sub>Y</sub></span></span></div>
+      <div class="note">step 4 — substitute, and the P<sub>Y</sub> cancels</div>
+      <div><var>I</var> = <var>P</var><sub>X</sub><var>X</var> +
+        <span class="frac"><span><var>P</var><sub>X</sub><var>X</var></span><span>2</span></span>
+        =
+        <span class="frac"><span>3</span><span>2</span></span><var>P</var><sub>X</sub><var>X</var></div>
+      <div><var>X</var> =
+        <span class="frac"><span>2<var>I</var></span><span>3<var>P</var><sub>X</sub></span></span></div>
+    </div>
+  </div>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example — letters in the exponents too</p>
+    <div class="steps m">
+      <div>0 = &alpha;<var>X</var><sup>&alpha;−1</sup><var>Y</var><sup>&beta;</sup> − <var>&lambda;</var><var>P</var><sub>X</sub></div>
+      <div>0 = &beta;<var>X</var><sup>&alpha;</sup><var>Y</var><sup>&beta;−1</sup> − <var>&lambda;</var><var>P</var><sub>Y</sub></div>
+      <div>0 = <var>I</var> − <var>P</var><sub>X</sub><var>X</var> − <var>P</var><sub>Y</sub><var>Y</var></div>
+      <div class="note"><b>step 2</b> — the messy left side collapses to something short</div>
+      <div><span class="frac"><span>&alpha;<var>X</var><sup>&alpha;−1</sup><var>Y</var><sup>&beta;</sup></span><span>&beta;<var>X</var><sup>&alpha;</sup><var>Y</var><sup>&beta;−1</sup></span></span>
+        =
+        <span class="frac"><span>&alpha;<var>Y</var></span><span>&beta;<var>X</var></span></span>
+        =
+        <span class="frac"><span><var>P</var><sub>X</sub></span><span><var>P</var><sub>Y</sub></span></span></div>
+      <div class="note">subtract exponents one base at a time — Math Proficiency 1 again</div>
+      <div><b>step 3</b>: &nbsp; <var>Y</var> =
+        <span class="frac"><span>&beta;<var>P</var><sub>X</sub><var>X</var></span><span>&alpha;<var>P</var><sub>Y</sub></span></span></div>
+      <div class="note"><b>step 4</b> — substitute, then collect the X terms</div>
+      <div><var>I</var> = <var>P</var><sub>X</sub><var>X</var> +
+        <span class="frac"><span>&beta;<var>P</var><sub>X</sub><var>X</var></span><span>&alpha;</span></span>
+        = <var>P</var><sub>X</sub><var>X</var> ·
+        <span class="frac"><span>&alpha; + &beta;</span><span>&alpha;</span></span></div>
+      <div><var>X</var> =
+        <span class="frac"><span>&alpha;<var>I</var></span><span>(&alpha; + &beta;)<var>P</var><sub>X</sub></span></span></div>
+    </div>
+  </div>
+
+  <details>
+    <summary>Try it: the same three equations as the last example. Find <span class="m"><var>Y</var></span> instead of <span class="m"><var>X</var></span></summary>
+    <p class="result m"><var>Y</var> = <span class="frac"><span>&beta;<var>I</var></span><span>(&alpha; + &beta;)<var>P</var><sub>Y</sub></span></span></p>
+    <p>Everything swaps. At step 3, solve for
+      <span class="m"><var>X</var></span> in terms of
+      <span class="m"><var>Y</var></span> instead, and the same collecting step leaves
+      <span class="m"><var>Y</var></span>'s own exponent on top and
+      <span class="m"><var>P</var><sub>Y</sub></span> underneath. The
+      <span class="m">(&alpha; + &beta;)</span> is the same either way.</p>
+  </details>
+
+  <h2>That's all of it</h2>
+
+  <p>Four steps, and the same four every time. If the practice problems went smoothly, go
+    retake the exam now. It pulls eight questions at random, so you'll get a different mix
+    each time. You need seven of the eight.</p>
+
+  <p>This is the last of the five. Once you've passed it you're done with Math Proficiency
+    for the semester.</p>
+
+  <div class="footer">
+    <p><a href="../">All Math Proficiency exams</a> · <a href="../../">All Econ 380 tools</a></p>
+  </div>
+
+</main>
+</body>
+</html>

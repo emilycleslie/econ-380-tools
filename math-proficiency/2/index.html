@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Math Proficiency 2 — Econ 380</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<main>
+
+  <h1>Derivatives and critical points</h1>
+  <p class="kicker">ECON 380 · Math Proficiency 2 · About ten minutes</p>
+
+  <p class="jump">Jump to:
+    <a href="#s1">1 The power rule</a> ·
+    <a href="#s2">2 The product rule</a> ·
+    <a href="#s3">3 The chain rule</a> ·
+    <a href="#s4">4 Derivatives of ln and e</a> ·
+    <a href="#s5">5 Critical points</a>
+  </p>
+
+  <div class="betanote">
+    <b>This page covers the content you need to pass Math Proficiency 2.</b> Read the
+    five rules, work the five practice problems, then retake the exam. That's the whole
+    assignment. The section numbers match the exam's question groups, so if you missed a
+    question about the chain rule, section 3 is the one to read.
+  </div>
+
+  <!-- 1 -->
+  <h2 id="s1">1 · The power rule <span class="when">Exam group 1</span></h2>
+
+  <p>This is the one you'll use most often. Multiply by the exponent, then knock the
+    exponent down by one. It works for every exponent — positive, negative, or
+    fractional — with no special cases.</p>
+
+  <div class="rules m">
+    <div><var>y</var> = <var>A</var><var>x</var><sup>n</sup> &nbsp;&rarr;&nbsp;
+      <span class="frac"><span>d<var>y</var></span><span>d<var>x</var></span></span>
+      = <var>A</var><var>n</var><var>x</var><sup>n − 1</sup></div>
+  </div>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example</p>
+    <div class="steps m">
+      <div><var>y</var> = 3<var>x</var><sup>4</sup></div>
+      <div><span class="frac"><span>d<var>y</var></span><span>d<var>x</var></span></span>
+        = 3 · 4<var>x</var><sup>3</sup> = 12<var>x</var><sup>3</sup></div>
+      <div class="note">multiply by the exponent, then drop it by one</div>
+    </div>
+  </div>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example, negative exponent</p>
+    <div class="steps m">
+      <div><var>y</var> = 5<var>x</var><sup>−2</sup></div>
+      <div><span class="frac"><span>d<var>y</var></span><span>d<var>x</var></span></span>
+        = 5 · (−2)<var>x</var><sup>−3</sup> = −10<var>x</var><sup>−3</sup></div>
+      <div class="note">−2 − 1 = −3, not −1</div>
+    </div>
+  </div>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>Subtracting one from a negative exponent makes it <em>more</em> negative.
+      <span class="m"><var>x</var><sup>−2</sup></span> becomes
+      <span class="m"><var>x</var><sup>−3</sup></span>, not
+      <span class="m"><var>x</var><sup>−1</sup></span>. Say the arithmetic out loud if you
+      have to.</p>
+  </div>
+
+  <details>
+    <summary>Try it: find d<span class="m"><var>y</var></span>/d<span class="m"><var>x</var></span> for <span class="m"><var>y</var> = 4<var>x</var><sup>−3</sup></span></summary>
+    <p class="result m">−12<var>x</var><sup>−4</sup></p>
+    <p>4 · (−3) = −12, and −3 − 1 = −4.</p>
+  </details>
+
+  <!-- 2 -->
+  <h2 id="s2">2 · The product rule <span class="when">Exam group 2</span></h2>
+
+  <p>When two things multiply, you can't just differentiate each and multiply the results.
+    Differentiate one at a time and add.</p>
+
+  <div class="rules m">
+    <div>(<var>u</var><var>v</var>)&apos; = <var>u</var>&apos;<var>v</var> + <var>u</var><var>v</var>&apos;</div>
+  </div>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example</p>
+    <div class="steps m">
+      <div><var>y</var> = <var>x</var><sup>2</sup> ln(<var>x</var><sup>4</sup>)</div>
+      <div>= 4<var>x</var><sup>2</sup> ln(<var>x</var>)</div>
+      <div class="note">simplify inside the log first — it saves you the whole mess</div>
+      <div><var>u</var> = <var>x</var><sup>2</sup>, &nbsp;<var>u</var>&apos; = 2<var>x</var>
+        &nbsp;&nbsp;&nbsp; <var>v</var> = 4ln(<var>x</var>), &nbsp;<var>v</var>&apos; =
+        <span class="frac"><span>4</span><span><var>x</var></span></span></div>
+      <div><span class="frac"><span>d<var>y</var></span><span>d<var>x</var></span></span>
+        = 2<var>x</var> · 4ln(<var>x</var>) + <var>x</var><sup>2</sup> ·
+        <span class="frac"><span>4</span><span><var>x</var></span></span>
+        = 8<var>x</var> ln(<var>x</var>) + 4<var>x</var></div>
+    </div>
+  </div>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>Answering <span class="m"><var>u</var>&apos;<var>v</var>&apos;</span> — differentiating
+      both and multiplying. That is not the product rule and it gives the wrong answer
+      every time. Also: always simplify inside a log <em>before</em> you differentiate.</p>
+  </div>
+
+  <details>
+    <summary>Try it: find d<span class="m"><var>y</var></span>/d<span class="m"><var>x</var></span> for <span class="m"><var>y</var> = (2<var>x</var> + 1)(3<var>x</var> + 4)</span></summary>
+    <p class="result m">12<var>x</var> + 11</p>
+    <p>2(3<span class="m"><var>x</var></span> + 4) + 3(2<span class="m"><var>x</var></span> + 1)
+      = 6<span class="m"><var>x</var></span> + 8 + 6<span class="m"><var>x</var></span> + 3.
+      Both pieces contribute an <span class="m"><var>x</var></span> term, which is why the
+      coefficient doubles.</p>
+  </details>
+
+  <!-- 3 -->
+  <h2 id="s3">3 · The chain rule <span class="when">Exam group 3</span></h2>
+
+  <p>When something is tucked inside something else, differentiate the outside, then
+    multiply by the derivative of the inside. Forgetting that second step is the single
+    most common calculus error in this course.</p>
+
+  <div class="rules m">
+    <div><var>y</var> = <var>f</var>(<var>g</var>(<var>x</var>)) &nbsp;&rarr;&nbsp;
+      <span class="frac"><span>d<var>y</var></span><span>d<var>x</var></span></span>
+      = <var>f</var>&apos;(<var>g</var>(<var>x</var>)) · <var>g</var>&apos;(<var>x</var>)</div>
+  </div>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example</p>
+    <div class="steps m">
+      <div><var>y</var> = (3<var>x</var> + 2)<sup>5</sup></div>
+      <div>outside: 5(3<var>x</var> + 2)<sup>4</sup></div>
+      <div>inside: 3<var>x</var> + 2 differentiates to 3</div>
+      <div><span class="frac"><span>d<var>y</var></span><span>d<var>x</var></span></span>
+        = 15(3<var>x</var> + 2)<sup>4</sup></div>
+    </div>
+  </div>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>Stopping at <span class="m">5(3<var>x</var> + 2)<sup>4</sup></span> and forgetting to
+      multiply by the 3. Whenever the thing inside the parentheses is anything other than a
+      bare <span class="m"><var>x</var></span>, there's a second factor coming.</p>
+  </div>
+
+  <details>
+    <summary>Try it: find d<span class="m"><var>y</var></span>/d<span class="m"><var>x</var></span> for <span class="m"><var>y</var> = (2<var>x</var><sup>2</sup> + 5)<sup>3</sup></span></summary>
+    <p class="result m">12<var>x</var>(2<var>x</var><sup>2</sup> + 5)<sup>2</sup></p>
+    <p>Outside gives <span class="m">3(2<var>x</var><sup>2</sup> + 5)<sup>2</sup></span>; the
+      inside differentiates to <span class="m">4<var>x</var></span>. Multiply: 3 · 4 = 12.</p>
+  </details>
+
+  <!-- 4 -->
+  <h2 id="s4">4 · Derivatives of ln and e <span class="when">Exam group 4</span></h2>
+
+  <p>Two rules, and both get the chain rule applied on top when there's something other
+    than a bare <span class="m"><var>x</var></span> inside.</p>
+
+  <div class="rules m">
+    <div><var>y</var> = ln(<var>x</var>) &nbsp;&rarr;&nbsp;
+      <span class="frac"><span>d<var>y</var></span><span>d<var>x</var></span></span>
+      = <span class="frac"><span>1</span><span><var>x</var></span></span></div>
+    <div><var>y</var> = <var>e</var><sup>x</sup> &nbsp;&rarr;&nbsp;
+      <span class="frac"><span>d<var>y</var></span><span>d<var>x</var></span></span>
+      = <var>e</var><sup>x</sup></div>
+    <div><var>y</var> = <var>e</var><sup>u</sup> &nbsp;&rarr;&nbsp;
+      <span class="frac"><span>d<var>y</var></span><span>d<var>x</var></span></span>
+      = <var>u</var>&apos;<var>e</var><sup>u</sup></div>
+  </div>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example</p>
+    <div class="steps m">
+      <div><var>y</var> = ln(5<var>x</var><sup>3</sup>)</div>
+      <div>= ln(5) + 3ln(<var>x</var>)</div>
+      <div class="note">split it with the log rules from Math Proficiency 1</div>
+      <div><span class="frac"><span>d<var>y</var></span><span>d<var>x</var></span></span>
+        = <span class="frac"><span>3</span><span><var>x</var></span></span></div>
+      <div class="note">ln(5) is a constant, so it differentiates to zero</div>
+    </div>
+  </div>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>Keeping the 5. Any constant multiplying inside a log becomes an additive constant
+      once you split the log, and constants differentiate to zero — so it disappears
+      completely. The answer doesn't depend on it at all.</p>
+  </div>
+
+  <details>
+    <summary>Try it: find d<span class="m"><var>y</var></span>/d<span class="m"><var>x</var></span> for <span class="m"><var>y</var> = <var>e</var><sup>4<var>x</var></sup></span></summary>
+    <p class="result m">4<var>e</var><sup>4<var>x</var></sup></p>
+    <p>The <span class="m"><var>e</var></span> part never changes. The inside,
+      <span class="m">4<var>x</var></span>, differentiates to 4, and that comes out front.</p>
+  </details>
+
+  <!-- 5 -->
+  <h2 id="s5">5 · Critical points <span class="when">Exam group 5</span></h2>
+
+  <p>Every optimization in this course — utility maximization, cost minimization, profit
+    maximization — is this procedure with economics attached. Two steps: find where the
+    first derivative is zero, then use the second derivative to find out what kind of
+    point you landed on.</p>
+
+  <div class="rules m">
+    <div><var>f</var>&apos;(<var>x</var>) = 0 &nbsp;&nbsp;→&nbsp;&nbsp; a critical point</div>
+    <div><var>f</var>&apos;&apos;(<var>x</var>) &lt; 0 &nbsp;&nbsp;→&nbsp;&nbsp; a maximum</div>
+    <div><var>f</var>&apos;&apos;(<var>x</var>) &gt; 0 &nbsp;&nbsp;→&nbsp;&nbsp; a minimum</div>
+    <div><var>f</var>&apos;&apos;(<var>x</var>) = 0 &nbsp;&nbsp;→&nbsp;&nbsp; an inflection point</div>
+  </div>
+
+
+  <figure class="fig">
+    <svg viewBox="0 0 640 360" role="img"
+         aria-label="The curve f of x equals 2 x cubed minus 6 x. The tangent is flat at both x equals minus 1 and x equals 1, so the first derivative is zero at both. At x equals minus 1 the curve bends downward and the point is a maximum; at x equals 1 it bends upward and the point is a minimum.">
+      <!-- axes -->
+      <line x1="70" y1="175" x2="590" y2="175" stroke="currentColor" stroke-width="1" opacity=".3"/>
+      <line x1="320" y1="18" x2="320" y2="340" stroke="currentColor" stroke-width="1" opacity=".3"/>
+      <text x="596" y="179" font-size="12" fill="currentColor" opacity=".55">x</text>
+      <text x="327" y="26" font-size="12" fill="currentColor" opacity=".55">f(x)</text>
+      <text x="207" y="193" font-size="12" fill="currentColor" opacity=".55" text-anchor="middle">&#8722;1</text>
+      <text x="433" y="193" font-size="12" fill="currentColor" opacity=".55" text-anchor="middle">1</text>
+
+      <!-- the curve -->
+      <polyline points="88.3,318.0 93.9,291.0 99.6,265.8 105.2,242.2 110.9,220.3 116.5,200.1 122.2,181.3 127.8,164.2 133.5,148.4 139.1,134.2 144.8,121.3 150.4,109.7 156.1,99.5 161.7,90.6 167.4,82.8 173.0,76.2 178.7,70.8 184.4,66.4 190.0,63.1 195.7,60.8 201.3,59.4 207.0,59.0 212.6,59.4 218.3,60.7 223.9,62.7 229.6,65.5 235.2,69.0 240.9,73.1 246.5,77.8 252.2,83.1 257.8,88.9 263.5,95.3 269.1,102.0 274.8,109.1 280.4,116.6 286.1,124.4 291.7,132.4 297.4,140.7 303.0,149.1 308.7,157.7 314.3,166.3 320.0,175.0 325.7,183.7 331.3,192.3 337.0,200.9 342.6,209.3 348.3,217.6 353.9,225.6 359.6,233.4 365.2,240.9 370.9,248.0 376.5,254.8 382.2,261.1 387.8,266.9 393.5,272.2 399.1,276.9 404.8,281.0 410.4,284.5 416.1,287.3 421.7,289.3 427.4,290.6 433.0,291.0 438.7,290.6 444.3,289.2 450.0,286.9 455.6,283.6 461.3,279.2 467.0,273.8 472.6,267.2 478.3,259.4 483.9,250.5 489.6,240.2 495.2,228.7 500.9,215.8 506.5,201.6 512.2,185.8 517.8,168.7 523.5,149.9 529.1,129.7 534.8,107.8 540.4,84.2 546.1,59.0 551.7,32.0" fill="none" stroke="currentColor"
+                stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/>
+
+      <!-- maximum at x = -1: flat tangent, dot, label block in the empty upper left -->
+      <line x1="149" y1="59" x2="265" y2="59" stroke="#D07000" stroke-width="2" stroke-dasharray="5 4"/>
+      <text x="271" y="63" font-size="12" font-weight="600" fill="#D07000">f&#8242; = 0</text>
+      <circle cx="207" cy="59" r="5.5" fill="#D07000"/>
+      <text x="207" y="30" font-size="13" font-weight="700" fill="#D07000" text-anchor="middle">maximum</text>
+      <text x="207" y="46" font-size="12" fill="#D07000" text-anchor="middle">f&#8243; &lt; 0 &#183; curve bends down</text>
+
+      <!-- minimum at x = 1: same flat tangent, label block in the empty lower right -->
+      <line x1="375" y1="291" x2="491" y2="291" stroke="#005A9C" stroke-width="2" stroke-dasharray="5 4"/>
+      <text x="369" y="295" font-size="12" font-weight="600" fill="#005A9C" text-anchor="end">f&#8242; = 0</text>
+      <circle cx="433" cy="291" r="5.5" fill="#005A9C"/>
+      <text x="433" y="315" font-size="13" font-weight="700" fill="#005A9C" text-anchor="middle">minimum</text>
+      <text x="433" y="331" font-size="12" fill="#005A9C" text-anchor="middle">f&#8243; &gt; 0 &#183; curve bends up</text>
+    </svg>
+    <figcaption>Both critical points of
+      <span class="m"><var>f</var>(<var>x</var>) = 2<var>x</var><sup>3</sup> &minus; 6<var>x</var></span>
+      have a flat tangent, so <span class="m"><var>f</var>&apos;</span> alone cannot tell them
+      apart. Which way the curve bends &mdash; the sign of
+      <span class="m"><var>f</var>&apos;&apos;</span> &mdash; is what decides which is which.
+    </figcaption>
+  </figure>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example</p>
+    <div class="steps m">
+      <div><var>f</var>(<var>x</var>) = 2<var>x</var><sup>3</sup> − 6<var>x</var></div>
+      <div><var>f</var>&apos;(<var>x</var>) = 6<var>x</var><sup>2</sup> − 6 = 0
+        &nbsp;&rarr;&nbsp; <var>x</var><sup>2</sup> = 1 &nbsp;&rarr;&nbsp;
+        <var>x</var> = 1 or <var>x</var> = −1</div>
+      <div class="note">two critical points, and they are not the same kind</div>
+      <div><var>f</var>&apos;&apos;(<var>x</var>) = 12<var>x</var></div>
+      <div>at <var>x</var> = 1: &nbsp;<var>f</var>&apos;&apos; = 12 &gt; 0, a minimum</div>
+      <div>at <var>x</var> = −1: <var>f</var>&apos;&apos; = −12 &lt; 0, a maximum</div>
+    </div>
+  </div>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>Stopping once you've solved
+      <span class="m"><var>f</var>&apos;(<var>x</var>) = 0</span>. Finding the critical point
+      is only half the job — until you check the second derivative you don't know whether
+      you've found the best outcome or the worst one.</p>
+  </div>
+
+  <details>
+    <summary>Try it: find and classify the critical point of <span class="m"><var>f</var>(<var>x</var>) = ln(2<var>x</var><sup>2</sup>) − <var>x</var></span></summary>
+    <p class="result m"><var>x</var> = 2, a maximum</p>
+    <p>Split the log: <span class="m"><var>f</var> = ln(2) + 2ln(<var>x</var>) − <var>x</var></span>,
+      so <span class="m"><var>f</var>&apos; = 2/<var>x</var> − 1 = 0</span> gives
+      <span class="m"><var>x</var> = 2</span>. Then
+      <span class="m"><var>f</var>&apos;&apos; = −2/<var>x</var><sup>2</sup></span>, which is
+      negative for any positive <span class="m"><var>x</var></span> — so it's a maximum.</p>
+  </details>
+
+  <h2>That's all of it</h2>
+
+  <p>Five rules. If the practice problems went smoothly, go retake the exam now. It pulls
+    eight questions at random, so you'll get a different mix each time. You need seven of
+    the eight.</p>
+
+  <div class="footer">
+    <p><a href="../">All Math Proficiency exams</a> · <a href="../../">All Econ 380 tools</a></p>
+  </div>
+
+</main>
+</body>
+</html>

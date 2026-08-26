@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Math Proficiency 4 — Econ 380</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<main>
+
+  <h1>Total differentials and total derivatives</h1>
+  <p class="kicker">ECON 380 · Math Proficiency 4 · About ten minutes</p>
+
+  <p class="jump">Jump to:
+    <a href="#s1">1 Writing a total differential</a> ·
+    <a href="#s2">2 Through a common variable</a> ·
+    <a href="#s3">3 When y depends on x</a> ·
+    <a href="#s4">4 Level curves</a>
+  </p>
+
+  <div class="betanote">
+    <b>This page covers the content you need to pass Math Proficiency 4.</b> Read the
+    five rules, work the five practice problems, then retake the exam. The section numbers
+    match the exam's question groups.
+  </div>
+
+  <p>There is almost nothing new to compute here. Everything on this page is built from
+    partial derivatives you already know how to take.</p>
+
+  <!-- 1 -->
+  <h2 id="s1">1 · Writing a total differential <span class="when">Exam group 1</span></h2>
+
+  <p>A partial derivative tells you what happens if one variable moves. The total
+    differential tells you what happens if <em>both</em> move at once: each variable
+    contributes its own partial times its own small change, and you add the contributions
+    up.</p>
+
+  <div class="rules m">
+    <div>d<var>f</var> =
+      <span class="frac"><span>&part;<var>f</var></span><span>&part;<var>x</var></span></span>
+      d<var>x</var> +
+      <span class="frac"><span>&part;<var>f</var></span><span>&part;<var>y</var></span></span>
+      d<var>y</var></div>
+  </div>
+
+  <div class="keyidea">
+    <p class="h">What it actually means</p>
+    <p>Say <span class="m"><var>f</var></span> measures your altitude on a mountainside,
+      <span class="m"><var>x</var></span> is how far you walk east, and
+      <span class="m"><var>y</var></span> is how far you walk north. You take one small
+      step — a little to the east, a little to the north. How much does your altitude
+      change?</p>
+    <p>Two things matter in each direction: <b>how far you went</b>, and <b>how steep it is
+      that way</b>. The steepness heading east is
+      <span class="m">&part;<var>f</var>/&part;<var>x</var></span>, and how far east you
+      went is <span class="m">d<var>x</var></span> — multiply them and you get the altitude
+      you gained from the eastward part of your step. Do the same going north. Add the two,
+      and that is your total change in altitude.</p>
+    <p>That is the whole content of the formula. Each direction contributes <em>its own
+      steepness times its own distance</em>, and the contributions add up. It's an
+      approximation, and it gets better the smaller the step — which is why we write
+      <span class="m">d<var>x</var></span> rather than a big change in
+      <span class="m"><var>x</var></span>.</p>
+  </div>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example</p>
+    <div class="steps m">
+      <div><var>f</var>(<var>x</var>,<var>y</var>) = 4<var>x</var><sup>2</sup><var>y</var></div>
+      <div>&part;<var>f</var>/&part;<var>x</var> = 8<var>xy</var>
+        &nbsp;&nbsp;&nbsp; &part;<var>f</var>/&part;<var>y</var> = 4<var>x</var><sup>2</sup></div>
+      <div>d<var>f</var> = 8<var>xy</var> d<var>x</var> + 4<var>x</var><sup>2</sup> d<var>y</var></div>
+      <div class="note">that's the whole thing — take both partials, then write them down together</div>
+    </div>
+  </div>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>Putting the coefficients on the wrong differentials. The partial with respect to
+      <span class="m"><var>x</var></span> goes with
+      <span class="m">d<var>x</var></span>, always. If you find
+      <span class="m"><var>x</var></span>'s partial sitting next to
+      <span class="m">d<var>y</var></span>, they've been swapped.</p>
+  </div>
+
+  <details>
+    <summary>Try it: find <span class="m">d<var>f</var></span> for <span class="m"><var>f</var> = 3<var>x</var><sup>3</sup><var>y</var><sup>2</sup></span></summary>
+    <p class="result m">9<var>x</var><sup>2</sup><var>y</var><sup>2</sup> d<var>x</var> + 6<var>x</var><sup>3</sup><var>y</var> d<var>y</var></p>
+    <p>Both partials, each paired with its own differential.</p>
+  </details>
+
+  <!-- 2 -->
+  <h2 id="s2">2 · Total derivatives through a common variable <span class="when">Exam group 2</span></h2>
+
+  <p>Sometimes <span class="m"><var>x</var></span> and
+    <span class="m"><var>y</var></span> both depend on some third thing —
+    <span class="m"><var>t</var></span>, say. Then
+    <span class="m"><var>f</var></span> really depends only on
+    <span class="m"><var>t</var></span>, and you can ask how it changes as
+    <span class="m"><var>t</var></span> moves. Each variable is a separate channel, and you
+    add the channels up.</p>
+
+  <div class="rules m">
+    <div><span class="frac"><span>d<var>f</var></span><span>d<var>t</var></span></span>
+      =
+      <span class="frac"><span>&part;<var>f</var></span><span>&part;<var>x</var></span></span>
+      <span class="frac"><span>d<var>x</var></span><span>d<var>t</var></span></span>
+      +
+      <span class="frac"><span>&part;<var>f</var></span><span>&part;<var>y</var></span></span>
+      <span class="frac"><span>d<var>y</var></span><span>d<var>t</var></span></span></div>
+  </div>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example</p>
+    <div class="steps m">
+      <div><var>f</var> = <var>x</var><sup>2</sup><var>y</var>, &nbsp;
+        <var>x</var> = 2<var>t</var>, &nbsp; <var>y</var> = <var>t</var><sup>3</sup></div>
+      <div>2<var>xy</var> · 2 &nbsp;+&nbsp; <var>x</var><sup>2</sup> · 3<var>t</var><sup>2</sup></div>
+      <div>= 4<var>xy</var> + 3<var>x</var><sup>2</sup><var>t</var><sup>2</sup>
+        = 8<var>t</var><sup>4</sup> + 12<var>t</var><sup>4</sup> = 20<var>t</var><sup>4</sup></div>
+      <div class="note">check it the other way: <var>f</var> = (2<var>t</var>)<sup>2</sup><var>t</var><sup>3</sup> = 4<var>t</var><sup>5</sup>, which differentiates to 20<var>t</var><sup>4</sup></div>
+    </div>
+  </div>
+
+  <p>That check is worth knowing. When you can substitute first and differentiate once, do
+    it — it's usually quicker and it gives you a way to verify the formula answer.</p>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>Using only one channel. Both variables move when
+      <span class="m"><var>t</var></span> moves, so both contribute, and leaving one out
+      gives an answer that is too small.</p>
+  </div>
+
+  <details>
+    <summary>Try it: find <span class="m">d<var>f</var>/d<var>t</var></span> for <span class="m"><var>f</var> = 3<var>x</var> + 4<var>y</var></span>, where <span class="m"><var>x</var> = <var>t</var><sup>2</sup></span> and <span class="m"><var>y</var> = 2<var>t</var></span></summary>
+    <p class="result m">6<var>t</var> + 8</p>
+    <p><span class="m">3 · 2<var>t</var> + 4 · 2</span>. The second term has no
+      <span class="m"><var>t</var></span> left, because
+      <span class="m">d<var>y</var>/d<var>t</var> = 2</span> is just a number.</p>
+  </details>
+
+  <!-- 3 -->
+  <h2 id="s3">3 · Total derivatives when y depends on x <span class="when">Exam group 3</span></h2>
+
+  <p>Now the awkward case: <span class="m"><var>y</var></span> is itself a function of
+    <span class="m"><var>x</var></span>. Changing
+    <span class="m"><var>x</var></span> then affects
+    <span class="m"><var>f</var></span> twice — directly, and again by dragging
+    <span class="m"><var>y</var></span> along with it.</p>
+
+  <div class="rules m">
+    <div><span class="frac"><span>d<var>f</var></span><span>d<var>x</var></span></span>
+      =
+      <span class="frac"><span>&part;<var>f</var></span><span>&part;<var>x</var></span></span>
+      +
+      <span class="frac"><span>&part;<var>f</var></span><span>&part;<var>y</var></span></span>
+      <span class="frac"><span>d<var>y</var></span><span>d<var>x</var></span></span></div>
+  </div>
+
+  <p>Note the two different <span class="m">d</span>s in that line. The straight
+    <span class="m">d<var>f</var>/d<var>x</var></span> on the left is the whole effect; the
+    curly <span class="m">&part;<var>f</var>/&part;<var>x</var></span> on the right is only
+    the direct part. They are not the same thing, and the difference is the entire point.</p>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example</p>
+    <div class="steps m">
+      <div><var>f</var> = <var>x</var><sup>2</sup><var>y</var>, &nbsp; with <var>y</var> = 3<var>x</var></div>
+      <div>direct: &part;<var>f</var>/&part;<var>x</var> = 2<var>xy</var> = 6<var>x</var><sup>2</sup></div>
+      <div>through <var>y</var>: &part;<var>f</var>/&part;<var>y</var> · d<var>y</var>/d<var>x</var>
+        = <var>x</var><sup>2</sup> · 3 = 3<var>x</var><sup>2</sup></div>
+      <div>d<var>f</var>/d<var>x</var> = 6<var>x</var><sup>2</sup> + 3<var>x</var><sup>2</sup> = 9<var>x</var><sup>2</sup></div>
+      <div class="note">check: <var>f</var> = <var>x</var><sup>2</sup>·3<var>x</var> = 3<var>x</var><sup>3</sup>, which differentiates to 9<var>x</var><sup>2</sup></div>
+    </div>
+  </div>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>Answering <span class="m">6<var>x</var><sup>2</sup></span> — the direct channel only.
+      This is exactly the mistake people make with the Slutsky equation later in the
+      course, where a price change moves demand directly and also moves it by changing real
+      income. Same structure, same missing term.</p>
+  </div>
+
+  <details>
+    <summary>Try it: find <span class="m">d<var>f</var>/d<var>x</var></span> for <span class="m"><var>f</var> = <var>xy</var></span>, where <span class="m"><var>y</var> = 4<var>x</var><sup>2</sup></span></summary>
+    <p class="result m">12<var>x</var><sup>2</sup></p>
+    <p>Direct: <span class="m"><var>y</var> = 4<var>x</var><sup>2</sup></span>. Through
+      <span class="m"><var>y</var></span>:
+      <span class="m"><var>x</var> · 8<var>x</var> = 8<var>x</var><sup>2</sup></span>.
+      Together, <span class="m">12<var>x</var><sup>2</sup></span> — and substituting first
+      gives <span class="m"><var>f</var> = 4<var>x</var><sup>3</sup></span>, same answer.</p>
+  </details>
+
+  <!-- 4 -->
+  <h2 id="s4">4 · Level curves <span class="when">Exam group 4</span></h2>
+
+  <p>Stay with the mountainside. A <b>level curve</b> is the set of points where
+    <span class="m"><var>f</var></span> takes some fixed value — if
+    <span class="m"><var>f</var></span> is altitude, it's a path around the hill that never
+    goes up or down. These are the closed loops you see on a hiking map, and the map itself
+    is called a <b>contour map</b>.</p>
+
+  <figure class="fig">
+    <svg viewBox="40 96 650 268" role="img"
+         aria-label="On the left, a hill drawn in three dimensions with three rings marked on it at three different heights. On the right, the same three rings seen from directly above, where they appear as three nested closed loops on a flat map. Each ring is a set of points at one constant altitude.">
+      <!-- ---- left: the hill in three dimensions ---- -->
+      <polyline points="262.9,207.6 255.1,204.0 246.8,200.9 238.0,198.0 228.7,195.6 219.0,193.6 209.1,192.0 198.8,190.9 188.5,190.2 178.0,190.0 167.5,190.2 157.2,190.9 146.9,192.0 137.0,193.6 127.3,195.6 118.0,198.0 109.2,200.9 100.9,204.0 93.1,207.6 86.1,211.4 79.7,215.6 74.1,220.0 69.2,224.6 65.2,229.5 62.1,234.5 59.8,239.6 58.5,244.8 58.0,250.0 58.5,255.2 59.8,260.4 62.1,265.5 65.2,270.5 69.2,275.4 74.1,280.0 79.7,284.4 86.1,288.6 93.1,292.4 100.9,296.0 109.2,299.1 118.0,302.0 127.3,304.4 137.0,306.4 146.9,308.0 157.2,309.1 167.5,309.8 178.0,310.0 188.5,309.8 198.8,309.1 209.1,308.0 219.0,306.4 228.7,304.4 238.0,302.0 246.8,299.1 255.1,296.0 262.9,292.4 269.9,288.6 276.3,284.4 281.9,280.0 286.8,275.4 290.8,270.5 293.9,265.5 296.2,260.4 297.5,255.2 298.0,250.0 297.5,244.8 296.2,239.6 293.9,234.5 290.8,229.5 286.8,224.6 281.9,220.0 276.3,215.6 269.9,211.4 262.9,207.6" fill="none" stroke="currentColor" stroke-width="1" opacity=".2"/>
+      <polyline points="251.5,183.3 244.8,180.2 237.6,177.4 230.0,175.0 221.9,172.9 213.5,171.2 204.9,169.8 196.0,168.8 187.1,168.2 178.0,168.0 168.9,168.2 160.0,168.8 151.1,169.8 142.5,171.2 134.1,172.9 126.0,175.0 118.4,177.4 111.2,180.2 104.5,183.3 98.4,186.6 92.9,190.2 88.0,194.0 83.8,198.0 80.3,202.2 77.6,206.6 75.7,211.0 74.5,215.5 74.1,220.0 74.5,224.5 75.7,229.0 77.6,233.4 80.3,237.8 83.8,242.0 88.0,246.0 92.9,249.8 98.4,253.4 104.5,256.7 111.2,259.8 118.4,262.6 126.0,265.0 134.1,267.1 142.5,268.8 151.1,270.2 160.0,271.2 168.9,271.8 178.0,272.0 187.1,271.8 196.0,271.2 204.9,270.2 213.5,268.8 221.9,267.1 230.0,265.0 237.6,262.6 244.8,259.8 251.5,256.7 257.6,253.4 263.1,249.8 268.0,246.0 272.2,242.0 275.7,237.8 278.4,233.4 280.3,229.0 281.5,224.5 281.9,220.0 281.5,215.5 280.3,211.0 278.4,206.6 275.7,202.2 272.2,198.0 268.0,194.0 263.1,190.2 257.6,186.6 251.5,183.3" fill="none" stroke="#005A9C" stroke-width="2" opacity=".45"/>
+      <polyline points="238.0,160.0 232.5,157.5 226.7,155.2 220.4,153.3 213.9,151.5 207.0,150.1 200.0,149.0 192.7,148.2 185.4,147.7 178.0,147.6 170.6,147.7 163.3,148.2 156.0,149.0 149.0,150.1 142.1,151.5 135.6,153.3 129.3,155.2 123.5,157.5 118.0,160.0 113.0,162.7 108.5,165.7 104.5,168.8 101.1,172.1 98.3,175.5 96.0,179.0 94.4,182.6 93.5,186.3 93.1,190.0 93.5,193.7 94.4,197.4 96.0,201.0 98.3,204.5 101.1,207.9 104.5,211.2 108.5,214.3 113.0,217.3 118.0,220.0 123.5,222.5 129.3,224.8 135.6,226.7 142.1,228.5 149.0,229.9 156.0,231.0 163.3,231.8 170.6,232.3 178.0,232.4 185.4,232.3 192.7,231.8 200.0,231.0 207.0,229.9 213.9,228.5 220.4,226.7 226.7,224.8 232.5,222.5 238.0,220.0 243.0,217.3 247.5,214.3 251.5,211.2 254.9,207.9 257.7,204.5 260.0,201.0 261.6,197.4 262.5,193.7 262.9,190.0 262.5,186.3 261.6,182.6 260.0,179.0 257.7,175.5 254.9,172.1 251.5,168.8 247.5,165.7 243.0,162.7 238.0,160.0" fill="none" stroke="#005A9C" stroke-width="2" opacity=".7"/>
+      <polyline points="220.4,138.8 216.6,137.0 212.4,135.4 208.0,134.0 203.4,132.8 198.5,131.8 193.5,131.0 188.4,130.5 183.2,130.1 178.0,130.0 172.8,130.1 167.6,130.5 162.5,131.0 157.5,131.8 152.6,132.8 148.0,134.0 143.6,135.4 139.4,137.0 135.6,138.8 132.0,140.7 128.9,142.8 126.0,145.0 123.6,147.3 121.6,149.7 120.0,152.2 118.9,154.8 118.2,157.4 118.0,160.0 118.2,162.6 118.9,165.2 120.0,167.8 121.6,170.3 123.6,172.7 126.0,175.0 128.9,177.2 132.0,179.3 135.6,181.2 139.4,183.0 143.6,184.6 148.0,186.0 152.6,187.2 157.5,188.2 162.5,189.0 167.6,189.5 172.8,189.9 178.0,190.0 183.2,189.9 188.4,189.5 193.5,189.0 198.5,188.2 203.4,187.2 208.0,186.0 212.4,184.6 216.6,183.0 220.4,181.2 224.0,179.3 227.1,177.2 230.0,175.0 232.4,172.7 234.4,170.3 236.0,167.8 237.1,165.2 237.8,162.6 238.0,160.0 237.8,157.4 237.1,154.8 236.0,152.2 234.4,149.7 232.4,147.3 230.0,145.0 227.1,142.8 224.0,140.7 220.4,138.8" fill="none" stroke="#005A9C" stroke-width="2.4"/>
+      <circle cx="178" cy="130" r="3.5" fill="currentColor" opacity=".55"/>
+      <text x="178" y="122" font-size="11.5" fill="currentColor" opacity=".65" text-anchor="middle">peak</text>
+      <text x="178" y="336" font-size="12.5" font-weight="700" fill="currentColor" text-anchor="middle">the hill, in three dimensions</text>
+      <text x="178" y="352" font-size="12" fill="currentColor" opacity=".7" text-anchor="middle">each ring sits at one altitude</text>
+
+      <!-- ---- the connection ---- -->
+      <line x1="318" y1="216" x2="386" y2="216" stroke="currentColor" stroke-width="1.4"
+            opacity=".5" marker-end="url(#a4)"/>
+      <text x="352" y="192" font-size="11.5" fill="currentColor" opacity=".7" text-anchor="middle">seen from</text>
+      <text x="352" y="206" font-size="11.5" fill="currentColor" opacity=".7" text-anchor="middle">straight above</text>
+      <defs>
+        <marker id="a4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
+                markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" opacity=".5"/>
+        </marker>
+      </defs>
+
+      <!-- ---- right: the same rings, flattened ---- -->
+      <line x1="410" y1="314" x2="636" y2="314" stroke="currentColor" stroke-width="1" opacity=".3"/>
+      <line x1="410" y1="112" x2="410" y2="314" stroke="currentColor" stroke-width="1" opacity=".3"/>
+      <text x="642" y="318" font-size="12" fill="currentColor" opacity=".6">x</text>
+      <text x="402" y="112" font-size="12" fill="currentColor" opacity=".6" text-anchor="end">y</text>
+
+      <circle cx="520" cy="216" r="83" fill="none" stroke="#005A9C"
+              stroke-width="2" opacity=".45"/>
+      <circle cx="520" cy="216" r="68" fill="none" stroke="#005A9C"
+              stroke-width="2" opacity=".7"/>
+      <circle cx="520" cy="216" r="48" fill="none" stroke="#005A9C"
+              stroke-width="2.4"/>
+      <circle cx="520" cy="216" r="2.5" fill="currentColor" opacity=".55"/>
+
+      <text x="609" y="220" font-size="11.5" fill="#005A9C" opacity=".6">low</text>
+      <text x="574" y="198" font-size="11.5" font-weight="700" fill="#005A9C">high</text>
+
+      <text x="520" y="336" font-size="12.5" font-weight="700" fill="currentColor" text-anchor="middle">the same rings, on a flat map</text>
+      <text x="520" y="352" font-size="12" fill="currentColor" opacity=".7" text-anchor="middle">this is a contour map</text>
+    </svg>
+    <figcaption>The rings on the left are sets of points at one constant altitude. Flatten
+      the picture &mdash; look straight down &mdash; and they become the nested loops of a
+      contour map, which is what a level curve is. Nothing about the function changed; only
+      the number of axes you are drawing it on.
+    </figcaption>
+  </figure>
+
+  <p>The two pictures are the same function. On the left you can see the height; on the
+    right you can't, but you get the loops back by labelling them. Economics almost always
+    draws the flat version, so it's worth being comfortable with the idea that a curve on a
+    two-axis diagram is really a slice through something with a third dimension.</p>
+
+  <p>Here is the useful part. Walk along one of those loops and your altitude never changes
+    — so <span class="m">d<var>f</var> = 0</span>. That one fact hands you the slope of the
+    loop.</p>
+
+  <figure class="fig">
+    <svg viewBox="110 30 520 310" role="img"
+         aria-label="Two level curves of a function, drawn like indifference curves. On one of them a point is marked with its tangent line. Because the function is constant along the curve, the total differential is zero there, and the slope of the tangent equals minus the partial with respect to x divided by the partial with respect to y.">
+      <line x1="142" y1="301" x2="614" y2="301" stroke="currentColor" stroke-width="1" opacity=".35"/>
+      <line x1="142" y1="40" x2="142" y2="301" stroke="currentColor" stroke-width="1" opacity=".35"/>
+      <text x="620" y="305" font-size="12" fill="currentColor" opacity=".6">x</text>
+      <text x="134" y="40" font-size="12" fill="currentColor" opacity=".6" text-anchor="end">y</text>
+
+      <polyline points="287.6,55.3 298.0,69.0 308.4,81.4 318.8,92.7 329.2,103.0 339.6,112.5 350.0,121.2 360.4,129.2 370.8,136.7 381.2,143.6 391.6,150.0 402.0,156.0 412.4,161.6 422.8,166.9 433.2,171.8 443.6,176.5 454.0,180.9 464.4,185.0 474.8,188.9 485.2,192.6 495.6,196.2 506.0,199.5 516.4,202.7 526.8,205.7 537.2,208.6 547.6,211.4 558.0,214.0 568.4,216.5 578.8,218.9" fill="none" stroke="currentColor" stroke-width="1.6" opacity=".35"/>
+      <text x="584" y="215" font-size="11.5" fill="currentColor" opacity=".55">f = 9</text>
+
+      <polyline points="178.4,57.1 188.8,85.8 199.2,109.0 209.6,128.3 220.0,144.4 230.4,158.1 240.8,170.0 251.2,180.3 261.6,189.4 272.0,197.4 282.4,204.6 292.8,211.0 303.2,216.8 313.6,222.1 324.0,226.9 334.4,231.3 344.8,235.3 355.2,239.0 365.6,242.5 376.0,245.6 386.4,248.6 396.8,251.4 407.2,253.9 417.6,256.3 428.0,258.6 438.4,260.7 448.8,262.8 459.2,264.6 469.6,266.4 480.0,268.1 490.4,269.7 500.8,271.3 511.2,272.7 521.6,274.1 532.0,275.4 542.4,276.7 552.8,277.9 563.2,279.0 573.6,280.1" fill="none" stroke="#005A9C" stroke-width="2.6"/>
+      <text x="580" y="276" font-size="11.5" font-weight="700" fill="#005A9C">f = 4</text>
+
+      <line x1="183.6" y1="150.2" x2="433.2" y2="289.4" stroke="#D07000"
+            stroke-width="2" stroke-dasharray="5 4"/>
+      <circle cx="298" cy="214" r="5.5" fill="#D07000"/>
+
+      <line x1="316" y1="205" x2="372" y2="176" stroke="#D07000" stroke-width="1" opacity=".8"/>
+      <text x="378" y="168" font-size="12.5" font-weight="700" fill="#D07000">slope of the tangent</text>
+      <text x="378" y="184" font-size="12" fill="#D07000">= dy/dx = &#8722;f<tspan font-size="9" dy="3">x</tspan><tspan dy="-3"> / f</tspan><tspan font-size="9" dy="3">y</tspan></text>
+
+      <text x="196" y="253" font-size="12.5" font-weight="700" fill="#005A9C">f is constant along here</text>
+      <text x="196" y="269" font-size="12" fill="#005A9C">so df = 0</text>
+    </svg>
+    <figcaption>Move along one of these curves and
+      <span class="m"><var>f</var></span> never changes, so
+      <span class="m">d<var>f</var> = 0</span>. Setting the total differential to zero and
+      solving gives the slope of the curve at any point on it.
+    </figcaption>
+  </figure>
+
+  <div class="rules m">
+    <div>d<var>f</var> = 0 &nbsp;&rarr;&nbsp;
+      <var>f</var><sub>x</sub> d<var>x</var> + <var>f</var><sub>y</sub> d<var>y</var> = 0
+      &nbsp;&rarr;&nbsp;
+      <span class="frac"><span>d<var>y</var></span><span>d<var>x</var></span></span>
+      = &minus;
+      <span class="frac"><span><var>f</var><sub>x</sub></span><span><var>f</var><sub>y</sub></span></span></div>
+  </div>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example</p>
+    <div class="steps m">
+      <div><var>f</var>(<var>x</var>,<var>y</var>) = <var>x</var><sup>&alpha;</sup><var>y</var><sup>&beta;</sup></div>
+      <div><var>f</var><sub>x</sub> = &alpha;<var>x</var><sup>&alpha;−1</sup><var>y</var><sup>&beta;</sup>
+        &nbsp;&nbsp;&nbsp;
+        <var>f</var><sub>y</sub> = &beta;<var>x</var><sup>&alpha;</sup><var>y</var><sup>&beta;−1</sup></div>
+      <div><span class="frac"><span>d<var>y</var></span><span>d<var>x</var></span></span>
+        = &minus;
+        <span class="frac"><span>&alpha;<var>x</var><sup>&alpha;−1</sup><var>y</var><sup>&beta;</sup></span><span>&beta;<var>x</var><sup>&alpha;</sup><var>y</var><sup>&beta;−1</sup></span></span>
+        = &minus;<span class="frac"><span>&alpha;<var>y</var></span><span>&beta;<var>x</var></span></span></div>
+      <div class="note">the last step is the ratio move from Math Proficiency 1</div>
+    </div>
+  </div>
+
+  <p>Hold onto this one. In Lecture 2 we will do exactly this calculation for a function
+    that measures satisfaction rather than altitude, and the slope you get will turn out to
+    be one of the most important quantities in the course. You will have already derived
+    it; all that changes is what the function is measuring.</p>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>Losing the minus sign, or flipping the ratio to
+      <span class="m">&minus;<var>f</var><sub>y</sub>/<var>f</var><sub>x</sub></span>. Check
+      it against the picture: the curves in the second figure slope downward, so the answer
+      has to come out negative.</p>
+  </div>
+
+  <details>
+    <summary>Try it: find <span class="m">d<var>y</var>/d<var>x</var></span> along a level curve of <span class="m"><var>f</var> = 4<var>x</var><sup>2</sup><var>y</var><sup>3</sup></span></summary>
+    <p class="result m">&minus;<span class="frac"><span>2<var>y</var></span><span>3<var>x</var></span></span></p>
+    <p><span class="m"><var>f</var><sub>x</sub> = 8<var>xy</var><sup>3</sup></span> and
+      <span class="m"><var>f</var><sub>y</sub> = 12<var>x</var><sup>2</sup><var>y</var><sup>2</sup></span>,
+      so the ratio is
+      <span class="m">&minus;8<var>xy</var><sup>3</sup> / 12<var>x</var><sup>2</sup><var>y</var><sup>2</sup></span>,
+      which collapses to <span class="m">&minus;2<var>y</var>/3<var>x</var></span>. Reduce
+      the numbers — the exam options are always in lowest terms.</p>
+  </details>
+
+  <h2>That's all of it</h2>
+
+  <p>If the practice problems went smoothly, go retake the exam now. It pulls eight
+    questions at random, so you'll get a different mix each time. You need seven of the
+    eight.</p>
+
+  <div class="footer">
+    <p><a href="../">All Math Proficiency exams</a> · <a href="../../">All Econ 380 tools</a></p>
+  </div>
+
+</main>
+</body>
+</html>

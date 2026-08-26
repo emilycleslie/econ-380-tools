@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Math Proficiency 1 — Econ 380</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<main>
+
+  <h1>Exponents, logs, and simplifying expressions</h1>
+  <p class="kicker">ECON 380 · Math Proficiency 1 · About ten minutes</p>
+
+  <p class="jump">Jump to:
+    <a href="#s1">1 Exponent rules</a> ·
+    <a href="#s2">2 Fractional and negative exponents</a> ·
+    <a href="#s3">3 Natural logs</a> ·
+    <a href="#s4">4 Simplifying a ratio</a> ·
+    <a href="#s5">5 Quotients as products</a>
+  </p>
+
+  <div class="betanote">
+    <b>This page covers the content you need to pass Math Proficiency 1.</b> Read the
+    five rules, work the five practice problems, then retake the exam. That's the whole
+    assignment. The section numbers match the exam's question groups, so if you missed
+    a question about logs, section 3 is the one to read.
+  </div>
+
+  <!-- 1 -->
+  <h2 id="s1">1 · Exponent rules <span class="when">Exam group 1</span></h2>
+
+  <p>Every exponent question in this course comes down to these three. Notice that
+    multiplying expressions <em>adds</em> exponents, while raising a power to a power
+    <em>multiplies</em> them — mixing those two up is the single most common error.</p>
+
+  <div class="rules m">
+    <div><var>x</var><sup>a</sup> <var>x</var><sup>b</sup> = <var>x</var><sup>a + b</sup></div>
+    <div>(<var>x</var><sup>a</sup>)<sup>b</sup> = <var>x</var><sup>ab</sup></div>
+    <div><span class="frac"><span><var>x</var><sup>a</sup></span><span><var>x</var><sup>b</sup></span></span> = <var>x</var><sup>a − b</sup></div>
+  </div>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example</p>
+    <div class="steps m">
+      <div>Simplify (<var>x</var><sup>2</sup><var>y</var><sup>4</sup>)<sup>2</sup> · <var>x</var></div>
+      <div>= <var>x</var><sup>4</sup><var>y</var><sup>8</sup> · <var>x</var></div>
+      <div class="note">the outer 2 multiplies both exponents</div>
+      <div>= <var>x</var><sup>5</sup><var>y</var><sup>8</sup></div>
+      <div class="note">then the loose <var>x</var> adds 1 to the <var>x</var> exponent only</div>
+    </div>
+  </div>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>The loose <span class="m"><var>x</var></span> at the end only touches the
+      <span class="m"><var>x</var></span> exponent. It never touches
+      <span class="m"><var>y</var></span>. Different bases never combine.</p>
+  </div>
+
+  <details>
+    <summary>Try it: simplify (<span class="m"><var>x</var><sup>3</sup><var>y</var><sup>2</sup></span>)<sup>2</sup> · <span class="m"><var>x</var><sup>4</sup></span></summary>
+    <p class="result m"><var>x</var><sup>10</sup><var>y</var><sup>4</sup></p>
+    <p>The outer 2 gives <span class="m"><var>x</var><sup>6</sup><var>y</var><sup>4</sup></span>,
+      then <span class="m"><var>x</var><sup>6</sup> · <var>x</var><sup>4</sup> = <var>x</var><sup>10</sup></span>.</p>
+  </details>
+
+  <!-- 2 -->
+  <h2 id="s2">2 · Fractional and negative exponents <span class="when">Exam group 2</span></h2>
+
+  <p>A root is a fractional exponent, and that's all it is. Once you write every root as a
+    power, the rules from section 1 do all the work — you never need a separate set of
+    rules for square roots. A negative exponent is likewise just division, and it is a
+    perfectly good final answer. You do not have to convert it back into a fraction.</p>
+
+  <div class="rules m">
+    <div>&radic;<span style="text-decoration:overline"><var>x</var></span> = <var>x</var><sup>1/2</sup></div>
+    <div><var>x</var><sup>−n</sup> = <span class="frac"><span>1</span><span><var>x</var><sup>n</sup></span></span></div>
+    <div><var>x</var> = <var>x</var><sup>1</sup></div>
+  </div>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example</p>
+    <div class="steps m">
+      <div>Simplify (<var>x</var><sup>3</sup> <var>y</var> <var>x</var><sup>4</sup>)<sup>1/2</sup></div>
+      <div>= (<var>x</var><sup>7</sup><var>y</var>)<sup>1/2</sup></div>
+      <div class="note">collect the <var>x</var>'s first — inside the parentheses, exponents add</div>
+      <div>= <var>x</var><sup>7/2</sup> <var>y</var><sup>1/2</sup></div>
+      <div class="note">the 1/2 multiplies <em>every</em> exponent, including <var>y</var>'s invisible 1</div>
+    </div>
+  </div>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>Forgetting that <span class="m"><var>y</var></span> is really
+      <span class="m"><var>y</var><sup>1</sup></span>, and leaving it as
+      <span class="m"><var>y</var></span> instead of
+      <span class="m"><var>y</var><sup>1/2</sup></span>. If a variable has no exponent
+      written, write the 1 in before you start.</p>
+  </div>
+
+  <details>
+    <summary>Try it: simplify (<span class="m"><var>x</var><sup>2</sup> <var>y</var> <var>x</var></span>)<sup>1/2</sup></summary>
+    <p class="result m"><var>x</var><sup>3/2</sup> <var>y</var><sup>1/2</sup></p>
+    <p>Inside: <span class="m"><var>x</var><sup>2</sup> · <var>x</var><sup>1</sup> = <var>x</var><sup>3</sup></span>.
+      Then halve both exponents.</p>
+  </details>
+
+  <!-- 3 -->
+  <h2 id="s3">3 · Natural logs <span class="when">Exam group 3</span></h2>
+
+  <p>Logs turn multiplication into addition. That is the whole reason we use them. When a
+    utility function is a product of powers — which most of ours will be — taking logs
+    turns it into something you can differentiate one term at a time. Two rules do the
+    work, and the third just says that <span class="m"><var>e</var></span> and
+    <span class="m">ln</span> undo each other.</p>
+
+  <div class="rules m">
+    <div>ln(<var>xy</var>) = ln(<var>x</var>) + ln(<var>y</var>)</div>
+    <div>ln(<var>x</var><sup>a</sup>) = <var>a</var> ln(<var>x</var>)</div>
+    <div>ln<span style="font-size:1.1em">(</span><span class="frac"><span><var>x</var></span><span><var>y</var></span></span><span style="font-size:1.1em">)</span> = ln(<var>x</var>) − ln(<var>y</var>)</div>
+    <div>ln(<var>e</var><sup>x</sup>) = <var>x</var> &nbsp;&nbsp;and&nbsp;&nbsp; <var>e</var><sup>ln(<var>x</var>)</sup> = <var>x</var></div>
+  </div>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example</p>
+    <div class="steps m">
+      <div>Let <var>u</var> = <var>x</var><sup>&alpha;</sup><var>y</var><sup>&beta;</sup>. Find ln(<var>u</var>).</div>
+      <div>ln(<var>u</var>) = ln(<var>x</var><sup>&alpha;</sup>) + ln(<var>y</var><sup>&beta;</sup>)</div>
+      <div class="note">the product splits into a sum first</div>
+      <div>= &alpha; ln(<var>x</var>) + &beta; ln(<var>y</var>)</div>
+      <div class="note">then each exponent comes out front</div>
+    </div>
+  </div>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>There is no rule for <span class="m">ln(<var>x</var> + <var>y</var>)</span>. Logs
+      split products and quotients, never sums. If you see a plus sign inside a log, you
+      are probably stuck on purpose — leave it alone.</p>
+  </div>
+
+  <details>
+    <summary>Try it: simplify ln<span class="m">(<var>x</var><sup>5</sup> / <var>y</var><sup>3</sup>)</span></summary>
+    <p class="result m">5 ln(<var>x</var>) − 3 ln(<var>y</var>)</p>
+    <p>The division becomes subtraction of two logs — not division of two logs.</p>
+  </details>
+
+  <!-- 4 -->
+  <h2 id="s4">4 · Simplifying a ratio <span class="when">Exam group 4</span></h2>
+
+  <p>All semester you will divide one messy expression by another and need the answer to
+    collapse into something short. It always works the same way: take one base at a time
+    and subtract exponents. Don't try to see the whole thing at once.</p>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example</p>
+    <div class="steps m">
+      <div>Simplify <span class="frac"><span>&alpha; <var>X</var><sup>&alpha;−1</sup> <var>Y</var><sup>&beta;</sup></span><span>&beta; <var>X</var><sup>&alpha;</sup> <var>Y</var><sup>&beta;−1</sup></span></span></div>
+      <div class="note">the constants: &alpha; over &beta;, and they stay put</div>
+      <div><var>X</var>: <var>X</var><sup>&alpha;−1</sup> / <var>X</var><sup>&alpha;</sup> = <var>X</var><sup>−1</sup></div>
+      <div class="note">(&alpha; − 1) − &alpha; = −1</div>
+      <div><var>Y</var>: <var>Y</var><sup>&beta;</sup> / <var>Y</var><sup>&beta;−1</sup> = <var>Y</var><sup>1</sup></div>
+      <div class="note">&beta; − (&beta; − 1) = 1</div>
+      <div>= <span class="frac"><span>&alpha;</span><span>&beta;</span></span> <var>X</var><sup>−1</sup> <var>Y</var> = <span class="frac"><span>&alpha; <var>Y</var></span><span>&beta; <var>X</var></span></span></div>
+    </div>
+  </div>
+
+  <p>If that looks like a lot of machinery for one answer, here's the payoff: the
+    expression you just simplified is a marginal rate of substitution for Cobb-Douglas
+    preferences. You will compute it in Lecture 2 and then again, in one form or another,
+    for the rest of the semester.</p>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>Cancelling the variables entirely and answering
+      <span class="m">&alpha;/&beta;</span>. The exponents differ by one, so the variables
+      don't fully cancel — one <span class="m"><var>Y</var></span> survives on top and one
+      <span class="m"><var>X</var></span> survives underneath.</p>
+  </div>
+
+  <details>
+    <summary>Try it: simplify <span class="m">5<var>X</var><sup>4</sup><var>Y</var><sup>3</sup> / (3<var>X</var><sup>5</sup><var>Y</var><sup>2</sup>)</span></summary>
+    <p class="result m"><span class="frac"><span>5<var>Y</var></span><span>3<var>X</var></span></span></p>
+    <p><span class="m"><var>X</var></span>: 4 − 5 = −1, so <span class="m"><var>X</var></span> goes underneath.
+      <span class="m"><var>Y</var></span>: 3 − 2 = 1, so <span class="m"><var>Y</var></span> stays on top.
+      The 5 and the 3 don't cancel.</p>
+  </details>
+
+  <!-- 5 -->
+  <h2 id="s5">5 · Quotients as products <span class="when">Exam group 5</span></h2>
+
+  <p>Whenever you meet a fraction you have to differentiate, rewrite it as a product first
+    using a negative exponent. Then the product rule handles it. This is a deliberate
+    choice for this course: one less rule to memorize, and one less place to make a sign
+    error. You will not need the quotient rule this semester.</p>
+
+  <div class="rules m">
+    <div><span class="frac"><span><var>f</var></span><span><var>y</var><sup>b</sup></span></span> = <var>f</var> · <var>y</var><sup>−b</sup></div>
+  </div>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example</p>
+    <div class="steps m">
+      <div>Rewrite <span class="frac"><span>2<var>x</var><sup>4</sup></span><span><var>y</var><sup>3</sup></span></span> as a product</div>
+      <div>= 2<var>x</var><sup>4</sup><var>y</var><sup>−3</sup></div>
+      <div class="note">dividing by <var>y</var><sup>3</sup> is multiplying by <var>y</var><sup>−3</sup></div>
+    </div>
+  </div>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>Subtracting the exponents across different bases and answering
+      <span class="m">2<var>x</var></span>. The <span class="m"><var>x</var></span> and the
+      <span class="m"><var>y</var></span> are different bases — their exponents never
+      interact.</p>
+  </div>
+
+  <details>
+    <summary>Try it: rewrite <span class="m">5<var>x</var><sup>4</sup> / <var>y</var><sup>2</sup></span> as a product</summary>
+    <p class="result m">5<var>x</var><sup>4</sup><var>y</var><sup>−2</sup></p>
+    <p>Flip the sign on the exponent of whatever was in the denominator, and drop the
+      fraction bar.</p>
+  </details>
+
+  <h2>That's all of it</h2>
+
+  <p>Five rules. If the practice problems went smoothly, go retake the exam now. It pulls
+    eight questions at random, so you'll get a different mix each time. You need seven of
+    the eight.</p>
+
+  <p>If section 4 still feels shaky, work that worked example once more on paper first.
+    Writing it out by hand is genuinely different from reading it.</p>
+
+  <div class="footer">
+    <p><a href="../">All Math Proficiency exams</a> · <a href="../../">All Econ 380 tools</a></p>
+  </div>
+
+</main>
+</body>
+</html>
