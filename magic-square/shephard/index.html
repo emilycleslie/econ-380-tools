@@ -1,0 +1,882 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Expenditure function → Hicksian demand — Econ 380</title>
+<link rel="stylesheet" href="../../assets/style.css">
+<style>
+/* Explorer widget — draft-local for now. If this pattern is approved for all six
+   arrows, move this block into assets/style.css so the arrow pages share it. Kept
+   here while it is a draft so the five live Math Proficiency pages are untouched. */
+
+.explorer {
+  background: var(--white);
+  border: 1.5px solid var(--rule);
+  border-radius: 10px;
+  padding: 14px 16px 16px;
+  margin: 16px 0;
+}
+
+.explorer .ctl {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+.explorer .ctl label { font-weight: 600; font-size: .9rem; white-space: nowrap; }
+.explorer input[type=range] { flex: 1 1 220px; min-width: 180px; accent-color: var(--orange); }
+.explorer input[type=range]:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.explorer .fixed { font-size: .85rem; color: var(--gray); margin: 0 0 10px; }
+
+.explorer .panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 16px;
+  align-items: start;
+}
+.explorer .stack { display: flex; flex-direction: column; gap: 12px; }
+
+.explorer .panel { margin: 0; }
+.explorer .panel svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+}
+.explorer .panel figcaption {
+  margin-top: 5px;
+  font-size: .82rem;
+  color: var(--gray);
+  line-height: 1.45;
+}
+
+.explorer .readout {
+  margin-top: 14px;
+  background: var(--box);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: .93rem;
+}
+.explorer .readout .row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 2px 0;
+  font-family: Georgia, "Times New Roman", serif;
+}
+.explorer .readout .row.same { color: var(--orange); font-weight: 700; }
+.explorer .readout .val { font-variant-numeric: tabular-nums; }
+.explorer .readout .verdict {
+  margin: 6px 0 0;
+  font-size: .85rem;
+  color: var(--gray);
+  font-family: inherit;
+}
+.explorer .readout .pennybox {
+  margin-top: 11px;
+  padding-top: 10px;
+  border-top: 1px solid var(--rule);
+}
+.explorer .readout .pennyhead {
+  margin: 0 0 5px;
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+.explorer .readout .row.saving { color: var(--gray); }
+
+.explorer .trythis { margin: 14px 0 0; padding-left: 1.15em; font-size: .93rem; }
+.explorer .trythis li { margin: 7px 0; }
+
+@media (max-width: 700px) {
+  .explorer .panels { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<main>
+
+  <h1>Expenditure function → Hicksian demand</h1>
+  <p class="kicker">ECON 380 · Magic Square · Shephard's lemma · About ten minutes</p>
+
+  <p class="jump">Jump to:
+    <a href="#s1">1 The rule</a> ·
+    <a href="#s2">2 Worked example</a> ·
+    <a href="#s3">3 Why it works</a> ·
+    <a href="#s4">4 When the derivative is harder</a> ·
+    <a href="#s5">5 Practice</a>
+  </p>
+
+  <div class="betanote">
+    <b>This is one arrow of the Magic Square.</b> In class we draw the square and talk
+    about why the four objects connect at all. This page does the mechanics for one
+    trip around it: you have the expenditure function, you want Hicksian demand. Read
+    the rule, work the example, then do the practice problems.
+  </div>
+
+  <figure class="fig">
+    <svg viewBox="0 0 600 330" xmlns="http://www.w3.org/2000/svg" role="img"
+         aria-label="The Magic Square. Four corners: Marshallian demand and indirect utility on top, Hicksian demand and the expenditure function on the bottom. The bottom edge, from the expenditure function to Hicksian demand by Shephard's lemma, is highlighted.">
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5"
+                markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#5B6470"/>
+        </marker>
+        <marker id="arhi" viewBox="0 0 10 10" refX="9" refY="5"
+                markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#D07000"/>
+        </marker>
+      </defs>
+
+      <!-- corners -->
+      <g stroke="#d7dde3" stroke-width="1.5" fill="#fcfcfb">
+        <rect x="20"  y="40"  width="160" height="56" rx="8"/>
+        <rect x="360" y="40"  width="160" height="56" rx="8"/>
+        <rect x="360" y="236" width="160" height="56" rx="8"/>
+      </g>
+      <rect x="20" y="236" width="160" height="56" rx="8"
+            fill="#fbf3e8" stroke="#D07000" stroke-width="2"/>
+
+      <g font-family="Georgia, 'Times New Roman', serif" font-size="17"
+         text-anchor="middle" fill="currentColor">
+        <text x="100" y="63">Marshallian</text>
+        <text x="100" y="83" font-style="italic">X*, Y*</text>
+        <text x="440" y="63">Indirect utility</text>
+        <text x="440" y="83" font-style="italic">V</text>
+        <text x="440" y="259">Expenditure</text>
+        <text x="440" y="279" font-style="italic">E</text>
+        <text x="100" y="259" fill="#D07000">Hicksian</text>
+        <text x="100" y="279" font-style="italic" fill="#D07000">X<tspan font-size="12" dy="-6">H</tspan><tspan dy="6">, </tspan>Y<tspan font-size="12" dy="-6">H</tspan></text>
+      </g>
+
+      <!-- edges -->
+      <g stroke="#5B6470" stroke-width="1.6" fill="none">
+        <!-- top: V to Marshallian, one way -->
+        <line x1="356" y1="68" x2="184" y2="68" marker-end="url(#ar)"/>
+        <!-- right: V and E, both ways -->
+        <line x1="440" y1="100" x2="440" y2="232"
+              marker-start="url(#ar)" marker-end="url(#ar)"/>
+        <!-- left: Marshallian and Hicksian, both ways -->
+        <line x1="100" y1="100" x2="100" y2="232"
+              marker-start="url(#ar)" marker-end="url(#ar)"/>
+      </g>
+      <!-- bottom: E to Hicksian, one way, highlighted -->
+      <line x1="356" y1="264" x2="184" y2="264" stroke="#D07000" stroke-width="2.6"
+            fill="none" marker-end="url(#arhi)"/>
+
+      <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+         font-size="13" fill="#5B6470">
+        <text x="270" y="56" text-anchor="middle">Roy's identity</text>
+        <text x="452" y="160">invert and</text>
+        <text x="452" y="176">swap letters</text>
+        <text x="112" y="160">substitute the</text>
+        <text x="112" y="176">other function in</text>
+        <text x="270" y="292" text-anchor="middle" fill="#D07000" font-weight="700">Shephard's lemma</text>
+      </g>
+    </svg>
+    <figcaption>The four objects and the six ways between them. The two side edges run
+      both directions, which is where four of the six conversions live. This page is the
+      bottom edge, in orange.</figcaption>
+  </figure>
+
+  <!-- 1 -->
+  <h2 id="s1">1 · The rule</h2>
+
+  <p>Hicksian demand is the derivative of the expenditure function with respect to that
+    good's own price. That is the entire rule. There is no minus sign, nothing in a
+    denominator, and nothing to solve for — you differentiate once and you are done.</p>
+
+  <div class="rules m">
+    <div><var>X</var><sup>H</sup> = <span class="frac"><span>&part;<var>E</var></span><span>&part;<var>P</var><sub>X</sub></span></span></div>
+    <div><var>Y</var><sup>H</sup> = <span class="frac"><span>&part;<var>E</var></span><span>&part;<var>P</var><sub>Y</sub></span></span></div>
+  </div>
+
+  <p>Two things are being held fixed while you take that derivative: the other price, and
+    <span class="m"><var>Ū</var></span>. Holding <span class="m"><var>Ū</var></span> fixed
+    is not a simplification — it is what makes the answer Hicksian rather than Marshallian.
+    Hicksian demand is the bundle that hits a fixed utility target as cheaply as possible,
+    so a fixed target is exactly the right thing to be differentiating along.</p>
+
+  <p>In practice this means <span class="m"><var>Ū</var></span> behaves like any other
+    constant in the derivative. It rides along untouched and shows up in your answer.</p>
+
+  <!-- 2 -->
+  <h2 id="s2">2 · Worked example</h2>
+
+  <p>This is the function we use in class. Take as given that for
+    <span class="m"><var>U</var> = <var>X</var><sup>.5</sup><var>Y</var><sup>.5</sup></span>,
+    the expenditure function is
+    <span class="m"><var>E</var> = 2<var>P</var><sub>X</sub><sup>.5</sup><var>P</var><sub>Y</sub><sup>.5</sup><var>Ū</var></span>.</p>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example</p>
+    <div class="steps m">
+      <div>Find <var>X</var><sup>H</sup> from <var>E</var> = 2<var>P</var><sub>X</sub><sup>.5</sup><var>P</var><sub>Y</sub><sup>.5</sup><var>Ū</var></div>
+      <div><var>X</var><sup>H</sup> = <span class="frac"><span>&part;<var>E</var></span><span>&part;<var>P</var><sub>X</sub></span></span> = 2 · (.5) <var>P</var><sub>X</sub><sup>−.5</sup> <var>P</var><sub>Y</sub><sup>.5</sup> <var>Ū</var></div>
+      <div class="note">only <var>P</var><sub>X</sub> moves — the 2, the <var>P</var><sub>Y</sub><sup>.5</sup> and the <var>Ū</var> are all constants riding along</div>
+      <div>= <var>P</var><sub>X</sub><sup>−.5</sup> <var>P</var><sub>Y</sub><sup>.5</sup> <var>Ū</var></div>
+      <div class="note">the 2 and the .5 cancel</div>
+      <div>= <span class="m">(<span class="frac"><span><var>P</var><sub>Y</sub></span><span><var>P</var><sub>X</sub></span></span>)<sup>.5</sup> <var>Ū</var></span></div>
+      <div class="note">a negative exponent on top is the same as a positive one underneath</div>
+    </div>
+  </div>
+
+  <p>That is the same <span class="m"><var>X</var><sup>H</sup></span> we got the long way,
+    by setting up the expenditure minimization problem and solving it. Which is the point
+    of the square: once you have any one corner, you never have to set up a Lagrangian
+    again.</p>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>Importing the minus sign from Roy's identity. The two rules only look alike: Roy's
+      is a <em>ratio</em> of two derivatives and carries a minus sign, while Shephard's is
+      a single derivative with no minus sign and nothing underneath. If your Hicksian
+      demand came out negative, this is almost always why.</p>
+  </div>
+
+  <details>
+    <summary>Try it: find <span class="m"><var>Y</var><sup>H</sup></span> from the same
+      <span class="m"><var>E</var> = 2<var>P</var><sub>X</sub><sup>.5</sup><var>P</var><sub>Y</sub><sup>.5</sup><var>Ū</var></span></summary>
+    <p class="result m"><var>Y</var><sup>H</sup> = (<span class="frac"><span><var>P</var><sub>X</sub></span><span><var>P</var><sub>Y</sub></span></span>)<sup>.5</sup> <var>Ū</var></p>
+    <p>Same derivative, other letter. Now
+      <span class="m"><var>P</var><sub>X</sub><sup>.5</sup></span> is the constant and
+      <span class="m"><var>P</var><sub>Y</sub></span> moves, so the prices trade places.
+      That symmetry is a good sign you did it right — with these preferences the two goods
+      are treated identically.</p>
+  </details>
+
+  <!-- 3 -->
+  <h2 id="s3">3 · Why it works</h2>
+
+  <p>Taking a derivative to get a quantity looks like a coincidence the first time you see
+    it. It isn't. Five short steps, and no step needs anything harder than multiplication.</p>
+
+  <h3>Step 1 · What the expenditure function is asking</h3>
+
+  <p>Only one question, and it is worth saying out loud:
+    <em>what is the cheapest bill that still reaches the utility target
+    <span class="m"><var>Ū</var></span>?</em></p>
+
+  <p>Not what you happened to spend. The <em>least</em> you could spend and still get to
+    <span class="m"><var>Ū</var></span>. Every number
+    <span class="m"><var>E</var></span> reports is the winner of that competition at some
+    set of prices.</p>
+
+  <h3>Step 2 · Freeze one bundle and raise the price</h3>
+
+  <p>Set optimizing aside for a moment. Pick one specific bundle — call it
+    <span class="m">(<var>x</var><sub>0</sub>, <var>y</var><sub>0</sub>)</span> — and just
+    buy it, whatever happens. What it costs you is</p>
+
+  <div class="rules m">
+    <div>cost of that fixed bundle = <var>P</var><sub>X</sub><var>x</var><sub>0</sub> + <var>P</var><sub>Y</sub><var>y</var><sub>0</sub></div>
+  </div>
+
+  <p>Now let <span class="m"><var>P</var><sub>X</sub></span> change while the bundle stays
+    exactly where it is. Only the first term moves, and it moves in a straight line, so the
+    slope of that cost with respect to
+    <span class="m"><var>P</var><sub>X</sub></span> is
+    <span class="m"><var>x</var><sub>0</sub></span>. In words:</p>
+
+  <div class="keyidea">
+    <p class="h">Step 2, in one sentence</p>
+    <p>If the price of X rises by <b>$1 per unit</b>, the bill for this bundle rises by
+      <b>the number of units of X in the bundle</b>.</p>
+    <p>Buying 10 units? A dollar on the price costs you $10. That is not calculus — it is
+      multiplication, and it is already the whole shape of the answer.</p>
+  </div>
+
+  <h3>Step 3 · Which bundle is the relevant one</h3>
+
+  <p>Back to the real problem. At today's prices, the cheapest bundle that reaches
+    <span class="m"><var>Ū</var></span> is the Hicksian bundle
+    <span class="m">(<var>X</var><sup>H</sup>, <var>Y</var><sup>H</sup>)</span>. That is
+    the bundle <span class="m"><var>E</var></span> is buying right now.</p>
+
+  <p>So of all the fixed-bundle cost lines you could have drawn in Step 2, the one that
+    matters at these prices is the one through the Hicksian bundle — and by Step 2, its
+    slope is <span class="m"><var>X</var><sup>H</sup></span>.</p>
+
+  <h3>Step 4 · "But you'd rearrange the bundle"</h3>
+
+  <p>Correct, and it is the right objection. When
+    <span class="m"><var>P</var><sub>X</sub></span> goes up, nobody is forced to keep
+    buying the old bundle; you would shift a little toward Y and reach
+    <span class="m"><var>Ū</var></span> more cheaply than the frozen bundle would.</p>
+
+  <p>That rearranging does save you something. The claim is only that it saves you
+    <em>very little</em> — and the reason is Step 3. At the original prices you were
+    already at the cheapest bundle that reaches
+    <span class="m"><var>Ū</var></span>. Being at the cheapest point is exactly the
+    situation where no small rearrangement pays off: if some shift toward Y had been worth
+    making at those prices, you would already have made it. So when the price nudges, the
+    best rearrangement available to you is worth very little next to the direct effect of
+    paying more per unit.</p>
+
+  <p><b>For a very small price change, the direct effect is what matters.</b> Not the only
+    thing that happens — the only thing that matters to the first decimal places that
+    count.</p>
+
+  <h3>Step 5 · Put it together</h3>
+
+  <p>For a very small change in <span class="m"><var>P</var><sub>X</sub></span>, the change
+    in the cheapest bill is approximately the Step 2 answer, using the Step 3 bundle:</p>
+
+  <div class="rules m">
+    <div><var>dE</var> &asymp; <var>X</var><sup>H</sup> <var>dP</var><sub>X</sub> &nbsp;&nbsp;<span style="font-family:inherit;font-size:.85rem;color:var(--gray)">for a small price change</span></div>
+    <div><span class="frac"><span>&part;<var>E</var></span><span>&part;<var>P</var><sub>X</sub></span></span> = <var>X</var><sup>H</sup> &nbsp;&nbsp;<span style="font-family:inherit;font-size:.85rem;color:var(--gray)">in the limit, exactly</span></div>
+  </div>
+
+  <p>The approximation in the first line is what a derivative is for. Shrink the price
+    change toward zero and the leftover — the saving from rearranging — shrinks faster than
+    the price change does, so it vanishes from the ratio. What survives is exact.</p>
+
+  <h3>The same thing in dollars and cents</h3>
+
+  <p>Numbers make the "saves you very little" claim checkable. Use the example from
+    section 2: <span class="m"><var>U</var> = <var>X</var><sup>.5</sup><var>Y</var><sup>.5</sup></span>
+    with <span class="m"><var>Ū</var> = 10</span>,
+    <span class="m"><var>P</var><sub>Y</sub> = 4</span> and
+    <span class="m"><var>P</var><sub>X</sub> = 4</span>. The Hicksian bundle is
+    <span class="m">(10, 10)</span> and the bill is
+    <span class="m"><var>E</var> = $80</span>.</p>
+
+  <p>Now raise <span class="m"><var>P</var><sub>X</sub></span> by one cent, to
+    <span class="m">$4.01</span>.</p>
+
+  <div class="worked">
+    <p class="boxlabel">What the penny costs</p>
+    <div class="steps m">
+      <div>Keep the same bundle: 10 units of X × $0.01 = <b>$0.10</b> more</div>
+      <div class="note">this is Step 2 — the number of units, times the price change</div>
+      <div>Re-optimize instead: <var>E</var> goes from $80.00000 to $80.09994</div>
+      <div class="note">the new cheapest bundle is (9.9875, 10.0125) — it barely moved</div>
+      <div>So rearranging saved you <b>$0.00006</b></div>
+      <div class="note">about six thousandths of one cent, on a ten-cent change</div>
+    </div>
+  </div>
+
+  <p>The consumer really can re-optimize, and really does save something. It is six
+    thousandths of a cent. The increase in expenditure is still, to any accuracy you care
+    about, <b>$0.10 — which is the 10 units of X in the bundle, times the penny</b>.</p>
+
+  <div class="keyidea">
+    <p class="h">The takeaway</p>
+    <p>A price derivative asks: <em>if this price rises by one dollar per unit, how many
+      extra dollars does the cheapest way of reaching the target require?</em></p>
+    <p>And the answer is: <b>the number of units of that good in the Hicksian
+      bundle.</b> Which is why differentiating
+      <span class="m"><var>E</var></span> hands you a quantity.</p>
+  </div>
+
+  <h3>Utility is what's held fixed — not income</h3>
+
+  <p>One thing to keep straight before the picture, because it is the difference between
+    the two demand curves in this course.</p>
+
+  <div class="contrast">
+    <div>
+      <p class="h" style="color:var(--orange)">Hicksian — this page</p>
+      <p>Held fixed: the <b>utility target</b>
+        <span class="m"><var>Ū</var></span>. The consumer stays on one indifference curve
+        no matter what prices do; the bill is whatever it has to be. Comes from
+        <em>minimizing spending</em> subject to reaching
+        <span class="m"><var>Ū</var></span>.</p>
+    </div>
+    <div>
+      <p class="h" style="color:var(--accent)">Marshallian — the other side</p>
+      <p>Held fixed: <b>income</b> <span class="m"><var>I</var></span>. The consumer spends
+        the same money no matter what prices do; the utility reached is whatever it turns
+        out to be. Comes from <em>maximizing utility</em> subject to a budget.</p>
+    </div>
+  </div>
+
+  <p>So there is no income anywhere in this derivation, and none in the answer. Watch for
+    it in the first panel below: as you drag the price, the dot slides along <em>one
+    indifference curve</em> and never leaves it. That is
+    <span class="m"><var>Ū</var></span> being held fixed, drawn.</p>
+
+  <details>
+    <summary>Technical note — the names for what just happened</summary>
+    <p>Step 4 is the <b>envelope theorem</b>. The general statement: when you differentiate
+      an optimized value with respect to a parameter, you may treat the choice variables as
+      frozen at their optimal values, because the choices were already optimal and so
+      contribute nothing at the margin. Step 2 is that "treat them as frozen"; Step 4 is
+      the licence to do so.</p>
+    <p>There is also a picture behind it. Draw the fixed-bundle cost line from Step 2 for
+      <em>every</em> bundle that reaches <span class="m"><var>Ū</var></span>, not just the
+      current one. Each is a straight line in
+      <span class="m"><var>P</var><sub>X</sub></span>, and at any given price the cheapest
+      bill is whichever line is lowest there. So
+      <span class="m"><var>E</var></span> traces the bottom edge of that whole family — its
+      <b>lower envelope</b>. A curve built as the bottom of a family of straight lines
+      touches one of them at each price and takes that line's slope, which is Shephard's
+      lemma again. This also explains why
+      <span class="m"><var>E</var></span> is concave in prices.</p>
+    <p>The same argument on the utility-maximizing side of the square gives Roy's identity,
+      and it is the reason the Lagrange multiplier means what it does.</p>
+  </details>
+
+  <h3>See it move</h3>
+
+  <p>All five steps are on the screen at once below. Drag the price of
+    <span class="m"><var>X</var></span> — the three panels are three views of the same
+    consumer at the same moment.</p>
+
+  <div class="explorer" id="ex">
+    <div class="ctl">
+      <label for="px">Price of <span class="m"><var>X</var></span></label>
+      <input type="range" id="px" min="1" max="16" step="0.05" value="4"
+             aria-label="Price of X">
+      <span class="m" id="pxlab" style="font-weight:700">P<sub>X</sub> = 4.00</span>
+    </div>
+    <p class="fixed">Held fixed the whole time:
+      <span class="m"><var>U</var> = <var>X</var><sup>.5</sup><var>Y</var><sup>.5</sup></span>,
+      the utility target <span class="m"><var>Ū</var> = 10</span>, and
+      <span class="m"><var>P</var><sub>Y</sub> = 4</span>.</p>
+
+    <div class="panels">
+      <figure class="panel">
+        <svg id="p1" viewBox="0 0 340 275" xmlns="http://www.w3.org/2000/svg" role="img"
+             aria-label="The consumer's bundle. An indifference curve with the cheapest bundle that reaches it marked, and the isocost line through that bundle."></svg>
+        <figcaption><b>Step 3 · the bundle.</b> Every point on the curve reaches utility
+          10. The straight line is the cheapest way to buy one of them at today's prices,
+          and the dot is where they touch — the Hicksian bundle. As you drag, the dot
+          slides <em>along the one curve</em>: the utility target never changes, and
+          neither does the curve. There is no income in this picture.</figcaption>
+      </figure>
+
+      <div class="stack">
+        <figure class="panel">
+          <svg id="p2" viewBox="0 0 340 190" xmlns="http://www.w3.org/2000/svg" role="img"
+               aria-label="The expenditure function plotted against the price of X, with the straight line showing the cost of keeping today's bundle. The line touches the curve at today's price and lies above it elsewhere."></svg>
+          <figcaption><b>Step 2 · the cost of keeping that bundle.</b> The orange line is
+            what the dot's bundle would cost as
+            <span class="m"><var>P</var><sub>X</sub></span> moves, if you never changed it.
+            Its steepness is the number of X units in it. The blue curve is
+            <span class="m"><var>E</var></span> — the cheapest bill once rearranging is
+            allowed. Near the dot the two are almost the same: that is Step 4.</figcaption>
+        </figure>
+
+        <figure class="panel">
+          <svg id="p3" viewBox="0 0 340 175" xmlns="http://www.w3.org/2000/svg" role="img"
+               aria-label="Hicksian demand for X plotted against the price of X, with the current point marked at a height equal to the slope of the expenditure function."></svg>
+          <figcaption><b>The slope, plotted.</b> Height here is the steepness of the orange
+            line above — which is to say, the units of X in the bundle. That makes this
+            curve Hicksian demand. <em>Price runs along the bottom so the two panels line
+            up; in class you'll draw it flipped.</em></figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="readout">
+      <div class="row"><span>slope of the orange line</span><span class="val" id="r1">10.00</span></div>
+      <div class="row same"><span><var>X</var><sup>H</sup> — units of X in the bundle</span><span class="val" id="r2">10.00</span></div>
+      <p class="verdict">Two different questions. One number. Every time.</p>
+
+      <div class="pennybox">
+        <p class="pennyhead">Now nudge the price up one cent from wherever you are:</p>
+        <div class="row"><span>keep this bundle — the bill rises by</span><span class="val" id="r3">$0.10000</span></div>
+        <div class="row"><span>re-optimize instead — the bill rises by</span><span class="val" id="r4">$0.09994</span></div>
+        <div class="row saving"><span>so rearranging saved you</span><span class="val" id="r5">$0.00006</span></div>
+        <p class="verdict" id="rv"></p>
+      </div>
+    </div>
+
+    <noscript>
+      <p style="margin-top:12px"><b>This figure needs JavaScript.</b> The rest of the page
+        works without it.</p>
+    </noscript>
+
+    <ol class="trythis">
+      <li><b>Drag the price all the way left.</b> X is cheap relative to Y, so the cheapest
+        way to reach utility 10 loads up on X, and
+        <span class="m"><var>X</var><sup>H</sup></span> is large. Notice the orange line
+        goes <em>steep</em>. That is not a coincidence: if you own a lot of units of X,
+        then every dollar added to <span class="m"><var>P</var><sub>X</sub></span> hits all
+        of them, so your bill climbs fast. Many units, steep line — the same fact said two
+        ways.</li>
+      <li><b>Now all the way right.</b> The bundle slides around the curve toward Y,
+        <span class="m"><var>X</var><sup>H</sup></span> drops, and the orange line
+        <em>flattens</em> — when you're barely buying any X, a rise in its price hardly
+        moves your bill at all. Watch the dot in the bottom panel while you drag: you are
+        drawing a Hicksian demand curve.</li>
+      <li><b>Watch the top two numbers in the box.</b> They answer different questions —
+        "how fast is the bill rising?" and "how many units of X am I buying?" — and they
+        never once disagree. That is Shephard's lemma, and there is nothing else to it.</li>
+      <li><b>Now the penny, at the bottom of the box.</b> At any price you like, compare
+        what a one-cent rise costs you if you keep this bundle against what it costs after
+        you re-optimize. The second number is smaller — rearranging genuinely does save
+        something — but look at how much smaller. That gap is all of Step 4, in dollars,
+        and it is what "for a very small price change" buys you.</li>
+      <li><b>The subtle one.</b> The orange line touches
+        <span class="m"><var>E</var></span> at today's price and sits above it everywhere
+        else — of course it does, since at any other price you would rather re-optimize than
+        keep this bundle. But look how <em>slowly</em> it pulls away near the touching
+        point. Right next to the dot the line and the curve are nearly the same thing, and
+        that is exactly why the slope of the curve equals the slope of the line.</li>
+    </ol>
+  </div>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>Reading the third panel as an ordinary demand curve and expecting it to shift when
+      income changes. It won't — there is no income in it. Look at the axes of the first
+      panel as you drag: the consumer stays pinned to the <em>same indifference curve</em>
+      the whole time. <span class="m"><var>Ū</var></span> is what's held fixed here, not
+      <span class="m"><var>I</var></span>, and that is the entire difference between this
+      curve and the Marshallian one.</p>
+  </div>
+
+  <!-- 4 -->
+  <h2 id="s4">4 · When the derivative is harder</h2>
+
+  <p>Every Cobb-Douglas expenditure function is a product of powers, so the derivative is
+    one line. Other expenditure functions are not, and then the only difficulty is calculus
+    you already have. Here is one where the price appears twice.</p>
+
+  <p>Take as given the expenditure function
+    <span class="m"><var>E</var> = <var>P</var><sub>Y</sub>(1 + <var>Ū</var> −
+    ln(<var>P</var><sub>Y</sub>) + ln(<var>P</var><sub>X</sub>))</span>.</p>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example</p>
+    <div class="steps m">
+      <div>Find <var>X</var><sup>H</sup></div>
+      <div><span class="frac"><span>&part;<var>E</var></span><span>&part;<var>P</var><sub>X</sub></span></span> = <var>P</var><sub>Y</sub> · <span class="frac"><span>1</span><span><var>P</var><sub>X</sub></span></span></div>
+      <div class="note"><var>P</var><sub>X</sub> appears in one place only, inside the ln — no product rule needed</div>
+      <div><var>X</var><sup>H</sup> = <span class="frac"><span><var>P</var><sub>Y</sub></span><span><var>P</var><sub>X</sub></span></span></div>
+    </div>
+  </div>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>Going after <span class="m"><var>Y</var><sup>H</sup></span> the same way.
+      <span class="m"><var>P</var><sub>Y</sub></span> shows up <em>twice</em> in that
+      expenditure function — once out front and once inside the log — so that one needs
+      the product rule. Before you differentiate, count how many times the price you're
+      differentiating with respect to actually appears.</p>
+  </div>
+
+  <details>
+    <summary>Try it: find <span class="m"><var>Y</var><sup>H</sup></span> from
+      <span class="m"><var>E</var> = <var>P</var><sub>Y</sub>(1 + <var>Ū</var> − ln(<var>P</var><sub>Y</sub>) + ln(<var>P</var><sub>X</sub>))</span></summary>
+    <p class="result m"><var>Y</var><sup>H</sup> = <var>Ū</var> − ln(<var>P</var><sub>Y</sub>) + ln(<var>P</var><sub>X</sub>)</p>
+    <p>Product rule. The first piece is the bracket itself:
+      <span class="m">(1 + <var>Ū</var> − ln(<var>P</var><sub>Y</sub>) + ln(<var>P</var><sub>X</sub>))</span>.
+      The second is <span class="m"><var>P</var><sub>Y</sub></span> times the derivative of
+      the bracket, which is <span class="m"><var>P</var><sub>Y</sub> · (−1/<var>P</var><sub>Y</sub>) = −1</span>.
+      Add them and the <span class="m">1</span> and the <span class="m">−1</span> cancel.</p>
+  </details>
+
+  <!-- 5 -->
+  <h2 id="s5">5 · Practice</h2>
+
+  <p>Three problems. Each one hands you an expenditure function and asks for one Hicksian
+    demand — no setup, no solving, just the derivative.</p>
+
+  <ol class="practice">
+    <li>
+      <div class="q">Given <span class="m"><var>E</var> = 4<var>P</var><sub>X</sub><sup>.25</sup><var>P</var><sub>Y</sub><sup>.75</sup><var>Ū</var></span>, find <span class="m"><var>X</var><sup>H</sup></span>.</div>
+      <details>
+        <summary>Answer</summary>
+        <p class="result m"><var>X</var><sup>H</sup> = (<span class="frac"><span><var>P</var><sub>Y</sub></span><span><var>P</var><sub>X</sub></span></span>)<sup>.75</sup> <var>Ū</var></p>
+        <p><span class="m">4 · (.25) = 1</span>, leaving
+          <span class="m"><var>P</var><sub>X</sub><sup>−.75</sup><var>P</var><sub>Y</sub><sup>.75</sup><var>Ū</var></span>.
+          The constants cancelling to 1 is not a coincidence — it happens for every
+          Cobb-Douglas expenditure function.</p>
+      </details>
+    </li>
+    <li>
+      <div class="q">Given <span class="m"><var>E</var> = <var>Ū</var>(<var>P</var><sub>X</sub> + <var>P</var><sub>Y</sub>)</span>, find <span class="m"><var>X</var><sup>H</sup></span>.</div>
+      <details>
+        <summary>Answer</summary>
+        <p class="result m"><var>X</var><sup>H</sup> = <var>Ū</var></p>
+        <p>No prices in the answer at all. That is correct, and it tells you what these
+          preferences are: the consumer buys the two goods in a fixed one-to-one bundle
+          and never substitutes, no matter what the prices do. A relative price change
+          moves the bill but not the bundle.</p>
+      </details>
+    </li>
+    <li>
+      <div class="q">Given <span class="m"><var>E</var> = 2<var>P</var><sub>X</sub><sup>.5</sup><var>P</var><sub>Y</sub><sup>.5</sup><var>Ū</var><sup>2</sup></span>, find <span class="m"><var>Y</var><sup>H</sup></span>.</div>
+      <details>
+        <summary>Answer</summary>
+        <p class="result m"><var>Y</var><sup>H</sup> = (<span class="frac"><span><var>P</var><sub>X</sub></span><span><var>P</var><sub>Y</sub></span></span>)<sup>.5</sup> <var>Ū</var><sup>2</sup></p>
+        <p>The <span class="m"><var>Ū</var><sup>2</sup></span> is there to make a point: you
+          are not differentiating with respect to
+          <span class="m"><var>Ū</var></span>, so whatever it looks like, it is a constant.
+          Copy it into the answer and move on.</p>
+      </details>
+    </li>
+  </ol>
+
+  <h2>What this connects to</h2>
+
+  <p>You now have one edge of the square. From
+    <span class="m"><var>X</var><sup>H</sup></span> the next step is usually up the left
+    edge to Marshallian demand, or back around to
+    <span class="m"><var>V</var></span> — and on an exam, "go all the way around the magic
+    square" means chaining three of these in a row. Each one is a single move like this
+    one.</p>
+
+  <div class="footer">
+    <!-- The "../" Magic Square hub page does not exist yet. Add the link back here
+         once it does, so this draft has no dead links. -->
+    <p><a href="../../">All Econ 380 tools</a></p>
+  </div>
+
+</main>
+
+<script>
+/* Shephard's lemma explorer.
+   U = X^.5 Y^.5, so with Ubar and P_Y fixed:
+       E   = 2 sqrt(P_X) sqrt(P_Y) Ubar
+       X^H = sqrt(P_Y / P_X) Ubar        <- and this is exactly dE/dP_X
+       Y^H = sqrt(P_X / P_Y) Ubar
+   With Ubar = 10 and P_Y = 4 those are E = 40 sqrt(p), X^H = 20/sqrt(p), Y^H = 5 sqrt(p),
+   which land on round numbers at p = 1, 4 and 16.
+   No libraries: every path below is a string this file builds itself. */
+(function () {
+  "use strict";
+
+  var PY = 4, UBAR = 10;
+  var E  = function (p) { return 2 * Math.sqrt(p) * Math.sqrt(PY) * UBAR; };
+  var XH = function (p) { return Math.sqrt(PY / p) * UBAR; };
+  var YH = function (p) { return Math.sqrt(p / PY) * UBAR; };
+
+  var PMIN = 1, PMAX = 16;
+
+  var NS = "http://www.w3.org/2000/svg";
+  var C  = { navy:"#00264C", accent:"#005A9C", orange:"#D07000",
+             gray:"#5B6470", rule:"#d7dde3", white:"#fff" };
+
+  function el(tag, attrs, text) {
+    var n = document.createElementNS(NS, tag);
+    for (var k in attrs) if (attrs[k] !== null) n.setAttribute(k, attrs[k]);
+    if (text !== undefined) n.textContent = text;
+    return n;
+  }
+
+  /* Axis labels. A plain string is used as-is; {base, sub} and {base, sup} build a
+     real tspan, so the axes read P_X and X^H exactly as the prose does rather than
+     falling back to Unicode subscripts (which have no capital X). */
+  function axisLabel(spec, attrs) {
+    var t = el("text", attrs);
+    if (typeof spec === "string") { t.textContent = spec; return t; }
+    t.appendChild(document.createTextNode(spec.base));
+    if (spec.sub) t.appendChild(el("tspan", { "font-size":"8.5", dy:"3" }, spec.sub));
+    if (spec.sup) t.appendChild(el("tspan", { "font-size":"8.5", dy:"-5" }, spec.sup));
+    return t;
+  }
+
+  /* A panel: linear scales plus axes, drawn once. */
+  function panel(svg, opt) {
+    var m = opt.margin;
+    var pw = opt.w - m.l - m.r, ph = opt.h - m.t - m.b;
+    var P = {
+      svg: svg,
+      x: function (v) { return m.l + (v - opt.xlo) / (opt.xhi - opt.xlo) * pw; },
+      y: function (v) { return m.t + (1 - (v - opt.ylo) / (opt.yhi - opt.ylo)) * ph; },
+      statics: el("g", {}),
+      dyn: el("g", {})
+    };
+
+    var clipId = svg.id + "-clip";
+    var defs = el("defs", {});
+    var cp = el("clipPath", { id: clipId });
+    cp.appendChild(el("rect", { x:m.l, y:m.t, width:pw, height:ph }));
+    defs.appendChild(cp);
+    svg.appendChild(defs);
+
+    svg.appendChild(el("rect", { x:m.l, y:m.t, width:pw, height:ph,
+                                 fill:C.white, stroke:"none" }));
+    P.statics.setAttribute("clip-path", "url(#" + clipId + ")");
+    P.dyn.setAttribute("clip-path", "url(#" + clipId + ")");
+    svg.appendChild(P.statics);
+    svg.appendChild(P.dyn);
+
+    var ax = el("g", { stroke:C.gray, "stroke-width":1.1 });
+    ax.appendChild(el("line", { x1:m.l, y1:m.t, x2:m.l, y2:m.t + ph }));
+    ax.appendChild(el("line", { x1:m.l, y1:m.t + ph, x2:m.l + pw, y2:m.t + ph }));
+    svg.appendChild(ax);
+
+    var lab = el("g", { "font-family":"-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+                        "font-size":"10", fill:C.gray });
+    (opt.xticks || []).forEach(function (t) {
+      lab.appendChild(el("line", { x1:P.x(t), y1:m.t + ph, x2:P.x(t), y2:m.t + ph + 4,
+                                   stroke:C.gray, "stroke-width":1 }));
+      lab.appendChild(el("text", { x:P.x(t), y:m.t + ph + 15, "text-anchor":"middle" }, String(t)));
+    });
+    (opt.yticks || []).forEach(function (t) {
+      lab.appendChild(el("line", { x1:m.l - 4, y1:P.y(t), x2:m.l, y2:P.y(t),
+                                   stroke:C.gray, "stroke-width":1 }));
+      lab.appendChild(el("text", { x:m.l - 7, y:P.y(t) + 3.5, "text-anchor":"end" }, String(t)));
+    });
+    svg.appendChild(lab);
+
+    var t = el("g", { "font-family":"Georgia, 'Times New Roman', serif",
+                      "font-size":"12", "font-style":"italic", fill:C.navy });
+    t.appendChild(axisLabel(opt.xlabel, { x:m.l + pw, y:m.t + ph + 26, "text-anchor":"end" }));
+    t.appendChild(axisLabel(opt.ylabel, { x:m.l - 4, y:m.t - 3, "text-anchor":"start" }));
+    svg.appendChild(t);
+
+    return P;
+  }
+
+  /* Sample a function into a polyline path. */
+  function curve(P, f, lo, hi, n) {
+    var d = "", i, v;
+    n = n || 120;
+    for (i = 0; i <= n; i++) {
+      v = lo + (hi - lo) * i / n;
+      d += (i ? "L" : "M") + P.x(v).toFixed(2) + " " + P.y(f(v)).toFixed(2);
+    }
+    return d;
+  }
+
+  /* ---- panel 1: bundle space ------------------------------------------ */
+  var AX = 26;                      /* both axes run 0..26 goods units */
+  var p1 = panel(document.getElementById("p1"), {
+    w:340, h:275, margin:{ l:42, r:14, t:16, b:38 },
+    xlo:0, xhi:AX, ylo:0, yhi:AX,
+    xticks:[0,5,10,15,20,25], yticks:[0,5,10,15,20,25],
+    xlabel:"X", ylabel:"Y"
+  });
+
+  /* indifference curve: X^.5 Y^.5 = 10  =>  Y = 100/X */
+  p1.statics.appendChild(el("path", {
+    d: curve(p1, function (x) { return 100 / x; }, 100 / AX, AX, 160),
+    fill:"none", stroke:C.navy, "stroke-width":2
+  }));
+  p1.statics.appendChild(el("text", {
+    x:p1.x(19), y:p1.y(100/19) - 8, "font-family":"Georgia, 'Times New Roman', serif",
+    "font-size":"11", "font-style":"italic", fill:C.navy
+  }, "U = 10"));
+
+  var isocost = el("line", { stroke:C.orange, "stroke-width":2 });
+  var dropX   = el("line", { stroke:C.orange, "stroke-width":1, "stroke-dasharray":"3 3", opacity:.75 });
+  var dropY   = el("line", { stroke:C.orange, "stroke-width":1, "stroke-dasharray":"3 3", opacity:.75 });
+  var dot1    = el("circle", { r:4.5, fill:C.orange });
+  /* white halo so the label stays readable where it crosses the dashed drop line */
+  var tagX    = el("text", { "font-family":"Georgia, 'Times New Roman', serif",
+                             "font-size":"11", fill:C.orange, "text-anchor":"middle",
+                             stroke:C.white, "stroke-width":3.5, "paint-order":"stroke" });
+  p1.dyn.appendChild(isocost); p1.dyn.appendChild(dropX); p1.dyn.appendChild(dropY);
+  p1.dyn.appendChild(dot1);    p1.dyn.appendChild(tagX);
+
+  /* ---- panel 2: E and the fixed-bundle cost line ----------------------- */
+  var p2 = panel(document.getElementById("p2"), {
+    w:340, h:190, margin:{ l:46, r:14, t:16, b:34 },
+    xlo:PMIN, xhi:PMAX, ylo:0, yhi:180,
+    xticks:[1,4,8,12,16], yticks:[0,60,120,180],
+    xlabel:{ base:"P", sub:"X" }, ylabel:"E"
+  });
+
+  /* the faint fan: each line is the cost of one fixed bundle as P_X moves.
+     E is the lower envelope of the whole family. */
+  [1.5, 3, 6, 10, 15].forEach(function (q) {
+    p2.statics.appendChild(el("line", {
+      x1:p2.x(PMIN), y1:p2.y(E(q) + XH(q) * (PMIN - q)),
+      x2:p2.x(PMAX), y2:p2.y(E(q) + XH(q) * (PMAX - q)),
+      stroke:C.rule, "stroke-width":1
+    }));
+  });
+  p2.statics.appendChild(el("path", {
+    d: curve(p2, E, PMIN, PMAX, 140),
+    fill:"none", stroke:C.accent, "stroke-width":2.4
+  }));
+
+  var tangent = el("line", { stroke:C.orange, "stroke-width":2.2 });
+  var dot2    = el("circle", { r:4.5, fill:C.orange });
+  p2.dyn.appendChild(tangent); p2.dyn.appendChild(dot2);
+
+  /* ---- panel 3: Hicksian demand --------------------------------------- */
+  var p3 = panel(document.getElementById("p3"), {
+    w:340, h:175, margin:{ l:46, r:14, t:14, b:36 },
+    xlo:PMIN, xhi:PMAX, ylo:0, yhi:22,
+    xticks:[1,4,8,12,16], yticks:[0,10,20],
+    xlabel:{ base:"P", sub:"X" }, ylabel:{ base:"X", sup:"H" }
+  });
+  p3.statics.appendChild(el("path", {
+    d: curve(p3, XH, PMIN, PMAX, 140),
+    fill:"none", stroke:C.orange, "stroke-width":2.4
+  }));
+
+  var drop3 = el("line", { stroke:C.orange, "stroke-width":1, "stroke-dasharray":"3 3", opacity:.75 });
+  var dot3  = el("circle", { r:4.5, fill:C.orange });
+  p3.dyn.appendChild(drop3); p3.dyn.appendChild(dot3);
+
+  /* ---- wiring ---------------------------------------------------------- */
+  var slider = document.getElementById("px");
+  var pxlab  = document.getElementById("pxlab");
+  var r1 = document.getElementById("r1"), r2 = document.getElementById("r2");
+  var r3 = document.getElementById("r3"), r4 = document.getElementById("r4");
+  var r5 = document.getElementById("r5"), rv = document.getElementById("rv");
+
+  function draw() {
+    var p = parseFloat(slider.value);
+    var xh = XH(p), yh = YH(p), e = E(p);
+
+    pxlab.innerHTML = "P<sub>X</sub> = " + p.toFixed(2);
+
+    /* panel 1 — isocost P_X X + P_Y Y = E, clipped by the panel's clipPath */
+    isocost.setAttribute("x1", p1.x(0));      isocost.setAttribute("y1", p1.y(e / PY));
+    isocost.setAttribute("x2", p1.x(e / p));  isocost.setAttribute("y2", p1.y(0));
+    dot1.setAttribute("cx", p1.x(xh));        dot1.setAttribute("cy", p1.y(yh));
+    dropX.setAttribute("x1", p1.x(xh)); dropX.setAttribute("y1", p1.y(yh));
+    /* stop the drop line short of the axis so the X^H label sits in the gap
+       rather than on top of the dashes */
+    dropX.setAttribute("x2", p1.x(xh)); dropX.setAttribute("y2", p1.y(0) - 17);
+    dropY.setAttribute("x1", p1.x(xh)); dropY.setAttribute("y1", p1.y(yh));
+    dropY.setAttribute("x2", p1.x(0));  dropY.setAttribute("y2", p1.y(yh));
+    tagX.setAttribute("x", p1.x(xh));
+    tagX.setAttribute("y", p1.y(0) - 6);
+    tagX.textContent = "Xᴴ = " + xh.toFixed(1);
+
+    /* panel 2 — cost of keeping THIS bundle, as P_X moves. Slope is xh, and it
+       touches E at p. Same line either way: that is the lemma. */
+    tangent.setAttribute("x1", p2.x(PMIN));
+    tangent.setAttribute("y1", p2.y(e + xh * (PMIN - p)));
+    tangent.setAttribute("x2", p2.x(PMAX));
+    tangent.setAttribute("y2", p2.y(e + xh * (PMAX - p)));
+    dot2.setAttribute("cx", p2.x(p)); dot2.setAttribute("cy", p2.y(e));
+
+    /* panel 3 */
+    dot3.setAttribute("cx", p3.x(p)); dot3.setAttribute("cy", p3.y(xh));
+    drop3.setAttribute("x1", p3.x(p)); drop3.setAttribute("y1", p3.y(xh));
+    drop3.setAttribute("x2", p3.x(p)); drop3.setAttribute("y2", p3.y(0));
+
+    /* Deliberately computed two different ways, so the agreement is earned rather
+       than asserted: r1 measures the slope of E numerically, r2 uses the Hicksian
+       formula. If these ever printed different numbers, the page would be wrong. */
+    var h = 1e-5;
+    r1.textContent = ((E(p + h) - E(p - h)) / (2 * h)).toFixed(2);
+    r2.textContent = xh.toFixed(2);
+
+    /* The penny, live. Step 2's answer (units x price change) against what the
+       consumer actually pays once allowed to rearrange. The gap is the whole of
+       Step 4, in dollars. */
+    var CENT = 0.01;
+    var keep = xh * CENT;                 /* frozen bundle: units x price change */
+    var real = E(p + CENT) - E(p);        /* re-optimized: the true rise in E     */
+    var save = keep - real;
+    r3.textContent = "$" + keep.toFixed(5);
+    r4.textContent = "$" + real.toFixed(5);
+    r5.textContent = "$" + save.toFixed(5);
+    rv.textContent = "Rearranging is worth " + (save * 100).toFixed(3) +
+                     "¢, against a " + (keep * 100).toFixed(1) +
+                     "¢ direct effect. That is why the direct effect is the answer.";
+  }
+
+  slider.addEventListener("input", draw);
+  draw();
+})();
+</script>
+</body>
+</html>
