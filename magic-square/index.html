@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Magic Square — Econ 380</title>
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+/* The map is a local interaction for this page. The shared stylesheet supplies
+   the site-wide type, palette, spacing, and figure behavior. */
+.square-figure { overflow-x: auto; }
+.square-figure svg { min-width: 680px; }
+.square-figure figcaption { max-width: 680px; }
+
+.square-arrow { color: var(--gray); cursor: pointer; }
+.square-arrow .arrow-hit { stroke: transparent; stroke-width: 18; }
+.square-arrow .arrow-line {
+  stroke: currentColor; stroke-width: 1.8; marker-end: url(#square-arrowhead);
+}
+.square-arrow:hover,
+.square-arrow:focus-visible,
+.square-arrow.selected { color: var(--orange); }
+.square-arrow:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.square-arrow:hover .arrow-line,
+.square-arrow:focus-visible .arrow-line,
+.square-arrow.selected .arrow-line { marker-end: url(#square-arrowhead-selected); }
+.square-arrow.selected .arrow-line {
+  stroke-width: 2.8;
+}
+.square-arrow .arrow-label { fill: var(--gray); font-size: 12px; pointer-events: none; }
+.square-arrow.selected .arrow-label { fill: var(--orange); font-weight: 700; }
+
+.node { fill: var(--white); stroke: var(--rule); stroke-width: 1.5; }
+.node.active { fill: #fbf3e8; stroke: var(--orange); stroke-width: 2; }
+.node-label { fill: var(--navy); font-family: Georgia, "Times New Roman", serif; font-size: 17px; text-anchor: middle; }
+.node-math { fill: var(--navy); font-family: Georgia, "Times New Roman", serif; font-size: 16px; font-style: italic; text-anchor: middle; }
+.node.active + .node-label,
+.node.active ~ .node-math { fill: var(--orange); }
+
+.map-intro { margin: 14px 0 8px; }
+.panel {
+  background: var(--box); border-left: 4px solid var(--orange);
+  border-radius: 0 10px 10px 0; padding: 13px 16px; margin: 16px 0;
+}
+.panel[hidden] { display: none; }
+.panel .panel-title { margin: 0 0 4px; font-size: 1.02rem; }
+.panel .panel-method { color: var(--gray); font-size: .88rem; margin: 0 0 8px; }
+.panel p:last-child { margin-bottom: 0; }
+.panel .hub-math { margin: 12px 0; padding: 10px 12px; overflow-x: auto; }
+.selection-status { min-height: 1.5em; margin: 8px 0 0; color: var(--gray); font-size: .88rem; }
+.suggested-path {
+  background: var(--white); border: 1.5px solid var(--rule); border-radius: 10px;
+  padding: 12px 16px; margin: 16px 0;
+}
+.suggested-path .boxlabel { margin-bottom: 4px; }
+.suggested-path > p:not(.boxlabel) { margin: 4px 0 10px; color: var(--gray); font-size: .92rem; }
+.path-list { margin: 0; padding-left: 1.55em; }
+.path-list li { padding: 6px 8px 6px 4px; border-radius: 7px; }
+.path-list li.selected { background: #fffaf4; box-shadow: inset 3px 0 var(--orange); }
+.path-list li.selected .path-title { color: var(--orange); }
+.path-list .path-title { font-weight: 700; }
+.path-list .path-links { margin-left: 6px; }
+.path-list .path-note { display: block; color: var(--gray); font-size: .88rem; }
+.path-list a { font-weight: 600; }
+
+</style>
+</head>
+<body>
+<main>
+
+  <h1>The Magic Square</h1>
+  <p class="kicker">ECON 380 · Consumer theory · Explore one relationship at a time</p>
+
+  <div class="betanote">
+    <b>How to use this map:</b> choose an arrow. The square stays visible while the
+    explanation opens below it.
+  </div>
+
+  <p class="map-intro">The square connects four objects from the consumer's two optimization
+    problems:</p>
+
+  <figure class="fig square-figure">
+    <svg id="magic-square" viewBox="0 0 700 380" xmlns="http://www.w3.org/2000/svg"
+         role="group" aria-labelledby="square-title square-description">
+      <title id="square-title">The Magic Square of consumer theory</title>
+      <desc id="square-description">Four objects are arranged in a square. Each side has two
+        directed arrows. Select an arrow to open its explanation below the map.</desc>
+      <defs>
+        <marker id="square-arrowhead" viewBox="0 0 10 10" refX="9" refY="5"
+                markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#5B6470"/>
+        </marker>
+        <marker id="square-arrowhead-selected" viewBox="0 0 10 10" refX="9" refY="5"
+                markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#D07000"/>
+        </marker>
+      </defs>
+
+      <!-- corners -->
+      <rect class="node" x="25" y="38" width="180" height="72" rx="9"/>
+      <text class="node-label" x="115" y="66">Marshallian demand</text>
+      <text class="node-math" x="115" y="91">X<tspan font-size="11" dy="-5">M</tspan><tspan dy="5">, </tspan>Y<tspan font-size="11" dy="-5">M</tspan></text>
+
+      <rect class="node" x="495" y="38" width="180" height="72" rx="9"/>
+      <text class="node-label" x="585" y="66">Indirect utility</text>
+      <text class="node-math" x="585" y="91">V</text>
+
+      <rect class="node" x="25" y="270" width="180" height="72" rx="9"/>
+      <text class="node-label" x="115" y="298">Hicksian demand</text>
+      <text class="node-math" x="115" y="323">X<tspan font-size="11" dy="-5">H</tspan><tspan dy="5">, </tspan>Y<tspan font-size="11" dy="-5">H</tspan></text>
+
+      <rect class="node" x="495" y="270" width="180" height="72" rx="9"/>
+      <text class="node-label" x="585" y="298">Expenditure function</text>
+      <text class="node-math" x="585" y="323">E</text>
+
+      <!-- Each group is a mouse/touch target and a keyboard-accessible equivalent of
+           the linked suggested path below. -->
+      <g class="square-arrow" data-arrow="m-to-v" role="button" tabindex="0" aria-pressed="false"
+         aria-label="Marshallian demand to indirect utility: definition">
+        <line class="arrow-hit" x1="215" y1="67" x2="485" y2="67"/>
+        <line class="arrow-line" x1="215" y1="67" x2="485" y2="67" marker-end="url(#square-arrowhead)"/>
+        <text class="arrow-label" x="350" y="54" text-anchor="middle">definition</text>
+      </g>
+      <g class="square-arrow" data-arrow="v-to-m" role="button" tabindex="0" aria-pressed="false"
+         aria-label="Indirect utility to Marshallian demand: Roy's identity">
+        <line class="arrow-hit" x1="485" y1="94" x2="215" y2="94"/>
+        <line class="arrow-line" x1="485" y1="94" x2="215" y2="94" marker-end="url(#square-arrowhead)"/>
+        <text class="arrow-label" x="350" y="112" text-anchor="middle">Roy's identity</text>
+      </g>
+
+      <g class="square-arrow" data-arrow="v-to-e" role="button" tabindex="0" aria-pressed="false"
+         aria-label="Indirect utility to expenditure function: invert with respect to income">
+        <line class="arrow-hit" x1="565" y1="115" x2="565" y2="265"/>
+        <line class="arrow-line" x1="565" y1="115" x2="565" y2="265" marker-end="url(#square-arrowhead)"/>
+        <text class="arrow-label" x="553" y="177" text-anchor="end">invert</text>
+        <text class="arrow-label" x="553" y="193" text-anchor="end">with respect</text>
+        <text class="arrow-label" x="553" y="209" text-anchor="end">to income</text>
+      </g>
+      <g class="square-arrow" data-arrow="e-to-v" role="button" tabindex="0" aria-pressed="false"
+         aria-label="Expenditure function to indirect utility: invert with respect to utility">
+        <line class="arrow-hit" x1="605" y1="265" x2="605" y2="115"/>
+        <line class="arrow-line" x1="605" y1="265" x2="605" y2="115" marker-end="url(#square-arrowhead)"/>
+        <text class="arrow-label" x="617" y="177">invert</text>
+        <text class="arrow-label" x="617" y="193">with respect</text>
+        <text class="arrow-label" x="617" y="209">to utility</text>
+      </g>
+
+      <g class="square-arrow" data-arrow="m-h" role="button" tabindex="0" aria-pressed="false"
+         aria-label="Marshallian demand and Hicksian demand: equivalence">
+        <line class="arrow-hit" x1="95" y1="115" x2="95" y2="265"/>
+        <line class="arrow-line" x1="95" y1="115" x2="95" y2="265" marker-end="url(#square-arrowhead)"/>
+        <text class="arrow-label" x="83" y="177" text-anchor="end">substitute</text>
+        <text class="arrow-label" x="83" y="193" text-anchor="end">expenditure</text>
+        <text class="arrow-label" x="83" y="209" text-anchor="end">for income</text>
+      </g>
+      <g class="square-arrow" data-arrow="m-h" role="button" tabindex="0" aria-pressed="false"
+         aria-label="Marshallian demand and Hicksian demand: equivalence">
+        <line class="arrow-hit" x1="135" y1="265" x2="135" y2="115"/>
+        <line class="arrow-line" x1="135" y1="265" x2="135" y2="115" marker-end="url(#square-arrowhead)"/>
+        <text class="arrow-label" x="147" y="177">substitute</text>
+        <text class="arrow-label" x="147" y="193">utility</text>
+        <text class="arrow-label" x="147" y="209">for income</text>
+      </g>
+
+      <g class="square-arrow" data-arrow="e-to-h" role="button" tabindex="0" aria-pressed="false"
+         aria-label="Expenditure function to Hicksian demand: Shephard's Lemma">
+        <line class="arrow-hit" x1="485" y1="301" x2="215" y2="301"/>
+        <line class="arrow-line" x1="485" y1="301" x2="215" y2="301" marker-end="url(#square-arrowhead)"/>
+        <text class="arrow-label" x="350" y="288" text-anchor="middle">Shephard's Lemma</text>
+      </g>
+      <g class="square-arrow" data-arrow="h-to-e" role="button" tabindex="0" aria-pressed="false"
+         aria-label="Hicksian demand to expenditure function">
+        <line class="arrow-hit" x1="215" y1="328" x2="485" y2="328"/>
+        <line class="arrow-line" x1="215" y1="328" x2="485" y2="328" marker-end="url(#square-arrowhead)"/>
+        <text class="arrow-label" x="350" y="346" text-anchor="middle">definition</text>
+      </g>
+    </svg>
+    <figcaption>Each side has two directions. The suggested path below highlights a useful
+      order; every arrow remains clickable.</figcaption>
+  </figure>
+
+  <div class="suggested-path" aria-labelledby="path-title">
+    <p id="path-title" class="boxlabel">Suggested path</p>
+    <p>For a first pass, follow these five stops. You can still open any arrow in any order.</p>
+    <ol class="path-list">
+      <li data-path-ids="m-to-v h-to-e">
+        <span class="path-title">Define the objects</span>
+        <span class="path-links"><a href="#m-to-v">Marshallian demand → indirect utility</a> · <a href="#h-to-e">Hicksian demand → expenditure function</a></span>
+        <span class="path-note">What each function records.</span>
+      </li>
+      <li data-path-ids="v-to-e e-to-v">
+        <span class="path-title">Translate between utility and money</span>
+        <span class="path-links"><a href="#v-to-e">Indirect utility ↔ expenditure</a></span>
+        <span class="path-note">The same information, expressed in two ways.</span>
+      </li>
+      <li data-path-ids="m-h">
+        <span class="path-title">Connect the two demands</span>
+        <span class="path-links"><a href="#m-h">Marshallian demand ↔ Hicksian demand</a></span>
+        <span class="path-note">Match income and utility to move between them.</span>
+      </li>
+      <li data-path-ids="e-to-h">
+        <span class="path-title">Use Shephard's Lemma</span>
+        <span class="path-links"><a href="#e-to-h">Expenditure → Hicksian demand</a></span>
+        <span class="path-note">Differentiate expenditure to recover Hicksian demand.</span>
+      </li>
+      <li data-path-ids="v-to-m">
+        <span class="path-title">Use Roy's identity</span>
+        <span class="path-links"><a href="#v-to-m">Indirect utility → Marshallian demand</a></span>
+        <span class="path-note">Use the price and income effects on utility to recover Marshallian demand.</span>
+      </li>
+    </ol>
+  </div>
+
+  <p id="selection-status" class="selection-status" role="status" aria-live="polite">
+    No relationship selected yet.
+  </p>
+
+  <section id="panel-m-to-v" class="panel" data-panel="m-to-v" hidden aria-live="polite">
+    <h2 class="panel-title">Marshallian demand → indirect utility</h2>
+    <p class="panel-method">Definition</p>
+    <p>Marshallian demand gives the utility-maximizing bundle at prices <span class="m">P<sub>X</sub></span> and <span class="m">P<sub>Y</sub></span>, with income <span class="m">I</span>.</p>
+    <p>Indirect utility measures the utility from that bundle—the best utility the consumer can achieve.</p>
+    <div class="worked hub-math">
+      <div class="m">X<sup>M</sup>(P<sub>X</sub>, P<sub>Y</sub>, I), &nbsp;Y<sup>M</sup>(P<sub>X</sub>, P<sub>Y</sub>, I)</div>
+      <div class="m">V(P<sub>X</sub>, P<sub>Y</sub>, I) = U(X<sup>M</sup>(P<sub>X</sub>, P<sub>Y</sub>, I), Y<sup>M</sup>(P<sub>X</sub>, P<sub>Y</sub>, I))</div>
+    </div>
+    <details>
+      <summary>Example with functional forms</summary>
+      <p>Suppose <span class="m">U(X,Y) = √(XY)</span>, so the Marshallian demands are</p>
+      <div class="worked hub-math">
+        <div class="m">X<sup>M</sup>(P<sub>X</sub>, P<sub>Y</sub>, I) = I/(2P<sub>X</sub>)</div>
+        <div class="m">Y<sup>M</sup>(P<sub>X</sub>, P<sub>Y</sub>, I) = I/(2P<sub>Y</sub>)</div>
+      </div>
+      <p>Evaluate utility at that bundle:</p>
+      <div class="worked hub-math">
+        <div class="m">V(P<sub>X</sub>, P<sub>Y</sub>, I) = √((I/(2P<sub>X</sub>))(I/(2P<sub>Y</sub>)))</div>
+        <div class="m">&nbsp; = I/(2√(P<sub>X</sub>P<sub>Y</sub>))</div>
+      </div>
+    </details>
+  </section>
+  <section id="panel-v-to-m" class="panel" data-panel="v-to-m" hidden aria-live="polite">
+    <h2 class="panel-title">Indirect utility → Marshallian demand</h2>
+    <p class="panel-method">Roy's identity</p>
+    <p>Indirect utility tells us how the best attainable utility changes when prices or income change.</p>
+    <p>Compare the utility loss from a small price increase with the utility gain from a small income increase. The ratio tells us how much income would compensate for that price increase—which is the amount of the good the consumer buys.</p>
+    <div class="worked hub-math">
+      <div class="m">X<sup>M</sup>(P<sub>X</sub>, P<sub>Y</sub>, I) = -<span class="frac"><span>&part;V(P<sub>X</sub>, P<sub>Y</sub>, I)</span><span>&part;P<sub>X</sub></span></span> / <span class="frac"><span>&part;V(P<sub>X</sub>, P<sub>Y</sub>, I)</span><span>&part;I</span></span></div>
+      <div class="m">Y<sup>M</sup>(P<sub>X</sub>, P<sub>Y</sub>, I) = -<span class="frac"><span>&part;V(P<sub>X</sub>, P<sub>Y</sub>, I)</span><span>&part;P<sub>Y</sub></span></span> / <span class="frac"><span>&part;V(P<sub>X</sub>, P<sub>Y</sub>, I)</span><span>&part;I</span></span></div>
+    </div>
+    <details>
+      <summary>Example with functional forms</summary>
+      <p>From the previous panel, suppose</p>
+      <div class="worked hub-math">
+        <div class="m">V(P<sub>X</sub>, P<sub>Y</sub>, I) = I/(2√(P<sub>X</sub>P<sub>Y</sub>))</div>
+      </div>
+      <p>Differentiate with respect to <span class="m">P<sub>X</sub></span> and <span class="m">I</span>, then apply Roy's identity:</p>
+      <div class="worked hub-math">
+        <div class="m">X<sup>M</sup> = -<span class="frac"><span>-I/(4P<sub>X</sub><sup>3/2</sup>√P<sub>Y</sub>)</span><span>1/(2√(P<sub>X</sub>P<sub>Y</sub>))</span></span></div>
+        <div class="m">&nbsp; = I/(2P<sub>X</sub>)</div>
+      </div>
+      <p>This recovers the Marshallian demand from the indirect utility function.</p>
+    </details>
+    <p><a href="roy/">Open the full Roy's identity lesson</a></p>
+  </section>
+  <section id="panel-h-to-e" class="panel" data-panel="h-to-e" hidden aria-live="polite">
+    <h2 class="panel-title">Hicksian demand → Expenditure function</h2>
+    <p>Hicksian demand gives the least-cost bundle that reaches utility <span class="m">U</span> at prices <span class="m">P<sub>X</sub></span> and <span class="m">P<sub>Y</sub></span>.</p>
+    <p>The expenditure function measures how much this bundle costs.</p>
+    <div class="worked hub-math">
+      <div class="m">X<sup>H</sup>(P<sub>X</sub>, P<sub>Y</sub>, U), &nbsp;Y<sup>H</sup>(P<sub>X</sub>, P<sub>Y</sub>, U)</div>
+      <div class="m">E(P<sub>X</sub>, P<sub>Y</sub>, U) = P<sub>X</sub>X<sup>H</sup>(P<sub>X</sub>, P<sub>Y</sub>, U) + P<sub>Y</sub>Y<sup>H</sup>(P<sub>X</sub>, P<sub>Y</sub>, U)</div>
+    </div>
+    <p>Multiply each quantity by its price, then add the two costs.</p>
+    <details>
+      <summary>Example with functional forms</summary>
+      <p>For a Cobb–Douglas consumer, suppose the Hicksian demands are</p>
+      <div class="worked hub-math">
+        <div class="m">X<sup>H</sup>(P<sub>X</sub>, P<sub>Y</sub>, U) = U√(P<sub>Y</sub>/P<sub>X</sub>)</div>
+        <div class="m">Y<sup>H</sup>(P<sub>X</sub>, P<sub>Y</sub>, U) = U√(P<sub>X</sub>/P<sub>Y</sub>)</div>
+      </div>
+      <p>Substitute these demands into the expenditure formula:</p>
+      <div class="worked hub-math">
+        <div class="m">E = P<sub>X</sub>U√(P<sub>Y</sub>/P<sub>X</sub>) + P<sub>Y</sub>U√(P<sub>X</sub>/P<sub>Y</sub>)</div>
+        <div class="m">&nbsp; = 2U√(P<sub>X</sub>P<sub>Y</sub>)</div>
+      </div>
+    </details>
+  </section>
+  <section id="panel-e-to-h" class="panel" data-panel="e-to-h" hidden aria-live="polite">
+    <h2 class="panel-title">Expenditure → Hicksian demand</h2>
+    <p class="panel-method">Shephard's Lemma</p>
+    <p>Shephard's Lemma reverses the definition arrow: differentiate the expenditure function with respect to a good's price.</p>
+    <div class="worked hub-math">
+      <div class="m">X<sup>H</sup>(P<sub>X</sub>, P<sub>Y</sub>, U) = <span class="frac"><span>&part;E(P<sub>X</sub>, P<sub>Y</sub>, U)</span><span>&part;P<sub>X</sub></span></span></div>
+      <div class="m">Y<sup>H</sup>(P<sub>X</sub>, P<sub>Y</sub>, U) = <span class="frac"><span>&part;E(P<sub>X</sub>, P<sub>Y</sub>, U)</span><span>&part;P<sub>Y</sub></span></span></div>
+    </div>
+    <p>A tiny increase <span class="m">&Delta;P<sub>X</sub></span> raises minimum spending by approximately <span class="m">X<sup>H</sup>&Delta;P<sub>X</sub></span>. The full lesson explains why re-optimization does not add a first-order term.</p>
+    <p><a href="shephard/">Open the full Shephard's Lemma lesson</a></p>
+  </section>
+  <section id="panel-v-to-e" class="panel" data-panel="v-to-e" hidden aria-live="polite">
+    <h2 class="panel-title">Indirect utility → expenditure</h2>
+    <p class="panel-method">Invert with respect to income</p>
+    <p>Indirect utility starts with income and tells us the most utility attainable. Expenditure
+      reads the same fact in reverse: it starts with a utility target and tells us the least
+      spending required.</p>
+    <div class="worked hub-math">
+      <div class="m">V(P<sub>X</sub>, P<sub>Y</sub>, I) = U &nbsp; ⇔ &nbsp; E(P<sub>X</sub>, P<sub>Y</sub>, U) = I</div>
+    </div>
+    <p>Hold prices fixed and solve <span class="m">U = V(P<sub>X</sub>,P<sub>Y</sub>,I)</span>
+      for <span class="m">I</span>.</p>
+    <details>
+      <summary>Example with functional forms</summary>
+      <p>Suppose</p>
+      <div class="worked hub-math">
+        <div class="m">U = I/(2√(P<sub>X</sub>P<sub>Y</sub>))</div>
+        <div class="m">I = 2U√(P<sub>X</sub>P<sub>Y</sub>)</div>
+      </div>
+      <p>Therefore,</p>
+      <div class="worked hub-math">
+        <div class="m">E(P<sub>X</sub>, P<sub>Y</sub>, U) = 2U√(P<sub>X</sub>P<sub>Y</sub>)</div>
+      </div>
+    </details>
+    <p><a href="inversion/">Open the full indirect utility–expenditure lesson</a></p>
+  </section>
+  <section id="panel-e-to-v" class="panel" data-panel="e-to-v" hidden aria-live="polite">
+    <h2 class="panel-title">Expenditure → indirect utility</h2>
+    <p class="panel-method">Invert with respect to utility</p>
+    <p>Expenditure starts with a utility target and tells us the least spending required. Indirect
+      utility reads the same fact in reverse: it starts with income and tells us the most utility
+      attainable.</p>
+    <div class="worked hub-math">
+      <div class="m">E(P<sub>X</sub>, P<sub>Y</sub>, U) = I &nbsp; ⇔ &nbsp; V(P<sub>X</sub>, P<sub>Y</sub>, I) = U</div>
+    </div>
+    <p>Hold prices fixed and solve <span class="m">I = E(P<sub>X</sub>,P<sub>Y</sub>,U)</span>
+      for <span class="m">U</span>.</p>
+    <details>
+      <summary>Example with functional forms</summary>
+      <p>Suppose</p>
+      <div class="worked hub-math">
+        <div class="m">I = 2U√(P<sub>X</sub>P<sub>Y</sub>)</div>
+        <div class="m">U = I/(2√(P<sub>X</sub>P<sub>Y</sub>))</div>
+      </div>
+      <p>Therefore,</p>
+      <div class="worked hub-math">
+        <div class="m">V(P<sub>X</sub>, P<sub>Y</sub>, I) = I/(2√(P<sub>X</sub>P<sub>Y</sub>))</div>
+      </div>
+    </details>
+    <p><a href="inversion/">Open the full indirect utility–expenditure lesson</a></p>
+  </section>
+  <section id="panel-m-h" class="panel" data-panel="m-h" hidden aria-live="polite">
+    <h2 class="panel-title">Marshallian demand ↔ Hicksian demand</h2>
+    <p class="panel-method">Equivalence</p>
+    <p>These are two descriptions of the same choice when income and utility are matched.</p>
+    <div class="worked hub-math">
+      <div class="m">X<sup>H</sup>(P,U) = X<sup>M</sup>(P,E(P,U))</div>
+      <div class="m">Y<sup>H</sup>(P,U) = Y<sup>M</sup>(P,E(P,U))</div>
+      <div class="m">X<sup>M</sup>(P,I) = X<sup>H</sup>(P,V(P,I))</div>
+      <div class="m">Y<sup>M</sup>(P,I) = Y<sup>H</sup>(P,V(P,I))</div>
+    </div>
+    <p><a href="equivalence/">Open the full Marshallian–Hicksian equivalence lesson</a></p>
+  </section>
+
+  <div class="footer">
+    <p><a href="../">All Econ 380 tools</a></p>
+  </div>
+
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  var arrows = Array.prototype.slice.call(document.querySelectorAll(".square-arrow"));
+  var pathItems = Array.prototype.slice.call(document.querySelectorAll(".path-list li[data-path-ids]"));
+  var panels = Array.prototype.slice.call(document.querySelectorAll("[data-panel]"));
+  var status = document.getElementById("selection-status");
+
+  var info = {
+    "m-to-v": { label: "Marshallian demand to indirect utility", method: "definition" },
+    "v-to-m": { label: "Indirect utility to Marshallian demand", method: "Roy's identity" },
+    "h-to-e": { label: "Hicksian demand to expenditure function", method: "" },
+    "e-to-h": { label: "Expenditure to Hicksian demand", method: "Shephard's Lemma" },
+    "v-to-e": { label: "Indirect utility to expenditure", method: "invert with respect to income" },
+    "e-to-v": { label: "Expenditure to indirect utility", method: "invert with respect to utility" },
+    "m-h": { label: "Marshallian demand and Hicksian demand", method: "equivalence" }
+  };
+
+  function selectArrow(id, updateHash) {
+    if (!info[id]) return;
+
+    arrows.forEach(function (arrow) {
+      var selected = arrow.getAttribute("data-arrow") === id;
+      arrow.classList.toggle("selected", selected);
+      arrow.setAttribute("aria-pressed", String(selected));
+    });
+    pathItems.forEach(function (item) {
+      var pathIds = item.getAttribute("data-path-ids").split(" ");
+      item.classList.toggle("selected", pathIds.indexOf(id) !== -1);
+    });
+    panels.forEach(function (panel) {
+      var selected = panel.getAttribute("data-panel") === id;
+      panel.hidden = !selected;
+      if (selected) {
+        var heading = panel.querySelector(".panel-title");
+        if (heading) {
+          heading.id = "panel-heading-" + id;
+          panel.setAttribute("aria-labelledby", heading.id);
+        }
+      }
+    });
+
+    status.textContent = "Showing " + info[id].label + (info[id].method ? " — " + info[id].method : "") + ".";
+    if (updateHash) history.replaceState(null, "", "#" + id);
+  }
+
+  arrows.forEach(function (arrow) {
+    arrow.addEventListener("click", function () {
+      selectArrow(arrow.getAttribute("data-arrow"), true);
+    });
+    arrow.addEventListener("keydown", function (event) {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        selectArrow(arrow.getAttribute("data-arrow"), true);
+      }
+    });
+  });
+
+  function selectFromHash() {
+    var id = window.location.hash.slice(1);
+    if (id === "m-to-h" || id === "h-to-m") id = "m-h";
+    if (info[id]) selectArrow(id, false);
+  }
+
+  window.addEventListener("hashchange", selectFromHash);
+  selectFromHash();
+})();
+</script>
+</body>
+</html>

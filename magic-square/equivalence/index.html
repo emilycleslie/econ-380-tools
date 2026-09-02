@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marshallian demand ↔ Hicksian demand — Econ 380</title>
+<link rel="stylesheet" href="../../assets/style.css">
+<style>
+.equiv-note { color: var(--gray); font-size: .92rem; }
+</style>
+</head>
+<body>
+<main>
+
+  <h1>Marshallian demand ↔ Hicksian demand</h1>
+  <p class="kicker">ECON 380 · Magic Square · The equivalence between the two demands · About ten minutes</p>
+
+  <p class="jump">Jump to:
+    <a href="#s1">1 One choice, two descriptions</a> ·
+    <a href="#s2">2 The two arrows</a> ·
+    <a href="#s3">3 Why it works</a> ·
+    <a href="#s4">4 Worked example</a>
+  </p>
+
+  <div class="betanote">
+    <b>This is a bridge between the two optimization problems:</b> Marshallian demand
+    holds income fixed; Hicksian demand holds utility fixed. With the right income or utility
+    plugged in, they describe the same bundle.
+  </div>
+
+  <h2 id="s1">1 · One choice, two descriptions</h2>
+
+  <p>At the same prices, we can describe a consumer's choice in two ways:</p>
+
+  <div class="contrast">
+    <div>
+      <p class="h" style="color:var(--orange)">Marshallian demand</p>
+      <p>Given income <span class="m"><var>I</var></span>, choose the bundle that gives the most utility.</p>
+    </div>
+    <div>
+      <p class="h" style="color:var(--accent)">Hicksian demand</p>
+      <p>Given a utility target <span class="m"><var>U</var></span>, choose the least-cost bundle.</p>
+    </div>
+  </div>
+
+  <p>The two bundles coincide when the income and utility are matched.</p>
+
+  <div class="keyidea">
+    <p class="boxlabel">A matched example</p>
+    <p>At current prices, suppose a consumer with <span class="m">$100</span> to spend chooses
+      a utility-maximizing bundle containing <span class="m">10</span> units of <span class="m"><var>X</var></span>
+      and reaching <span class="m">50</span> utils.</p>
+    <div class="worked m">
+      <div><b>Marshallian:</b> &nbsp; <var>I</var> = $100 → <var>X</var><sup>M</sup> = 10,
+        <var>V</var>(<var>P</var>,100) = 50</div>
+      <div><b>Hicksian:</b> &nbsp; <var>U</var> = 50 → <var>X</var><sup>H</sup> = 10,
+        <var>E</var>(<var>P</var>,50) = $100</div>
+    </div>
+    <p>Both problems describe the same bundle. The income and utility target are matched.</p>
+  </div>
+
+  <h2 id="s2">2 · The two arrows</h2>
+
+  <p>To move from Marshallian demand to Hicksian demand, replace income with the expenditure
+    needed to reach the target utility:</p>
+
+  <div class="keyidea m">
+    <p class="h">Marshallian → Hicksian</p>
+    <div><var>X</var><sup>H</sup>(<var>P</var>,<var>U</var>) = <var>X</var><sup>M</sup>(<var>P</var>,<var>E</var>(<var>P</var>,<var>U</var>))</div>
+    <div><var>Y</var><sup>H</sup>(<var>P</var>,<var>U</var>) = <var>Y</var><sup>M</sup>(<var>P</var>,<var>E</var>(<var>P</var>,<var>U</var>))</div>
+  </div>
+
+  <p>To move from Hicksian demand to Marshallian demand, replace the utility target with the
+    utility attainable at the consumer's income:</p>
+
+  <div class="keyidea m">
+    <p class="h">Hicksian → Marshallian</p>
+    <div><var>X</var><sup>M</sup>(<var>P</var>,<var>I</var>) = <var>X</var><sup>H</sup>(<var>P</var>,<var>V</var>(<var>P</var>,<var>I</var>))</div>
+    <div><var>Y</var><sup>M</sup>(<var>P</var>,<var>I</var>) = <var>Y</var><sup>H</sup>(<var>P</var>,<var>V</var>(<var>P</var>,<var>I</var>))</div>
+  </div>
+
+  <h2 id="s3">3 · Why it works</h2>
+
+  <p>Suppose we choose income equal to <span class="m"><var>E</var>(<var>P</var>,<var>U</var>)</span>.
+    That is exactly enough to reach <span class="m"><var>U</var></span>. The Marshallian choice
+    uses that budget to get as much utility as possible. It therefore chooses the least-cost
+    bundle that reaches <span class="m"><var>U</var></span>—the Hicksian bundle.</p>
+
+  <p>In the other direction, start with income <span class="m"><var>I</var></span> and the utility
+    it produces, <span class="m"><var>V</var>(<var>P</var>,<var>I</var>)</span>. The original
+    Marshallian bundle reaches that utility. If another bundle reached it for less money, the
+    consumer could use the leftover income to obtain even more utility. That would contradict
+    the fact that the original bundle maximizes utility.</p>
+
+  <p class="equiv-note">The two demand functions are not generally equal when fed the same third
+    argument. They are equal when income and utility are matched through <span class="m"><var>E</var></span>
+    and <span class="m"><var>V</var></span>.</p>
+
+  <h2 id="s4">4 · Worked example</h2>
+
+  <p>For <span class="m"><var>U</var>(<var>X</var>,<var>Y</var>) = √(<var>XY</var>)</span>, the
+    Marshallian demand and expenditure function are</p>
+
+  <div class="worked m">
+    <div><var>X</var><sup>M</sup>(<var>P</var>,<var>I</var>) = <var>I</var>/(2<var>P</var><sub>X</sub>)</div>
+    <div><var>E</var>(<var>P</var>,<var>U</var>) = 2<var>U</var>√(<var>P</var><sub>X</sub><var>P</var><sub>Y</sub>)</div>
+  </div>
+
+  <p>Substitute the expenditure function into Marshallian demand:</p>
+
+  <div class="worked m">
+    <div><var>X</var><sup>M</sup>(<var>P</var>,<var>E</var>(<var>P</var>,<var>U</var>))</div>
+    <div>= [2<var>U</var>√(<var>P</var><sub>X</sub><var>P</var><sub>Y</sub>)]/(2<var>P</var><sub>X</sub>)</div>
+    <div>= <var>U</var>√(<var>P</var><sub>Y</sub>/<var>P</var><sub>X</sub>) = <var>X</var><sup>H</sup>(<var>P</var>,<var>U</var>)</div>
+  </div>
+
+  <p>Substitution changes the argument, not the underlying choice. It lets us use whichever
+    demand function is convenient.</p>
+
+  <div class="keyidea">
+    <p class="h">The takeaway</p>
+    <p>Marshallian and Hicksian demand are two descriptions of the same choice when income and
+      utility are matched correctly.</p>
+  </div>
+
+  <div class="footer">
+    <p><a href="../">Back to the Magic Square</a> ·
+      <a href="../inversion/">Indirect utility–expenditure</a> ·
+      <a href="../shephard/">Shephard's Lemma</a> ·
+      <a href="../roy/">Roy's identity</a></p>
+  </div>
+
+</main>
+
+</body>
+</html>

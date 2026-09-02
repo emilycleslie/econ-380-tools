@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Indirect utility → Marshallian demand — Econ 380</title>
+<link rel="stylesheet" href="../../assets/style.css">
+<style>
+.question {
+  background: var(--box); border-left: 4px solid var(--orange);
+  border-radius: 0 8px 8px 0; padding: 12px 14px 14px; margin: 16px 0;
+}
+.question .boxlabel { margin: 0 0 6px; }
+.question p { margin: 7px 0; }
+.question form { margin-top: 12px; }
+.question label { display: block; font-weight: 600; margin-bottom: 6px; }
+.question .answerline { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.question input[type=number] {
+  width: 110px; padding: 7px 8px; border: 1px solid var(--rule);
+  border-radius: 5px; font: inherit; font-variant-numeric: tabular-nums;
+}
+.question input[type=number]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.question button {
+  padding: 7px 11px; border: 1px solid var(--accent); border-radius: 5px;
+  background: var(--accent); color: var(--white); font: inherit; cursor: pointer;
+}
+.question button:hover { background: var(--navy); }
+.question .feedback { margin: 12px 0 0; padding-top: 10px; border-top: 1px solid var(--rule); }
+.question .feedback:empty { display: none; }
+.question .feedback p { margin: 5px 0; }
+.roy-note { color: var(--gray); font-size: .92rem; }
+.roy-key { color: var(--orange); font-weight: 700; }
+.lagrange-equation { overflow-x: auto; }
+.lagrange-equation > div { min-width: max-content; }
+.underbrace {
+  display: inline-flex; flex-direction: column; align-items: center;
+  vertical-align: middle; margin: 0 .08em;
+}
+.underbrace-term { border-bottom: 1px solid currentColor; padding: 0 .18em .1em; }
+.underbrace-label { color: var(--accent); font-size: .72em; line-height: 1.2; padding-top: .1em; white-space: nowrap; }
+</style>
+</head>
+<body>
+<main>
+
+  <h1>Indirect utility → Marshallian demand</h1>
+  <p class="kicker">ECON 380 · Magic Square · Roy's identity · About ten minutes</p>
+
+  <div class="betanote">
+    <b>This is one arrow of the Magic Square:</b> use indirect utility to recover
+    Marshallian demand. Start with the intuition, then apply Roy's identity.
+  </div>
+
+  <figure class="fig">
+    <svg viewBox="0 0 600 330" xmlns="http://www.w3.org/2000/svg" role="img"
+         aria-label="The Magic Square with the arrow from indirect utility to Marshallian demand highlighted as Roy's identity.">
+      <defs>
+        <marker id="roy-ar" viewBox="0 0 10 10" refX="9" refY="5"
+                markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#5B6470"/>
+        </marker>
+        <marker id="roy-ar-hi" viewBox="0 0 10 10" refX="9" refY="5"
+                markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#D07000"/>
+        </marker>
+      </defs>
+
+      <g stroke="#d7dde3" stroke-width="1.5" fill="#fcfcfb">
+        <rect x="20" y="40" width="160" height="56" rx="8"/>
+        <rect x="360" y="40" width="160" height="56" rx="8" fill="#fbf3e8" stroke="#D07000" stroke-width="2"/>
+        <rect x="360" y="236" width="160" height="56" rx="8"/>
+        <rect x="20" y="236" width="160" height="56" rx="8"/>
+      </g>
+      <g font-family="Georgia, 'Times New Roman', serif" font-size="17"
+         text-anchor="middle" fill="currentColor">
+        <text x="100" y="63">Marshallian</text>
+        <text x="100" y="83" font-style="italic">X<tspan font-size="12" dy="-6">M</tspan><tspan dy="6">, Y</tspan><tspan font-size="12" dy="-6">M</tspan></text>
+        <text x="440" y="63" fill="#D07000">Indirect utility</text>
+        <text x="440" y="83" font-style="italic" fill="#D07000">V</text>
+        <text x="440" y="259">Expenditure</text>
+        <text x="440" y="279" font-style="italic">E</text>
+        <text x="100" y="259">Hicksian</text>
+        <text x="100" y="279" font-style="italic">X<tspan font-size="12" dy="-6">H</tspan><tspan dy="6">, Y</tspan><tspan font-size="12" dy="-6">H</tspan></text>
+      </g>
+
+      <g stroke="#5B6470" stroke-width="1.6" fill="none">
+        <line x1="184" y1="68" x2="356" y2="68" marker-end="url(#roy-ar)"/>
+        <line x1="440" y1="100" x2="440" y2="232" marker-start="url(#roy-ar)" marker-end="url(#roy-ar)"/>
+        <line x1="100" y1="100" x2="100" y2="232" marker-start="url(#roy-ar)" marker-end="url(#roy-ar)"/>
+        <line x1="184" y1="264" x2="356" y2="264" marker-end="url(#roy-ar)"/>
+      </g>
+      <line x1="356" y1="68" x2="184" y2="68" stroke="#D07000" stroke-width="2.6"
+            fill="none" marker-end="url(#roy-ar-hi)"/>
+
+      <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+         font-size="13" fill="#5B6470">
+        <text x="270" y="56" text-anchor="middle" fill="#D07000" font-weight="700">Roy's identity</text>
+        <text x="452" y="160">invert and</text>
+        <text x="452" y="176">swap letters</text>
+        <text x="112" y="160">substitute the</text>
+        <text x="112" y="176">other function in</text>
+        <text x="270" y="292" text-anchor="middle">definition</text>
+      </g>
+    </svg>
+    <figcaption>This page follows the top edge: indirect utility to Marshallian demand.
+      The orange arrow is Roy's identity.</figcaption>
+  </figure>
+
+  <h2 id="s1">1 · Why it works</h2>
+
+  <p>Suppose the price of <span class="m">X</span> rises. The consumer's best attainable
+    utility falls. More income would push utility back up.</p>
+
+  <div class="question">
+    <p class="boxlabel">Try it before looking at the calculation</p>
+    <p>Suppose the price of gas rises by <b>$0.10 per gallon</b>. Your friend says that if she
+      had <b>$0.80 more per month</b>, she wouldn't care about the increase in the price of gas
+      at all.</p>
+    <p>How many gallons per month would you estimate she was buying?</p>
+
+    <form id="roy-quiz">
+      <label for="roy-answer">Your answer:</label>
+      <div class="answerline">
+        <input id="roy-answer" name="roy-answer" type="number" min="0" step="any" required
+               inputmode="decimal" autocomplete="off" aria-describedby="roy-feedback">
+        <span>gallons per month</span>
+        <button type="submit">Check answer</button>
+      </div>
+    </form>
+
+    <div id="roy-feedback" class="feedback" role="status" aria-live="polite"></div>
+  </div>
+
+  <div id="after-roy-quiz" hidden>
+    <p class="jump">Jump to:
+      <a href="#s1">1 Why it works</a> ·
+      <a href="#s2">2 Another way</a> ·
+      <a href="#s3">3 Worked example</a>
+    </p>
+
+    <div class="keyidea">
+      <p class="h">The compensation calculation</p>
+      <p class="m"><span class="frac"><span>$0.80 more per month</span><span>$0.10 more per gallon</span></span>
+        = 8 gallons per month</p>
+    </div>
+
+    <p>If your friend buys 8 gallons, a $0.10 increase per gallon costs her $0.80 more per
+      month. That is the extra income she says would make her just as well off as before.</p>
+
+    <p>The 10 cents is the small price change <span class="m"><var>dP</var><sub>X</sub></span>.
+      The 80 cents is the compensating income change <span class="m"><var>dI</var></span>. Their
+      ratio, <span class="m"><var>dI</var>/<var>dP</var><sub>X</sub></span>, measures how much extra
+      income is needed per unit of the price increase.</p>
+
+    <div class="keyidea">
+      <p class="h">Shephard's Lemma identifies this slope</p>
+      <p>Let <span class="m"><var>U</var><sub>0</sub> = <var>V</var>(<var>P</var>,<var>I</var>)</span>
+        be the consumer's current utility. Holding <span class="m"><var>U</var><sub>0</sub></span>
+        fixed, the income she needs is expenditure
+        <span class="m"><var>E</var>(<var>P</var>,<var>U</var><sub>0</sub>)</span>. Therefore,</p>
+      <div class="m lagrange-equation"><span class="frac"><span><var>dI</var></span><span><var>dP</var><sub>X</sub></span></span>
+        = <span class="frac"><span>&part;<var>E</var></span><span>&part;<var>P</var><sub>X</sub></span></span>
+        = <var>X</var><sup>H</sup>(<var>P</var>,<var>U</var><sub>0</sub>)</div>
+      <p>At these matched prices and utility, Hicksian and Marshallian demand select the same
+        bundle:</p>
+      <div class="m lagrange-equation"><var>X</var><sup>H</sup>(<var>P</var>,<var>U</var><sub>0</sub>)
+        = <var>X</var><sup>M</sup>(<var>P</var>,<var>I</var>)</div>
+      <p>So the 8 gallons from the compensation calculation is the consumer's Marshallian
+        demand at the original prices and income.</p>
+    </div>
+
+    <details>
+      <summary>Review earlier stops</summary>
+      <p><b>Why is compensating income expenditure?</b> The expenditure function gives the
+        minimum income needed to reach a fixed utility level. Thus, when utility is held at
+        <span class="m"><var>U</var><sub>0</sub></span>, the required income is
+        <span class="m"><var>I</var> = <var>E</var>(<var>P</var>,<var>U</var><sub>0</sub>)</span>.</p>
+      <p><b>Why do the two demands match here?</b> At the original prices,
+        <span class="m"><var>E</var>(<var>P</var>,<var>U</var><sub>0</sub>) = <var>I</var></span>.
+        The expenditure-minimizing and utility-maximizing problems therefore select the same
+        bundle.</p>
+      <p><a href="../shephard/">Review Shephard's Lemma</a> ·
+        <a href="../#m-h">Review Marshallian–Hicksian equivalence</a></p>
+    </details>
+
+    <p>Roy's identity calculates the same compensation slope using indirect utility. A small
+      price change and a small compensating income change leave utility unchanged:</p>
+
+    <div class="worked m">
+      <div><var>dU</var>
+        = <span class="frac"><span>&part;<var>V</var></span><span>&part;<var>P</var><sub>X</sub></span></span><var>dP</var><sub>X</sub>
+        + <span class="frac"><span>&part;<var>V</var></span><span>&part;<var>I</var></span></span><var>dI</var>
+        = 0</div>
+    </div>
+
+    <p>The price effect is negative and the income effect is positive. Divide by
+      <span class="m"><var>dP</var><sub>X</sub></span> and solve for the same
+      <span class="m"><var>dI</var>/<var>dP</var><sub>X</sub></span> that appeared in the gas
+      example:</p>
+
+    <div class="worked m">
+      <div>0
+        = <span class="frac"><span>&part;<var>V</var></span><span>&part;<var>P</var><sub>X</sub></span></span>
+        + <span class="frac"><span>&part;<var>V</var></span><span>&part;<var>I</var></span></span>
+          <span class="frac"><span><var>dI</var></span><span><var>dP</var><sub>X</sub></span></span></div>
+      <div><span class="frac"><span><var>dI</var></span><span><var>dP</var><sub>X</sub></span></span>
+        = -<span class="frac"><span>&part;<var>V</var>/&part;<var>P</var><sub>X</sub></span><span>&part;<var>V</var>/&part;<var>I</var></span></span></div>
+    </div>
+
+    <p>The left side is the compensation slope that Shephard's Lemma identifies as
+      <span class="m"><var>X</var><sup>H</sup></span>, and matched Hicksian demand equals
+      <span class="m"><var>X</var><sup>M</sup></span>. Therefore:</p>
+
+    <div class="keyidea">
+      <p class="h">Roy's identity</p>
+      <div class="m lagrange-equation"><var>X</var><sup>M</sup>(<var>P</var><sub>X</sub>, <var>P</var><sub>Y</sub>, <var>I</var>)
+        = -<span class="frac"><span>&part;<var>V</var>/&part;<var>P</var><sub>X</sub></span><span>&part;<var>V</var>/&part;<var>I</var></span></span></div>
+      <div class="m lagrange-equation"><var>Y</var><sup>M</sup>(<var>P</var><sub>X</sub>, <var>P</var><sub>Y</sub>, <var>I</var>)
+        = -<span class="frac"><span>&part;<var>V</var>/&part;<var>P</var><sub>Y</sub></span><span>&part;<var>V</var>/&part;<var>I</var></span></span></div>
+    </div>
+
+    <p class="roy-note">The extra income is a compensation thought experiment; Marshallian demand
+      itself still holds actual income fixed.</p>
+
+  <h2 id="s2">2 · Another way: the Lagrangian and the envelope theorem</h2>
+
+  <p>Write the utility-maximization problem as a Lagrangian:</p>
+
+  <div class="rules m">
+    <div>&#8466; = U(X,Y) + &lambda;[I - P<sub>X</sub>X - P<sub>Y</sub>Y]</div>
+  </div>
+
+  <p>At the utility-maximizing bundle, the consumer uses the whole budget. The constraint term
+    is therefore zero:</p>
+
+  <div class="keyidea m lagrange-equation">
+    <div>
+      &#8466;<sup>*</sup> =
+      <span class="underbrace">
+        <span class="underbrace-term">U(X<sup>*</sup>,Y<sup>*</sup>)</span>
+        <span class="underbrace-label">V(P<sub>X</sub>,P<sub>Y</sub>,I)</span>
+      </span>
+      + &lambda;<sup>*</sup>
+      <span class="underbrace">
+        <span class="underbrace-term">[I - P<sub>X</sub>X<sup>*</sup> - P<sub>Y</sub>Y<sup>*</sup>]</span>
+        <span class="underbrace-label">= 0</span>
+      </span>
+      = V(P<sub>X</sub>,P<sub>Y</sub>,I)
+    </div>
+  </div>
+
+  <p>The optimal quantities are the Marshallian demands. In particular,
+    <span class="m"><var>X</var><sup>*</sup> = <var>X</var><sup>M</sup>(<var>P</var><sub>X</sub>,
+    <var>P</var><sub>Y</sub>,<var>I</var>)</span>.</p>
+
+  <p>Now change a price or income by a tiny amount. The envelope theorem says that the
+    first-order change in utility comes from the explicit terms in the Lagrangian. We do not
+    need to track the small movement in the optimal bundle. In other words, we do not add
+    chain-rule terms involving <span class="m">dX<sup>*</sup>/dP<sub>X</sub></span> or
+    <span class="m">dY<sup>*</sup>/dP<sub>X</sub></span>; those first-order terms cancel at the
+    optimum.</p>
+
+  <div class="worked m">
+    <div><span class="frac"><span>&part;V</span><span>&part;I</span></span>
+      = <span class="frac"><span>&part;&#8466;</span><span>&part;I</span></span> = &lambda;*</div>
+    <div><span class="frac"><span>&part;V</span><span>&part;P<sub>X</sub></span></span>
+      = <span class="frac"><span>&part;&#8466;</span><span>&part;P<sub>X</sub></span></span> = -&lambda;*X<sup>M</sup></div>
+  </div>
+
+  <p>One more dollar raises utility by &lambda;*. A higher price for <span class="m">X</span>
+    lowers utility by &lambda;* for every unit of <span class="m">X</span> purchased.</p>
+
+  <p>Now divide the price derivative by the income derivative. Both contain the same
+    <span class="m">&lambda;*</span>, so the multiplier cancels. The price derivative already
+    contains a minus sign, so put another minus sign in front of the ratio:</p>
+
+  <div class="worked m">
+    <div>-<span class="frac"><span>&part;<var>V</var>/&part;<var>P</var><sub>X</sub></span><span>&part;<var>V</var>/&part;<var>I</var></span></span>
+      = -<span class="frac"><span>-&lambda;*<var>X</var><sup>M</sup></span><span>&lambda;*</span></span>
+      = <var>X</var><sup>M</sup></div>
+  </div>
+
+  <p>This reaches the same identity directly from utility maximization, without going through
+    the expenditure function or Hicksian demand.</p>
+
+  <h2 id="s3">3 · Worked example</h2>
+
+  <p>Suppose we start with the indirect utility function</p>
+
+  <div class="worked m">
+    <div><var>V</var>(<var>P</var><sub>X</sub>, <var>P</var><sub>Y</sub>, <var>I</var>) = <var>I</var>/(2√(<var>P</var><sub>X</sub><var>P</var><sub>Y</sub>))</div>
+  </div>
+
+  <p>Now differentiate:</p>
+
+  <div class="worked m">
+    <div><span class="frac"><span>&part;<var>V</var></span><span>&part;<var>P</var><sub>X</sub></span></span>
+      = -<var>I</var>/(4<var>P</var><sub>X</sub><sup>3/2</sup>√<var>P</var><sub>Y</sub>)</div>
+    <div><span class="frac"><span>&part;<var>V</var></span><span>&part;<var>I</var></span></span>
+      = 1/(2√(<var>P</var><sub>X</sub><var>P</var><sub>Y</sub>))</div>
+  </div>
+
+  <p>Roy's identity recovers Marshallian demand from the indirect utility function:</p>
+
+  <div class="keyidea m">
+    <div><var>X</var><sup>M</sup> = -<span class="frac"><span>-<var>I</var>/(4<var>P</var><sub>X</sub><sup>3/2</sup>√<var>P</var><sub>Y</sub>)</span><span>1/(2√(<var>P</var><sub>X</sub><var>P</var><sub>Y</sub>))</span></span></div>
+    <div>&nbsp; = <span class="frac"><span><var>I</var></span><span>4<var>P</var><sub>X</sub><sup>3/2</sup>√<var>P</var><sub>Y</sub></span></span>
+      × 2√(<var>P</var><sub>X</sub><var>P</var><sub>Y</sub>)</div>
+    <div>&nbsp; = <var>I</var>/(2<var>P</var><sub>X</sub>)</div>
+  </div>
+
+  <p>This is the familiar equal-share Cobb–Douglas demand: the consumer spends half of income
+    on <span class="m"><var>X</var></span>. For example, the indirect utility function above is
+    generated by <span class="m"><var>U</var>(<var>X</var>,<var>Y</var>) = √(<var>XY</var>)</span>.</p>
+
+  <div class="keyidea">
+    <p class="h">The takeaway</p>
+    <p>Roy's identity turns the effects of prices and income on indirect utility back into the
+      quantities in the utility-maximizing bundle.</p>
+  </div>
+
+  <div class="footer">
+    <p><a href="../">Back to the Magic Square</a> ·
+      <a href="../shephard/">Shephard's Lemma</a> ·
+      <a href="../../">All Econ 380 tools</a></p>
+  </div>
+
+  </div><!-- /after-roy-quiz -->
+
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  var quiz = document.getElementById("roy-quiz");
+  var answer = document.getElementById("roy-answer");
+  var feedback = document.getElementById("roy-feedback");
+  var explanation = document.getElementById("after-roy-quiz");
+
+  quiz.addEventListener("submit", function (event) {
+    event.preventDefault();
+    var value = Number(answer.value);
+    explanation.hidden = false;
+    if (value === 8) {
+      feedback.innerHTML = "<p><b>That's right.</b> $0.80 ÷ $0.10 per gallon = 8 gallons per month.</p>";
+    } else {
+      feedback.innerHTML = "<p>The answer is <b>8 gallons per month</b>: $0.80 ÷ $0.10 per gallon.</p>";
+    }
+  });
+})();
+</script>
+</body>
+</html>

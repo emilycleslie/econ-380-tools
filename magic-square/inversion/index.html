@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Indirect utility ↔ expenditure — Econ 380</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<main>
+
+  <h1>Indirect utility ↔ expenditure</h1>
+  <p class="kicker">ECON 380 · Magic Square · Inverting the value functions · About five minutes</p>
+
+  <p class="jump">Jump to:
+    <a href="#s1">1 Maximum utility, minimum cost</a> ·
+    <a href="#s2">2 From V to E</a> ·
+    <a href="#s3">3 From E to V</a> ·
+    <a href="#s4">4 Try it</a>
+  </p>
+
+  <div class="betanote">
+    <b>These functions contain the same information:</b> indirect utility starts with income
+    and finds attainable utility; expenditure starts with a utility target and finds required
+    income.
+  </div>
+
+  <h2 id="s1">1 · The utility-maximizing bundle is also the least-cost way to reach that utility</h2>
+
+  <p>Hold prices fixed. Suppose the indirect utility function tells us</p>
+
+  <div class="worked m">
+    <div><var>V</var>(<var>P</var><sub>X</sub>,<var>P</var><sub>Y</sub>,10) = 20.</div>
+  </div>
+
+  <p>This says that <b>20 utils is the most utility the consumer can get from $10</b>.</p>
+
+  <p>Now read the same fact in the other direction. If $10 produces the highest attainable
+    utility of 20, then <b>$10 is the least the consumer must spend to attain 20 utils</b>:</p>
+
+  <div class="worked m">
+    <div><var>E</var>(<var>P</var><sub>X</sub>,<var>P</var><sub>Y</sub>,20) = 10.</div>
+  </div>
+
+  <p>If 20 utils could be reached for less than $10, the consumer could use the leftover money
+    to do better than 20. That would contradict the first statement.</p>
+
+  <div class="contrast">
+    <div>
+      <p class="h" style="color:var(--orange)">Indirect utility</p>
+      <p>Begin with <b>income</b>. Find the <b>most utility attainable</b>.</p>
+    </div>
+    <div>
+      <p class="h" style="color:var(--accent)">Expenditure</p>
+      <p>Begin with a <b>utility target</b>. Find the <b>least spending required</b>.</p>
+    </div>
+  </div>
+
+  <p>In general, holding prices fixed,</p>
+
+  <div class="keyidea m">
+    <div><var>V</var>(<var>P</var><sub>X</sub>,<var>P</var><sub>Y</sub>,<var>I</var>) = <var>U</var>
+      &nbsp; ⇔ &nbsp;
+      <var>E</var>(<var>P</var><sub>X</sub>,<var>P</var><sub>Y</sub>,<var>U</var>) = <var>I</var>.</div>
+  </div>
+
+  <p>This is what it means to say that the functions are inverses in their last arguments.</p>
+
+  <h2 id="s2">2 · From indirect utility to expenditure</h2>
+
+  <p>Suppose we start with the indirect utility function</p>
+
+  <div class="worked m">
+    <div><var>V</var>(<var>P</var><sub>X</sub>,<var>P</var><sub>Y</sub>,<var>I</var>)
+      = <span class="frac"><span><var>I</var></span><span>2√(<var>P</var><sub>X</sub><var>P</var><sub>Y</sub>)</span></span>.</div>
+  </div>
+
+  <p>Set indirect utility equal to the target utility <span class="m"><var>U</var></span>:</p>
+
+  <div class="worked m">
+    <div><var>U</var>
+      = <span class="frac"><span><var>I</var></span><span>2√(<var>P</var><sub>X</sub><var>P</var><sub>Y</sub>)</span></span>.</div>
+  </div>
+
+  <p>Treat prices and <span class="m"><var>U</var></span> as given, and solve for
+    <span class="m"><var>I</var></span>:</p>
+
+  <div class="worked m">
+    <div>2<var>U</var>√(<var>P</var><sub>X</sub><var>P</var><sub>Y</sub>) = <var>I</var>.</div>
+  </div>
+
+  <p>The income required to reach <span class="m"><var>U</var></span> is expenditure. Therefore,</p>
+
+  <div class="keyidea m">
+    <div><var>E</var>(<var>P</var><sub>X</sub>,<var>P</var><sub>Y</sub>,<var>U</var>)
+      = 2<var>U</var>√(<var>P</var><sub>X</sub><var>P</var><sub>Y</sub>).</div>
+  </div>
+
+  <p>We inverted the indirect utility function with respect to income.</p>
+
+  <h2 id="s3">3 · From expenditure to indirect utility</h2>
+
+  <p>Now start with the expenditure function we just found:</p>
+
+  <div class="worked m">
+    <div><var>E</var>(<var>P</var><sub>X</sub>,<var>P</var><sub>Y</sub>,<var>U</var>)
+      = 2<var>U</var>√(<var>P</var><sub>X</sub><var>P</var><sub>Y</sub>).</div>
+  </div>
+
+  <p>Set expenditure equal to the consumer's income:</p>
+
+  <div class="worked m">
+    <div><var>I</var> = 2<var>U</var>√(<var>P</var><sub>X</sub><var>P</var><sub>Y</sub>).</div>
+  </div>
+
+  <p>Treat prices and <span class="m"><var>I</var></span> as given, and solve for
+    <span class="m"><var>U</var></span>:</p>
+
+  <div class="keyidea m">
+    <div><var>V</var>(<var>P</var><sub>X</sub>,<var>P</var><sub>Y</sub>,<var>I</var>)
+      = <span class="frac"><span><var>I</var></span><span>2√(<var>P</var><sub>X</sub><var>P</var><sub>Y</sub>)</span></span>.</div>
+  </div>
+
+  <p>We inverted the expenditure function with respect to utility. This is the same algebra in
+    reverse.</p>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>Here, <b>invert</b> does not mean take the reciprocal. It means write the relationship as
+      an equation and solve for the other variable.</p>
+    <div class="m"><var>E</var> ≠ 1/<var>V</var></div>
+  </div>
+
+  <h2 id="s4">4 · Try it</h2>
+
+  <p>Suppose</p>
+
+  <div class="worked m">
+    <div><var>V</var>(<var>P</var><sub>X</sub>,<var>P</var><sub>Y</sub>,<var>I</var>)
+      = <span class="frac"><span><var>I</var></span><span><var>P</var><sub>X</sub> + <var>P</var><sub>Y</sub></span></span>.</div>
+  </div>
+
+  <p>Solve for the expenditure function.</p>
+
+  <details>
+    <summary>Answer</summary>
+    <p>Set indirect utility equal to the target utility and solve for income:</p>
+    <div class="worked m">
+      <div><var>U</var>
+        = <span class="frac"><span><var>I</var></span><span><var>P</var><sub>X</sub> + <var>P</var><sub>Y</sub></span></span></div>
+      <div><var>I</var> = <var>U</var>(<var>P</var><sub>X</sub> + <var>P</var><sub>Y</sub>)</div>
+    </div>
+    <p class="result m"><var>E</var>(<var>P</var><sub>X</sub>,<var>P</var><sub>Y</sub>,<var>U</var>)
+      = <var>U</var>(<var>P</var><sub>X</sub> + <var>P</var><sub>Y</sub>)</p>
+  </details>
+
+  <div class="keyidea">
+    <p class="h">The takeaway</p>
+    <p>Indirect utility starts with income and finds the most utility attainable. Expenditure
+      starts with a utility target and finds the least spending required. Holding prices fixed,
+      solve one relationship for its other variable to recover the other function.</p>
+  </div>
+
+  <div class="footer">
+    <p><a href="../">Back to the Magic Square</a> ·
+      <a href="../equivalence/">Marshallian–Hicksian equivalence</a> ·
+      <a href="../../">All Econ 380 tools</a></p>
+  </div>
+
+</main>
+</body>
+</html>

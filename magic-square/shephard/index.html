@@ -93,6 +93,75 @@
 .explorer .trythis { margin: 14px 0 0; padding-left: 1.15em; font-size: .93rem; }
 .explorer .trythis li { margin: 7px 0; }
 
+.question {
+  background: var(--box);
+  border-left: 4px solid var(--orange);
+  border-radius: 0 8px 8px 0;
+  padding: 12px 14px 14px;
+  margin: 16px 0;
+}
+.question .boxlabel { margin: 0 0 6px; }
+.question p { margin: 7px 0; }
+.question form { margin-top: 12px; }
+.question label { display: block; font-weight: 600; margin-bottom: 6px; }
+.question .answerline { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.question input[type=number] {
+  width: 110px;
+  padding: 7px 8px;
+  border: 1px solid var(--rule);
+  border-radius: 5px;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+}
+.question input[type=number]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.question button {
+  padding: 7px 11px;
+  border: 1px solid var(--accent);
+  border-radius: 5px;
+  background: var(--accent);
+  color: var(--white);
+  font: inherit;
+  cursor: pointer;
+}
+.question button:hover,
+.check-button:hover { background: var(--navy); }
+.question .feedback {
+  margin: 12px 0 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--rule);
+}
+.question .feedback:empty { display: none; }
+.question .feedback.correct { color: var(--navy); }
+.question .feedback.incorrect { color: var(--navy); }
+.question .feedback p { margin: 5px 0; }
+.envelope-note { margin: 12px 0; color: var(--gray); font-size: .9rem; }
+.direct-term { color: var(--orange); font-weight: 700; }
+.adjustment-term { color: #26734d; }
+.price-term {
+  appearance: none;
+  border: 0;
+  border-radius: 4px;
+  padding: 1px 3px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.price-term:hover { background: #fff4e5; }
+.price-term:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.price-term.selected,
+.price-term.answer { background: #fff4e5; color: var(--orange); font-weight: 700; }
+.check-button {
+  padding: 7px 11px;
+  border: 1px solid var(--accent);
+  border-radius: 5px;
+  background: var(--accent);
+  color: var(--white);
+  font: inherit;
+  cursor: pointer;
+}
+.terms-feedback { margin-top: 10px; }
+
 @media (max-width: 700px) {
   .explorer .panels { grid-template-columns: 1fr; }
 }
@@ -102,26 +171,24 @@
 <main>
 
   <h1>Expenditure function → Hicksian demand</h1>
-  <p class="kicker">ECON 380 · Magic Square · Shephard's lemma · About ten minutes</p>
+  <p class="kicker">ECON 380 · Magic Square · Shephard's Lemma · About ten minutes</p>
 
   <p class="jump">Jump to:
-    <a href="#s1">1 The rule</a> ·
-    <a href="#s2">2 Worked example</a> ·
-    <a href="#s3">3 Why it works</a> ·
+    <a href="#s1">1 Why it works</a> ·
+    <a href="#s2">2 The rule</a> ·
+    <a href="#s3">3 Worked example</a> ·
     <a href="#s4">4 When the derivative is harder</a> ·
     <a href="#s5">5 Practice</a>
   </p>
 
   <div class="betanote">
-    <b>This is one arrow of the Magic Square.</b> In class we draw the square and talk
-    about why the four objects connect at all. This page does the mechanics for one
-    trip around it: you have the expenditure function, you want Hicksian demand. Read
-    the rule, work the example, then do the practice problems.
+    <b>This is one arrow of the Magic Square:</b> use the expenditure function to find
+    Hicksian demand. Start with the intuition, then try the examples.
   </div>
 
   <figure class="fig">
     <svg viewBox="0 0 600 330" xmlns="http://www.w3.org/2000/svg" role="img"
-         aria-label="The Magic Square. Four corners: Marshallian demand and indirect utility on top, Hicksian demand and the expenditure function on the bottom. The bottom edge, from the expenditure function to Hicksian demand by Shephard's lemma, is highlighted.">
+         aria-label="The Magic Square. Four corners: Marshallian demand and indirect utility on top, Hicksian demand and the expenditure function on the bottom. The bottom edge, from the expenditure function to Hicksian demand by Shephard's Lemma, is highlighted.">
       <defs>
         <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5"
                 markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -176,257 +243,143 @@
         <text x="452" y="176">swap letters</text>
         <text x="112" y="160">substitute the</text>
         <text x="112" y="176">other function in</text>
-        <text x="270" y="292" text-anchor="middle" fill="#D07000" font-weight="700">Shephard's lemma</text>
+        <text x="270" y="292" text-anchor="middle" fill="#D07000" font-weight="700">Shephard's Lemma</text>
       </g>
     </svg>
-    <figcaption>The four objects and the six ways between them. The two side edges run
-      both directions, which is where four of the six conversions live. This page is the
-      bottom edge, in orange.</figcaption>
+    <figcaption>This page follows the bottom edge: expenditure function to Hicksian demand.
+      The orange arrow is Shephard's Lemma.</figcaption>
   </figure>
 
   <!-- 1 -->
-  <h2 id="s1">1 · The rule</h2>
+  <h2 id="s1">1 · Why it works</h2>
 
-  <p>Hicksian demand is the derivative of the expenditure function with respect to that
-    good's own price. That is the entire rule. There is no minus sign, nothing in a
-    denominator, and nothing to solve for — you differentiate once and you are done.</p>
+  <p>Start with something concrete. Imagine one specific good: gasoline.</p>
 
-  <div class="rules m">
-    <div><var>X</var><sup>H</sup> = <span class="frac"><span>&part;<var>E</var></span><span>&part;<var>P</var><sub>X</sub></span></span></div>
-    <div><var>Y</var><sup>H</sup> = <span class="frac"><span>&part;<var>E</var></span><span>&part;<var>P</var><sub>Y</sub></span></span></div>
+  <div class="question">
+    <p class="boxlabel">Try it before looking at the calculation</p>
+    <p>Your friend drives to work every day, so assume their driving schedule does not
+      change. Gas becomes <b>$0.50 more expensive per gallon</b>, and their monthly gas bill
+      rises by <b>$5</b>.</p>
+    <p>How many gallons of gas do they buy each month?</p>
+
+    <form id="gas-quiz">
+      <label for="gas-answer">Your answer:</label>
+      <div class="answerline">
+        <input id="gas-answer" name="gas-answer" type="number" min="0" step="any"
+               inputmode="decimal" autocomplete="off" aria-describedby="gas-feedback">
+        <span>gallons</span>
+        <button type="submit">Check answer</button>
+      </div>
+    </form>
+
+    <div id="gas-feedback" class="feedback" role="status" aria-live="polite"></div>
   </div>
 
-  <p>Two things are being held fixed while you take that derivative: the other price, and
-    <span class="m"><var>Ū</var></span>. Holding <span class="m"><var>Ū</var></span> fixed
-    is not a simplification — it is what makes the answer Hicksian rather than Marshallian.
-    Hicksian demand is the bundle that hits a fixed utility target as cheaply as possible,
-    so a fixed target is exactly the right thing to be differentiating along.</p>
+  <div id="after-gas-quiz">
+    <h3>What did we just calculate?</h3>
 
-  <p>In practice this means <span class="m"><var>Ū</var></span> behaves like any other
-    constant in the derivative. It rides along untouched and shows up in your answer.</p>
+    <p>With the amount bought fixed, the number of gallons is the change in spending divided
+      by the change in price.</p>
 
-  <!-- 2 -->
-  <h2 id="s2">2 · Worked example</h2>
-
-  <p>This is the function we use in class. Take as given that for
-    <span class="m"><var>U</var> = <var>X</var><sup>.5</sup><var>Y</var><sup>.5</sup></span>,
-    the expenditure function is
-    <span class="m"><var>E</var> = 2<var>P</var><sub>X</sub><sup>.5</sup><var>P</var><sub>Y</sub><sup>.5</sup><var>Ū</var></span>.</p>
-
-  <div class="worked">
-    <p class="boxlabel">Worked example</p>
-    <div class="steps m">
-      <div>Find <var>X</var><sup>H</sup> from <var>E</var> = 2<var>P</var><sub>X</sub><sup>.5</sup><var>P</var><sub>Y</sub><sup>.5</sup><var>Ū</var></div>
-      <div><var>X</var><sup>H</sup> = <span class="frac"><span>&part;<var>E</var></span><span>&part;<var>P</var><sub>X</sub></span></span> = 2 · (.5) <var>P</var><sub>X</sub><sup>−.5</sup> <var>P</var><sub>Y</sub><sup>.5</sup> <var>Ū</var></div>
-      <div class="note">only <var>P</var><sub>X</sub> moves — the 2, the <var>P</var><sub>Y</sub><sup>.5</sup> and the <var>Ū</var> are all constants riding along</div>
-      <div>= <var>P</var><sub>X</sub><sup>−.5</sup> <var>P</var><sub>Y</sub><sup>.5</sup> <var>Ū</var></div>
-      <div class="note">the 2 and the .5 cancel</div>
-      <div>= <span class="m">(<span class="frac"><span><var>P</var><sub>Y</sub></span><span><var>P</var><sub>X</sub></span></span>)<sup>.5</sup> <var>Ū</var></span></div>
-      <div class="note">a negative exponent on top is the same as a positive one underneath</div>
+    <div class="keyidea">
+      <p class="h">The gas calculation</p>
+      <p class="m"><span class="frac"><span>$5</span><span>$0.50 per gallon</span></span>
+        = 10 gallons</p>
     </div>
-  </div>
 
-  <p>That is the same <span class="m"><var>X</var><sup>H</sup></span> we got the long way,
-    by setting up the expenditure minimization problem and solving it. Which is the point
-    of the square: once you have any one corner, you never have to set up a Lagrangian
-    again.</p>
+    <p>A derivative is this same ratio for a tiny price change:</p>
 
-  <div class="slip">
-    <p class="boxlabel">Common slip</p>
-    <p>Importing the minus sign from Roy's identity. The two rules only look alike: Roy's
-      is a <em>ratio</em> of two derivatives and carries a minus sign, while Shephard's is
-      a single derivative with no minus sign and nothing underneath. If your Hicksian
-      demand came out negative, this is almost always why.</p>
-  </div>
-
-  <details>
-    <summary>Try it: find <span class="m"><var>Y</var><sup>H</sup></span> from the same
-      <span class="m"><var>E</var> = 2<var>P</var><sub>X</sub><sup>.5</sup><var>P</var><sub>Y</sub><sup>.5</sup><var>Ū</var></span></summary>
-    <p class="result m"><var>Y</var><sup>H</sup> = (<span class="frac"><span><var>P</var><sub>X</sub></span><span><var>P</var><sub>Y</sub></span></span>)<sup>.5</sup> <var>Ū</var></p>
-    <p>Same derivative, other letter. Now
-      <span class="m"><var>P</var><sub>X</sub><sup>.5</sup></span> is the constant and
-      <span class="m"><var>P</var><sub>Y</sub></span> moves, so the prices trade places.
-      That symmetry is a good sign you did it right — with these preferences the two goods
-      are treated identically.</p>
-  </details>
-
-  <!-- 3 -->
-  <h2 id="s3">3 · Why it works</h2>
-
-  <p>Taking a derivative to get a quantity looks like a coincidence the first time you see
-    it. It isn't. Five short steps, and no step needs anything harder than multiplication.</p>
-
-  <h3>Step 1 · What the expenditure function is asking</h3>
-
-  <p>Only one question, and it is worth saying out loud:
-    <em>what is the cheapest bill that still reaches the utility target
-    <span class="m"><var>Ū</var></span>?</em></p>
-
-  <p>Not what you happened to spend. The <em>least</em> you could spend and still get to
-    <span class="m"><var>Ū</var></span>. Every number
-    <span class="m"><var>E</var></span> reports is the winner of that competition at some
-    set of prices.</p>
-
-  <h3>Step 2 · Freeze one bundle and raise the price</h3>
-
-  <p>Set optimizing aside for a moment. Pick one specific bundle — call it
-    <span class="m">(<var>x</var><sub>0</sub>, <var>y</var><sub>0</sub>)</span> — and just
-    buy it, whatever happens. What it costs you is</p>
-
-  <div class="rules m">
-    <div>cost of that fixed bundle = <var>P</var><sub>X</sub><var>x</var><sub>0</sub> + <var>P</var><sub>Y</sub><var>y</var><sub>0</sub></div>
-  </div>
-
-  <p>Now let <span class="m"><var>P</var><sub>X</sub></span> change while the bundle stays
-    exactly where it is. Only the first term moves, and it moves in a straight line, so the
-    slope of that cost with respect to
-    <span class="m"><var>P</var><sub>X</sub></span> is
-    <span class="m"><var>x</var><sub>0</sub></span>. In words:</p>
-
-  <div class="keyidea">
-    <p class="h">Step 2, in one sentence</p>
-    <p>If the price of X rises by <b>$1 per unit</b>, the bill for this bundle rises by
-      <b>the number of units of X in the bundle</b>.</p>
-    <p>Buying 10 units? A dollar on the price costs you $10. That is not calculus — it is
-      multiplication, and it is already the whole shape of the answer.</p>
-  </div>
-
-  <h3>Step 3 · Which bundle is the relevant one</h3>
-
-  <p>Back to the real problem. At today's prices, the cheapest bundle that reaches
-    <span class="m"><var>Ū</var></span> is the Hicksian bundle
-    <span class="m">(<var>X</var><sup>H</sup>, <var>Y</var><sup>H</sup>)</span>. That is
-    the bundle <span class="m"><var>E</var></span> is buying right now.</p>
-
-  <p>So of all the fixed-bundle cost lines you could have drawn in Step 2, the one that
-    matters at these prices is the one through the Hicksian bundle — and by Step 2, its
-    slope is <span class="m"><var>X</var><sup>H</sup></span>.</p>
-
-  <h3>Step 4 · "But you'd rearrange the bundle"</h3>
-
-  <p>Correct, and it is the right objection. When
-    <span class="m"><var>P</var><sub>X</sub></span> goes up, nobody is forced to keep
-    buying the old bundle; you would shift a little toward Y and reach
-    <span class="m"><var>Ū</var></span> more cheaply than the frozen bundle would.</p>
-
-  <p>That rearranging does save you something. The claim is only that it saves you
-    <em>very little</em> — and the reason is Step 3. At the original prices you were
-    already at the cheapest bundle that reaches
-    <span class="m"><var>Ū</var></span>. Being at the cheapest point is exactly the
-    situation where no small rearrangement pays off: if some shift toward Y had been worth
-    making at those prices, you would already have made it. So when the price nudges, the
-    best rearrangement available to you is worth very little next to the direct effect of
-    paying more per unit.</p>
-
-  <p><b>For a very small price change, the direct effect is what matters.</b> Not the only
-    thing that happens — the only thing that matters to the first decimal places that
-    count.</p>
-
-  <h3>Step 5 · Put it together</h3>
-
-  <p>For a very small change in <span class="m"><var>P</var><sub>X</sub></span>, the change
-    in the cheapest bill is approximately the Step 2 answer, using the Step 3 bundle:</p>
-
-  <div class="rules m">
-    <div><var>dE</var> &asymp; <var>X</var><sup>H</sup> <var>dP</var><sub>X</sub> &nbsp;&nbsp;<span style="font-family:inherit;font-size:.85rem;color:var(--gray)">for a small price change</span></div>
-    <div><span class="frac"><span>&part;<var>E</var></span><span>&part;<var>P</var><sub>X</sub></span></span> = <var>X</var><sup>H</sup> &nbsp;&nbsp;<span style="font-family:inherit;font-size:.85rem;color:var(--gray)">in the limit, exactly</span></div>
-  </div>
-
-  <p>The approximation in the first line is what a derivative is for. Shrink the price
-    change toward zero and the leftover — the saving from rearranging — shrinks faster than
-    the price change does, so it vanishes from the ratio. What survives is exact.</p>
-
-  <h3>The same thing in dollars and cents</h3>
-
-  <p>Numbers make the "saves you very little" claim checkable. Use the example from
-    section 2: <span class="m"><var>U</var> = <var>X</var><sup>.5</sup><var>Y</var><sup>.5</sup></span>
-    with <span class="m"><var>Ū</var> = 10</span>,
-    <span class="m"><var>P</var><sub>Y</sub> = 4</span> and
-    <span class="m"><var>P</var><sub>X</sub> = 4</span>. The Hicksian bundle is
-    <span class="m">(10, 10)</span> and the bill is
-    <span class="m"><var>E</var> = $80</span>.</p>
-
-  <p>Now raise <span class="m"><var>P</var><sub>X</sub></span> by one cent, to
-    <span class="m">$4.01</span>.</p>
-
-  <div class="worked">
-    <p class="boxlabel">What the penny costs</p>
-    <div class="steps m">
-      <div>Keep the same bundle: 10 units of X × $0.01 = <b>$0.10</b> more</div>
-      <div class="note">this is Step 2 — the number of units, times the price change</div>
-      <div>Re-optimize instead: <var>E</var> goes from $80.00000 to $80.09994</div>
-      <div class="note">the new cheapest bundle is (9.9875, 10.0125) — it barely moved</div>
-      <div>So rearranging saved you <b>$0.00006</b></div>
-      <div class="note">about six thousandths of one cent, on a ten-cent change</div>
+    <div class="rules m">
+      <div><span class="frac"><span>change in spending</span><span>change in price</span></span>
+        &nbsp;&rarr;&nbsp;
+        <span class="frac"><span>&part;<var>E</var></span><span>&part;<var>P</var><sub>X</sub></span></span></div>
     </div>
-  </div>
 
-  <p>The consumer really can re-optimize, and really does save something. It is six
-    thousandths of a cent. The increase in expenditure is still, to any accuracy you care
-    about, <b>$0.10 — which is the 10 units of X in the bundle, times the penny</b>.</p>
+    <p>For a fixed bundle <span class="m">(<var>x</var><sub>0</sub>, <var>y</var><sub>0</sub>)</span>,
+      cost is</p>
 
-  <div class="keyidea">
-    <p class="h">The takeaway</p>
-    <p>A price derivative asks: <em>if this price rises by one dollar per unit, how many
-      extra dollars does the cheapest way of reaching the target require?</em></p>
-    <p>And the answer is: <b>the number of units of that good in the Hicksian
-      bundle.</b> Which is why differentiating
-      <span class="m"><var>E</var></span> hands you a quantity.</p>
-  </div>
-
-  <h3>Utility is what's held fixed — not income</h3>
-
-  <p>One thing to keep straight before the picture, because it is the difference between
-    the two demand curves in this course.</p>
-
-  <div class="contrast">
-    <div>
-      <p class="h" style="color:var(--orange)">Hicksian — this page</p>
-      <p>Held fixed: the <b>utility target</b>
-        <span class="m"><var>Ū</var></span>. The consumer stays on one indifference curve
-        no matter what prices do; the bill is whatever it has to be. Comes from
-        <em>minimizing spending</em> subject to reaching
-        <span class="m"><var>Ū</var></span>.</p>
+    <div class="rules m">
+      <div><var>P</var><sub>X</sub><var>x</var><sub>0</sub> + <var>P</var><sub>Y</sub><var>y</var><sub>0</sub></div>
     </div>
-    <div>
-      <p class="h" style="color:var(--accent)">Marshallian — the other side</p>
-      <p>Held fixed: <b>income</b> <span class="m"><var>I</var></span>. The consumer spends
-        the same money no matter what prices do; the utility reached is whatever it turns
-        out to be. Comes from <em>maximizing utility</em> subject to a budget.</p>
+
+    <p>Change <span class="m"><var>P</var><sub>X</sub></span>, hold the bundle fixed, and
+      the slope is <span class="m"><var>x</var><sub>0</sub></span>: the number of X's.</p>
+
+    <h3>Now allow re-optimization</h3>
+
+    <p>So far we held driving fixed. Now relax that assumption. With a $0.50 increase, your
+      friend might drive less. With a one-cent increase, they might adjust very little. A
+      derivative focuses on this tiny-change case.</p>
+
+    <p>Find every place <span class="m"><var>P</var><sub>X</sub></span> enters this
+      expression. Click each one, then check.</p>
+
+    <div class="rules m price-function">
+      <div><var>E</var>(<button type="button" class="price-term" data-term="1"
+          aria-label="P X in E's arguments"><var>P</var><sub>X</sub></button>, <var>P</var><sub>Y</sub>, <var>Ū</var>) =
+        <button type="button" class="price-term" data-term="2"
+          aria-label="P X multiplying X H"><var>P</var><sub>X</sub></button><var>X</var><sup>H</sup>(<button type="button" class="price-term" data-term="3"
+          aria-label="P X inside X H"><var>P</var><sub>X</sub></button>, <var>P</var><sub>Y</sub>, <var>Ū</var>)
+        + <var>P</var><sub>Y</sub><var>Y</var><sup>H</sup>(<button type="button" class="price-term" data-term="4"
+          aria-label="P X inside Y H"><var>P</var><sub>X</sub></button>, <var>P</var><sub>Y</sub>, <var>Ū</var>)</div>
     </div>
-  </div>
 
-  <p>So there is no income anywhere in this derivation, and none in the answer. Watch for
-    it in the first panel below: as you drag the price, the dot slides along <em>one
-    indifference curve</em> and never leaves it. That is
-    <span class="m"><var>Ū</var></span> being held fixed, drawn.</p>
+    <form id="price-terms-quiz">
+      <button type="submit" class="check-button">Check locations</button>
+    </form>
+    <div id="terms-feedback" class="feedback terms-feedback" role="status" aria-live="polite"></div>
 
-  <details>
-    <summary>Technical note — the names for what just happened</summary>
-    <p>Step 4 is the <b>envelope theorem</b>. The general statement: when you differentiate
-      an optimized value with respect to a parameter, you may treat the choice variables as
-      frozen at their optimal values, because the choices were already optimal and so
-      contribute nothing at the margin. Step 2 is that "treat them as frozen"; Step 4 is
-      the licence to do so.</p>
-    <p>There is also a picture behind it. Draw the fixed-bundle cost line from Step 2 for
-      <em>every</em> bundle that reaches <span class="m"><var>Ū</var></span>, not just the
-      current one. Each is a straight line in
-      <span class="m"><var>P</var><sub>X</sub></span>, and at any given price the cheapest
-      bill is whichever line is lowest there. So
-      <span class="m"><var>E</var></span> traces the bottom edge of that whole family — its
-      <b>lower envelope</b>. A curve built as the bottom of a family of straight lines
-      touches one of them at each price and takes that line's slope, which is Shephard's
-      lemma again. This also explains why
-      <span class="m"><var>E</var></span> is concave in prices.</p>
-    <p>The same argument on the utility-maximizing side of the square gives Roy's identity,
-      and it is the reason the Lagrange multiplier means what it does.</p>
-  </details>
+    <div id="after-price-terms" hidden>
+    <div class="worked">
+      <p class="boxlabel">Apply the chain rule</p>
+      <div class="steps m">
+        <div><span class="frac"><span>&part;<var>E</var></span><span>&part;<var>P</var><sub>X</sub></span></span>
+          = <span class="direct-term"><var>X</var><sup>H</sup></span>
+          + <span class="adjustment-term">(<var>P</var><sub>X</sub><span class="frac"><span>&part;<var>X</var><sup>H</sup></span><span>&part;<var>P</var><sub>X</sub></span></span>
+          + <var>P</var><sub>Y</sub><span class="frac"><span>&part;<var>Y</var><sup>H</sup></span><span>&part;<var>P</var><sub>X</sub></span></span>)</span></div>
+        <div class="note"><span class="direct-term">Direct effect:</span> the price change applied to the old bundle.</div>
+        <div class="note"><span class="adjustment-term">Indirect effect / re-optimization:</span> the cost effect of changing the bundle.</div>
+      </div>
+    </div>
 
-  <h3>See it move</h3>
+    <p>Why does Shephard's Lemma include only the first term? If <var>P</var><sub>X</sub> rises,
+      holding utility fixed usually means buying less X and more Y. The two indirect effects
+      have opposite signs, so they offset each other.</p>
 
-  <p>All five steps are on the screen at once below. Drag the price of
-    <span class="m"><var>X</var></span> — the three panels are three views of the same
-    consumer at the same moment.</p>
+    <p>In the derivative—the limit as the price change becomes tiny—they cancel exactly. For a
+      small finite price change, the remaining effect of re-optimizing is small compared with
+      the direct effect (second order).</p>
+
+    <p class="envelope-note">If you have seen the envelope theorem in a math class, this is
+      an envelope theorem result.</p>
+
+    <div class="keyidea">
+      <p class="h">Shephard's Lemma</p>
+      <p class="m"><var>dE</var> &asymp; <var>X</var><sup>H</sup><var>dP</var><sub>X</sub></p>
+      <p class="m"><span class="frac"><span>&part;<var>E</var></span><span>&part;<var>P</var><sub>X</sub></span></span>
+        = <var>X</var><sup>H</sup></p>
+    </div>
+
+    <h3>What is held fixed?</h3>
+
+    <p>Shephard's Lemma gives Hicksian demand. That means holding the utility target fixed,
+      not income.</p>
+
+    <div class="contrast">
+      <div>
+        <p class="h" style="color:var(--orange)">Hicksian</p>
+        <p>Hold <span class="m"><var>Ū</var></span> fixed; minimize spending.</p>
+      </div>
+      <div>
+        <p class="h" style="color:var(--accent)">Marshallian</p>
+        <p>Hold <span class="m"><var>I</var></span> fixed; maximize utility.</p>
+      </div>
+    </div>
+
+    <h3>See it move</h3>
+
+    <p>Drag <span class="m"><var>P</var><sub>X</sub></span>. These three panels show the same
+      fixed-utility choice in three ways.</p>
 
   <div class="explorer" id="ex">
     <div class="ctl">
@@ -435,41 +388,32 @@
              aria-label="Price of X">
       <span class="m" id="pxlab" style="font-weight:700">P<sub>X</sub> = 4.00</span>
     </div>
-    <p class="fixed">Held fixed the whole time:
+    <p class="fixed">Fixed:
       <span class="m"><var>U</var> = <var>X</var><sup>.5</sup><var>Y</var><sup>.5</sup></span>,
-      the utility target <span class="m"><var>Ū</var> = 10</span>, and
+      <span class="m"><var>Ū</var> = 10</span>,
       <span class="m"><var>P</var><sub>Y</sub> = 4</span>.</p>
 
     <div class="panels">
       <figure class="panel">
         <svg id="p1" viewBox="0 0 340 275" xmlns="http://www.w3.org/2000/svg" role="img"
              aria-label="The consumer's bundle. An indifference curve with the cheapest bundle that reaches it marked, and the isocost line through that bundle."></svg>
-        <figcaption><b>Step 3 · the bundle.</b> Every point on the curve reaches utility
-          10. The straight line is the cheapest way to buy one of them at today's prices,
-          and the dot is where they touch — the Hicksian bundle. As you drag, the dot
-          slides <em>along the one curve</em>: the utility target never changes, and
-          neither does the curve. There is no income in this picture.</figcaption>
+        <figcaption><b>The bundle.</b> Every point reaches utility 10. As you drag, the
+          cheapest point slides along the same indifference curve.</figcaption>
       </figure>
 
       <div class="stack">
         <figure class="panel">
           <svg id="p2" viewBox="0 0 340 190" xmlns="http://www.w3.org/2000/svg" role="img"
                aria-label="The expenditure function plotted against the price of X, with the straight line showing the cost of keeping today's bundle. The line touches the curve at today's price and lies above it elsewhere."></svg>
-          <figcaption><b>Step 2 · the cost of keeping that bundle.</b> The orange line is
-            what the dot's bundle would cost as
-            <span class="m"><var>P</var><sub>X</sub></span> moves, if you never changed it.
-            Its steepness is the number of X units in it. The blue curve is
-            <span class="m"><var>E</var></span> — the cheapest bill once rearranging is
-            allowed. Near the dot the two are almost the same: that is Step 4.</figcaption>
+          <figcaption><b>The bill.</b> Orange: cost of keeping the old bundle. Blue: the
+            cheapest cost after rearranging. Orange's slope is the number of X's.</figcaption>
         </figure>
 
         <figure class="panel">
           <svg id="p3" viewBox="0 0 340 175" xmlns="http://www.w3.org/2000/svg" role="img"
                aria-label="Hicksian demand for X plotted against the price of X, with the current point marked at a height equal to the slope of the expenditure function."></svg>
-          <figcaption><b>The slope, plotted.</b> Height here is the steepness of the orange
-            line above — which is to say, the units of X in the bundle. That makes this
-            curve Hicksian demand. <em>Price runs along the bottom so the two panels line
-            up; in class you'll draw it flipped.</em></figcaption>
+          <figcaption><b>The quantity.</b> The orange line's slope is the number of X's:
+            Hicksian demand. <em>Price is on the horizontal axis here.</em></figcaption>
         </figure>
       </div>
     </div>
@@ -477,13 +421,13 @@
     <div class="readout">
       <div class="row"><span>slope of the orange line</span><span class="val" id="r1">10.00</span></div>
       <div class="row same"><span><var>X</var><sup>H</sup> — units of X in the bundle</span><span class="val" id="r2">10.00</span></div>
-      <p class="verdict">Two different questions. One number. Every time.</p>
+      <p class="verdict">Slope = quantity.</p>
 
       <div class="pennybox">
-        <p class="pennyhead">Now nudge the price up one cent from wherever you are:</p>
-        <div class="row"><span>keep this bundle — the bill rises by</span><span class="val" id="r3">$0.10000</span></div>
-        <div class="row"><span>re-optimize instead — the bill rises by</span><span class="val" id="r4">$0.09994</span></div>
-        <div class="row saving"><span>so rearranging saved you</span><span class="val" id="r5">$0.00006</span></div>
+        <p class="pennyhead">Raise the price by 1¢:</p>
+        <div class="row"><span>keep the bundle</span><span class="val" id="r3">$0.10000</span></div>
+        <div class="row"><span>re-optimize</span><span class="val" id="r4">$0.09994</span></div>
+        <div class="row saving"><span>savings from rearranging</span><span class="val" id="r5">$0.00006</span></div>
         <p class="verdict" id="rv"></p>
       </div>
     </div>
@@ -494,51 +438,74 @@
     </noscript>
 
     <ol class="trythis">
-      <li><b>Drag the price all the way left.</b> X is cheap relative to Y, so the cheapest
-        way to reach utility 10 loads up on X, and
-        <span class="m"><var>X</var><sup>H</sup></span> is large. Notice the orange line
-        goes <em>steep</em>. That is not a coincidence: if you own a lot of units of X,
-        then every dollar added to <span class="m"><var>P</var><sub>X</sub></span> hits all
-        of them, so your bill climbs fast. Many units, steep line — the same fact said two
-        ways.</li>
-      <li><b>Now all the way right.</b> The bundle slides around the curve toward Y,
-        <span class="m"><var>X</var><sup>H</sup></span> drops, and the orange line
-        <em>flattens</em> — when you're barely buying any X, a rise in its price hardly
-        moves your bill at all. Watch the dot in the bottom panel while you drag: you are
-        drawing a Hicksian demand curve.</li>
-      <li><b>Watch the top two numbers in the box.</b> They answer different questions —
-        "how fast is the bill rising?" and "how many units of X am I buying?" — and they
-        never once disagree. That is Shephard's lemma, and there is nothing else to it.</li>
-      <li><b>Now the penny, at the bottom of the box.</b> At any price you like, compare
-        what a one-cent rise costs you if you keep this bundle against what it costs after
-        you re-optimize. The second number is smaller — rearranging genuinely does save
-        something — but look at how much smaller. That gap is all of Step 4, in dollars,
-        and it is what "for a very small price change" buys you.</li>
-      <li><b>The subtle one.</b> The orange line touches
-        <span class="m"><var>E</var></span> at today's price and sits above it everywhere
-        else — of course it does, since at any other price you would rather re-optimize than
-        keep this bundle. But look how <em>slowly</em> it pulls away near the touching
-        point. Right next to the dot the line and the curve are nearly the same thing, and
-        that is exactly why the slope of the curve equals the slope of the line.</li>
+      <li><b>Move left.</b> X is cheap, so the bundle contains more X and the orange line
+        gets steeper.</li>
+      <li><b>Move right.</b> The bundle contains less X and the orange line flattens.</li>
+      <li><b>Compare the top numbers.</b> The bill's slope equals the number of X's.
+        That is Shephard's Lemma.</li>
+      <li><b>Try the penny.</b> Re-optimizing saves a little, but much less than the direct
+        effect.</li>
     </ol>
   </div>
 
   <div class="slip">
     <p class="boxlabel">Common slip</p>
-    <p>Reading the third panel as an ordinary demand curve and expecting it to shift when
-      income changes. It won't — there is no income in it. Look at the axes of the first
-      panel as you drag: the consumer stays pinned to the <em>same indifference curve</em>
-      the whole time. <span class="m"><var>Ū</var></span> is what's held fixed here, not
-      <span class="m"><var>I</var></span>, and that is the entire difference between this
-      curve and the Marshallian one.</p>
+    <p>Hicksian demand holds <span class="m"><var>Ū</var></span> fixed. Marshallian demand
+      holds income <span class="m"><var>I</var></span> fixed.</p>
   </div>
+
+  <!-- 2 -->
+  <h2 id="s2">2 · The rule</h2>
+
+  <p>Differentiate the expenditure function with respect to a good's own price:</p>
+
+  <div class="rules m">
+    <div><var>X</var><sup>H</sup> = <span class="frac"><span>&part;<var>E</var></span><span>&part;<var>P</var><sub>X</sub></span></span></div>
+    <div><var>Y</var><sup>H</sup> = <span class="frac"><span>&part;<var>E</var></span><span>&part;<var>P</var><sub>Y</sub></span></span></div>
+  </div>
+
+  <p>Hold the other price and <span class="m"><var>Ū</var></span> fixed. The result is
+    Hicksian demand.</p>
+
+  <!-- 3 -->
+  <h2 id="s3">3 · Worked example</h2>
+
+  <p>For
+    <span class="m"><var>U</var> = <var>X</var><sup>.5</sup><var>Y</var><sup>.5</sup></span>,
+    take
+    <span class="m"><var>E</var> = 2<var>P</var><sub>X</sub><sup>.5</sup><var>P</var><sub>Y</sub><sup>.5</sup><var>Ū</var></span>.</p>
+
+  <div class="worked">
+    <p class="boxlabel">Worked example</p>
+    <div class="steps m">
+      <div>Differentiate with respect to <var>P</var><sub>X</sub>:</div>
+      <div><var>X</var><sup>H</sup> = <span class="frac"><span>&part;<var>E</var></span><span>&part;<var>P</var><sub>X</sub></span></span> = 2 · (.5) <var>P</var><sub>X</sub><sup>−.5</sup> <var>P</var><sub>Y</sub><sup>.5</sup> <var>Ū</var></div>
+      <div class="note"><var>P</var><sub>Y</sub> and <var>Ū</var> are constants.</div>
+      <div>= <var>P</var><sub>X</sub><sup>−.5</sup> <var>P</var><sub>Y</sub><sup>.5</sup> <var>Ū</var></div>
+      <div class="note">The 2 and .5 cancel.</div>
+      <div>= <span class="m">(<span class="frac"><span><var>P</var><sub>Y</sub></span><span><var>P</var><sub>X</sub></span></span>)<sup>.5</sup> <var>Ū</var></span></div>
+    </div>
+  </div>
+
+  <p>This recovers the Hicksian demand from the expenditure function.</p>
+
+  <div class="slip">
+    <p class="boxlabel">Common slip</p>
+    <p>Shephard's Lemma is one derivative. Roy's identity is a ratio with a minus sign.</p>
+  </div>
+
+  <details>
+    <summary>Try it: find <span class="m"><var>Y</var><sup>H</sup></span> from the same
+      <span class="m"><var>E</var> = 2<var>P</var><sub>X</sub><sup>.5</sup><var>P</var><sub>Y</sub><sup>.5</sup><var>Ū</var></span></summary>
+    <p class="result m"><var>Y</var><sup>H</sup> = (<span class="frac"><span><var>P</var><sub>X</sub></span><span><var>P</var><sub>Y</sub></span></span>)<sup>.5</sup> <var>Ū</var></p>
+    <p>Same process: now differentiate with respect to
+      <span class="m"><var>P</var><sub>Y</sub></span>.</p>
+  </details>
 
   <!-- 4 -->
   <h2 id="s4">4 · When the derivative is harder</h2>
 
-  <p>Every Cobb-Douglas expenditure function is a product of powers, so the derivative is
-    one line. Other expenditure functions are not, and then the only difficulty is calculus
-    you already have. Here is one where the price appears twice.</p>
+  <p>Cobb-Douglas functions are easy. Here is one where a price appears twice.</p>
 
   <p>Take as given the expenditure function
     <span class="m"><var>E</var> = <var>P</var><sub>Y</sub>(1 + <var>Ū</var> −
@@ -549,36 +516,27 @@
     <div class="steps m">
       <div>Find <var>X</var><sup>H</sup></div>
       <div><span class="frac"><span>&part;<var>E</var></span><span>&part;<var>P</var><sub>X</sub></span></span> = <var>P</var><sub>Y</sub> · <span class="frac"><span>1</span><span><var>P</var><sub>X</sub></span></span></div>
-      <div class="note"><var>P</var><sub>X</sub> appears in one place only, inside the ln — no product rule needed</div>
+      <div class="note"><var>P</var><sub>X</sub> appears once, inside the ln.</div>
       <div><var>X</var><sup>H</sup> = <span class="frac"><span><var>P</var><sub>Y</sub></span><span><var>P</var><sub>X</sub></span></span></div>
     </div>
   </div>
 
   <div class="slip">
     <p class="boxlabel">Common slip</p>
-    <p>Going after <span class="m"><var>Y</var><sup>H</sup></span> the same way.
-      <span class="m"><var>P</var><sub>Y</sub></span> shows up <em>twice</em> in that
-      expenditure function — once out front and once inside the log — so that one needs
-      the product rule. Before you differentiate, count how many times the price you're
-      differentiating with respect to actually appears.</p>
+    <p><span class="m"><var>P</var><sub>Y</sub></span> appears twice, so use the product rule.</p>
   </div>
 
   <details>
     <summary>Try it: find <span class="m"><var>Y</var><sup>H</sup></span> from
       <span class="m"><var>E</var> = <var>P</var><sub>Y</sub>(1 + <var>Ū</var> − ln(<var>P</var><sub>Y</sub>) + ln(<var>P</var><sub>X</sub>))</span></summary>
     <p class="result m"><var>Y</var><sup>H</sup> = <var>Ū</var> − ln(<var>P</var><sub>Y</sub>) + ln(<var>P</var><sub>X</sub>)</p>
-    <p>Product rule. The first piece is the bracket itself:
-      <span class="m">(1 + <var>Ū</var> − ln(<var>P</var><sub>Y</sub>) + ln(<var>P</var><sub>X</sub>))</span>.
-      The second is <span class="m"><var>P</var><sub>Y</sub></span> times the derivative of
-      the bracket, which is <span class="m"><var>P</var><sub>Y</sub> · (−1/<var>P</var><sub>Y</sub>) = −1</span>.
-      Add them and the <span class="m">1</span> and the <span class="m">−1</span> cancel.</p>
+    <p>Product rule: the <span class="m">1</span> and <span class="m">−1</span> cancel.</p>
   </details>
 
   <!-- 5 -->
   <h2 id="s5">5 · Practice</h2>
 
-  <p>Three problems. Each one hands you an expenditure function and asks for one Hicksian
-    demand — no setup, no solving, just the derivative.</p>
+  <p>Differentiate each expenditure function.</p>
 
   <ol class="practice">
     <li>
@@ -586,10 +544,7 @@
       <details>
         <summary>Answer</summary>
         <p class="result m"><var>X</var><sup>H</sup> = (<span class="frac"><span><var>P</var><sub>Y</sub></span><span><var>P</var><sub>X</sub></span></span>)<sup>.75</sup> <var>Ū</var></p>
-        <p><span class="m">4 · (.25) = 1</span>, leaving
-          <span class="m"><var>P</var><sub>X</sub><sup>−.75</sup><var>P</var><sub>Y</sub><sup>.75</sup><var>Ū</var></span>.
-          The constants cancelling to 1 is not a coincidence — it happens for every
-          Cobb-Douglas expenditure function.</p>
+          <p><span class="m">4 · (.25) = 1</span>.</p>
       </details>
     </li>
     <li>
@@ -597,10 +552,7 @@
       <details>
         <summary>Answer</summary>
         <p class="result m"><var>X</var><sup>H</sup> = <var>Ū</var></p>
-        <p>No prices in the answer at all. That is correct, and it tells you what these
-          preferences are: the consumer buys the two goods in a fixed one-to-one bundle
-          and never substitutes, no matter what the prices do. A relative price change
-          moves the bill but not the bundle.</p>
+        <p>No prices appear. These goods are bought in a fixed one-to-one bundle.</p>
       </details>
     </li>
     <li>
@@ -608,33 +560,109 @@
       <details>
         <summary>Answer</summary>
         <p class="result m"><var>Y</var><sup>H</sup> = (<span class="frac"><span><var>P</var><sub>X</sub></span><span><var>P</var><sub>Y</sub></span></span>)<sup>.5</sup> <var>Ū</var><sup>2</sup></p>
-        <p>The <span class="m"><var>Ū</var><sup>2</sup></span> is there to make a point: you
-          are not differentiating with respect to
-          <span class="m"><var>Ū</var></span>, so whatever it looks like, it is a constant.
-          Copy it into the answer and move on.</p>
+        <p><span class="m"><var>Ū</var><sup>2</sup></span> is a constant because the derivative
+          is with respect to price.</p>
       </details>
     </li>
   </ol>
 
   <h2>What this connects to</h2>
 
-  <p>You now have one edge of the square. From
-    <span class="m"><var>X</var><sup>H</sup></span> the next step is usually up the left
-    edge to Marshallian demand, or back around to
-    <span class="m"><var>V</var></span> — and on an exam, "go all the way around the magic
-    square" means chaining three of these in a row. Each one is a single move like this
-    one.</p>
+  <p>You now have one edge of the square: expenditure function → Hicksian demand. The other
+    edges use the same logic.</p>
 
   <div class="footer">
-    <!-- The "../" Magic Square hub page does not exist yet. Add the link back here
-         once it does, so this draft has no dead links. -->
-    <p><a href="../../">All Econ 380 tools</a></p>
+    <p><a href="../">Back to the Magic Square</a> ·
+      <a href="../equivalence/">Marshallian–Hicksian equivalence</a> ·
+      <a href="../roy/">Roy's identity</a> ·
+      <a href="../../">All Econ 380 tools</a></p>
   </div>
+
+  </div><!-- /after-price-terms -->
+
+  </div><!-- /after-gas-quiz -->
 
 </main>
 
 <script>
-/* Shephard's lemma explorer.
+/* Opening intuition check: recover a quantity from a price change and a spending change. */
+(function () {
+  "use strict";
+
+  var form = document.getElementById("gas-quiz");
+  var input = document.getElementById("gas-answer");
+  var feedback = document.getElementById("gas-feedback");
+  var afterQuiz = document.getElementById("after-gas-quiz");
+  afterQuiz.hidden = true;
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    var answer = parseFloat(input.value);
+    if (!Number.isFinite(answer)) {
+      feedback.className = "feedback incorrect";
+      feedback.innerHTML = "<p><b>Enter a number first.</b> Then check your answer.</p>";
+      input.focus();
+      return;
+    }
+
+    var correct = Math.abs(answer - 10) < 0.01;
+    feedback.className = "feedback " + (correct ? "correct" : "incorrect");
+    feedback.innerHTML =
+      "<p><b>" + (correct ? "That's right: 10 gallons." : "Not quite. The answer is 10 gallons.") + "</b></p>" +
+      "<p>Here's how: " +
+      "<span class=\"m\"><span class=\"frac\"><span>$5</span><span>$0.50 per gallon</span></span> = 10 gallons</span>. " +
+      "We divide the change in spending by the change in price.</p>";
+    afterQuiz.hidden = false;
+  });
+})();
+
+/* Second intuition check: identify the price terms before seeing the chain rule. */
+(function () {
+  "use strict";
+
+  var form = document.getElementById("price-terms-quiz");
+  var terms = Array.prototype.slice.call(document.querySelectorAll(".price-term"));
+  var feedback = document.getElementById("terms-feedback");
+  var afterTerms = document.getElementById("after-price-terms");
+
+  terms.forEach(function (term) {
+    term.setAttribute("aria-pressed", "false");
+    term.addEventListener("click", function () {
+      var selected = term.classList.toggle("selected");
+      term.setAttribute("aria-pressed", String(selected));
+    });
+  });
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    var selectedCount = terms.filter(function (term) {
+      return term.classList.contains("selected");
+    }).length;
+    var correct = selectedCount === terms.length;
+
+    terms.forEach(function (term) {
+      term.classList.add("answer");
+      term.disabled = true;
+    });
+
+    feedback.className = "feedback terms-feedback " + (correct ? "correct" : "incorrect");
+    feedback.innerHTML =
+      "<p><b>" + (correct ? "That's right: P<sub>X</sub> appears four times." :
+        "Not quite. The answer is highlighted: P<sub>X</sub> appears four times.") + "</b></p>" +
+      "<p>The <span class=\"m\"><var>P</var><sub>X</sub></span> multiplying " +
+      "<span class=\"m\"><var>X</var><sup>H</sup></span> is the price paid for each unit of X. " +
+      "Inside <span class=\"m\"><var>X</var><sup>H</sup></span> and " +
+      "<span class=\"m\"><var>Y</var><sup>H</sup></span>, it shows that the amounts bought " +
+      "may depend on the price of X. On the left, it shows that " +
+      "<span class=\"m\"><var>E</var></span> depends on " +
+      "<span class=\"m\"><var>P</var><sub>X</sub></span>.</p>";
+    afterTerms.hidden = false;
+  });
+})();
+
+/* Shephard's Lemma explorer.
    U = X^.5 Y^.5, so with Ubar and P_Y fixed:
        E   = 2 sqrt(P_X) sqrt(P_Y) Ubar
        X^H = sqrt(P_Y / P_X) Ubar        <- and this is exactly dE/dP_X
@@ -779,7 +807,7 @@
   });
 
   /* the faint fan: each line is the cost of one fixed bundle as P_X moves.
-     E is the lower envelope of the whole family. */
+     E is the minimum-cost curve across the whole family. */
   [1.5, 3, 6, 10, 15].forEach(function (q) {
     p2.statics.appendChild(el("line", {
       x1:p2.x(PMIN), y1:p2.y(E(q) + XH(q) * (PMIN - q)),
@@ -869,9 +897,8 @@
     r3.textContent = "$" + keep.toFixed(5);
     r4.textContent = "$" + real.toFixed(5);
     r5.textContent = "$" + save.toFixed(5);
-    rv.textContent = "Rearranging is worth " + (save * 100).toFixed(3) +
-                     "¢, against a " + (keep * 100).toFixed(1) +
-                     "¢ direct effect. That is why the direct effect is the answer.";
+    rv.textContent = "Savings: " + (save * 100).toFixed(3) +
+                     "¢ versus " + (keep * 100).toFixed(1) + "¢ direct.";
   }
 
   slider.addEventListener("input", draw);
