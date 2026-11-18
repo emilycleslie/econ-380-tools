@@ -1,0 +1,974 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Allocation mechanisms — Econ 380</title>
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+/* Explorer widget. Kept on this page, like the Magic Square explorer, so the shared
+   stylesheet and the pages already published stay untouched. */
+
+.explorer {
+  background: var(--white);
+  border: 1.5px solid var(--rule);
+  border-radius: 10px;
+  padding: 14px 16px 16px;
+  margin: 16px 0;
+}
+
+.explorer .pickhead { font-weight: 600; font-size: .9rem; margin: 0 0 6px; }
+.rulepick { display: flex; gap: 6px; margin: 0 0 12px; }
+.rulepick button {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 8px 6px;
+  border: 1.5px solid var(--rule);
+  border-radius: 8px;
+  background: var(--white);
+  color: var(--navy);
+  font: inherit;
+  font-size: .92rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.rulepick button:hover { border-color: var(--orange); }
+.rulepick button[aria-pressed="true"] {
+  border-color: var(--orange);
+  background: #fbf3e8;
+  color: var(--orange);
+}
+.rulepick button:focus-visible,
+.lotto button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.explorer .ctl {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+.explorer .ctl label { font-weight: 600; font-size: .9rem; white-space: nowrap; }
+.explorer input[type=range] { flex: 1 1 120px; min-width: 120px; accent-color: var(--warm); }
+.explorer input[type=range]:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.explorer .ceilval { font-weight: 700; color: var(--warm); min-width: 3.2em; }
+
+.explorer .fixed { font-size: .85rem; color: var(--gray); margin: 0 0 12px; }
+
+.explorer .layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 14px 18px;
+  align-items: start;
+}
+@media (max-width: 760px) {
+  .explorer .layout { grid-template-columns: minmax(0, 1fr); }
+}
+
+.explorer .graph { margin: 0; }
+.explorer .graph svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  touch-action: manipulation;
+}
+
+/* bars: one per 25 renters. Served bars change colour with a short stagger, so a
+   switch of rule reads as the served stretch moving along the demand curve. */
+.bar { fill: #e6eaee; stroke: var(--white); stroke-width: .9; cursor: pointer;
+       transition: fill .32s ease; }
+.bar.served { fill: #e3a966; }
+.bar.probed { stroke: var(--navy); stroke-width: 1.4; }
+.seg { stroke: var(--orange); stroke-width: 4.5; stroke-opacity: 0;
+       transition: stroke-opacity .32s ease; pointer-events: none; }
+.seg.served { stroke-opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .bar, .seg, .sbar span { transition: none !important; }
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 8px 2px 0;
+  font-size: .8rem;
+  color: var(--gray);
+}
+.legend span { display: inline-flex; align-items: center; gap: 5px; }
+.legend span[hidden] { display: none; }
+.sw { display: inline-block; width: 13px; height: 11px; border-radius: 2px; flex: none; }
+.sw.cs   { background: #e3a966; }
+.sw.out  { background: #e6eaee; border: 1px solid #cfd6dd; }
+.sw.ps   { background: #bfd6e6; }
+.sw.ceil { height: 0; border-top: 2.5px solid var(--warm); border-radius: 0; }
+.sw.ghost { height: 9px; border: 1.5px dashed var(--orange); background: transparent; }
+.sw.few  { background: #9aa3ad; }
+.sw.who  { background: repeating-linear-gradient(45deg, var(--warm) 0 3px, #ecc9c9 3px 6px); }
+
+.lotto { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; }
+.lotto[hidden] { display: none; }
+.lotto button {
+  padding: 6px 11px;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  background: var(--white);
+  color: var(--accent);
+  font: inherit;
+  font-size: .88rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.lotto button:hover { background: var(--box); }
+.lotto button[aria-pressed="true"] { background: var(--accent); color: var(--white); }
+.lotto button:disabled { opacity: .4; cursor: default; background: var(--white); }
+
+.probe { margin: 8px 2px 0; font-size: .84rem; color: var(--gray); min-height: 2.6em; }
+
+.readout {
+  background: var(--box);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: .93rem;
+}
+.readout .served-line { margin: 0 0 10px; }
+.readout .served-line b { color: var(--orange); }
+.readout .item { margin: 0 0 10px; }
+.readout .item .lab {
+  font-size: .72rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 0 0 1px;
+}
+.readout .eq {
+  font-family: Georgia, "Times New Roman", serif;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.readout .eq span { white-space: nowrap; }
+.readout .eq .res { font-weight: 700; }
+.readout .note { font-size: .84rem; color: var(--gray); margin: 1px 0 0; }
+.readout .draw { font-size: .84rem; color: var(--gray); margin: 3px 0 0; }
+
+.split { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--rule); }
+.split .head { font-size: .85rem; font-weight: 600; color: var(--accent); margin: 0 0 6px; }
+.sbar {
+  display: flex;
+  height: 16px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--white);
+}
+.sbar span { display: block; height: 100%; transition: width .4s ease; }
+.sbar .cs  { background: #e3a966; }
+.sbar .ps  { background: #bfd6e6; }
+.sbar .few { background: #9aa3ad; }
+.sbar .who { background: repeating-linear-gradient(45deg, var(--warm) 0 3px, #ecc9c9 3px 6px); }
+.skey { margin: 8px 0 0; font-size: .86rem; }
+.skey div { display: flex; align-items: center; gap: 7px; padding: 1px 0; }
+.skey .v { margin-left: auto; font-family: Georgia, "Times New Roman", serif;
+           font-variant-numeric: lining-nums tabular-nums; }
+.skey .tot { border-top: 1px solid var(--rule); margin-top: 4px; padding-top: 4px; font-weight: 700; }
+
+.explorer .trythis { margin: 14px 0 0; padding-left: 1.15em; font-size: .93rem; }
+.explorer .trythis li { margin: 7px 0; }
+
+/* opening picture: the market from class, before any rule is applied */
+.intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 6px 24px;
+  align-items: center;
+  margin: 14px 0 6px;
+}
+.introfig { margin: 0; }
+.introfig svg {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+}
+.intro .ask { font-size: 1.08rem; font-weight: 700; color: var(--accent); }
+@media (max-width: 640px) {
+  .intro { grid-template-columns: minmax(0, 1fr); }
+  .introfig svg { margin: 0 auto; }
+}
+
+/* .rules is taken by the shared stylesheet */
+ul.mechs { padding-left: 1.2em; }
+ul.mechs li { margin: 7px 0; }
+
+/* summary table */
+.tablewrap { overflow-x: auto; margin: 14px 0; }
+table.sum {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: .92rem;
+  background: var(--white);
+}
+table.sum th, table.sum td {
+  border-bottom: 1px solid var(--rule);
+  padding: 7px 9px;
+  text-align: left;
+  vertical-align: top;
+}
+table.sum thead th {
+  font-size: .72rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border-bottom: 2px solid var(--rule);
+}
+table.sum td.n { text-align: right; font-family: Georgia, "Times New Roman", serif;
+                 font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
+table.sum th.n { text-align: right; }
+table.sum tr.base td { color: var(--gray); }
+
+@media (max-width: 520px) {
+  table.sum { font-size: .85rem; }
+  table.sum th, table.sum td { padding: 6px 5px; }
+  .explorer { padding: 12px 10px 14px; }
+  .rulepick button { font-size: .86rem; padding: 8px 4px; }
+}
+</style>
+</head>
+<body>
+<main>
+
+  <h1>Who gets the apartments under a price ceiling</h1>
+  <p class="kicker">ECON 380 · Markets · Allocation mechanisms · About ten minutes</p>
+
+  <p class="jump">Jump to:
+    <a href="#rules">Three possible allocation rules</a> ·
+    <a href="#s1">1 See it</a> ·
+    <a href="#s2">2 Summary of surplus and deadweight loss in each scenario</a> ·
+    <a href="#s3">3 Where the deadweight loss comes from</a> ·
+    <a href="#s4">4 Practice</a>
+  </p>
+
+  <p>The goal of this page is to illustrate how the allocation of available units under a
+    price ceiling matters for efficiency.</p>
+
+  <div class="intro">
+    <figure class="introfig">
+      <svg viewBox="0 0 320 290" xmlns="http://www.w3.org/2000/svg" role="img"
+           aria-label="Supply and demand for apartments with rent capped at $200. Landlords supply 200 apartments and 500 renters want one, a shortage of 300.">
+        <!-- Same scale as the explorer below: Q and P both run 0 to 700.
+             x = 40 + 0.38 Q, y = 256 - 0.34 P. -->
+        <rect x="40" y="18" width="266" height="238" fill="#fff"/>
+        <line x1="40" y1="18" x2="306" y2="256" stroke="#00264C" stroke-width="2"/>
+        <line x1="40" y1="256" x2="306" y2="18" stroke="#00264C" stroke-width="2"/>
+        <g stroke="#5B6470" stroke-width="1" stroke-dasharray="3 3">
+          <line x1="116" y1="188" x2="116" y2="256"/>
+          <line x1="230" y1="188" x2="230" y2="256"/>
+        </g>
+        <line x1="40" y1="188" x2="306" y2="188" stroke="#B02A2A" stroke-width="2.2"/>
+        <circle cx="116" cy="188" r="3" fill="#00264C"/>
+        <circle cx="230" cy="188" r="3" fill="#00264C"/>
+        <path d="M116 192V197H230V192" fill="none" stroke="#5B6470" stroke-width="1.1"/>
+        <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+           stroke="#fff" stroke-width="3.5" paint-order="stroke">
+          <text x="173" y="210" font-size="10.5" fill="#5B6470" text-anchor="middle">shortage 300</text>
+          <text x="302" y="182" font-size="11" font-weight="700" fill="#B02A2A" text-anchor="end">ceiling $200</text>
+        </g>
+        <g font-family="Georgia, 'Times New Roman', serif" font-size="13" font-style="italic" fill="#00264C">
+          <text x="70" y="34">D</text>
+          <text x="269" y="31">S</text>
+          <text x="36" y="12">P</text>
+          <text x="306" y="286" text-anchor="end">Q</text>
+        </g>
+        <g stroke="#5B6470" stroke-width="1.1">
+          <line x1="40" y1="18" x2="40" y2="256"/>
+          <line x1="40" y1="256" x2="306" y2="256"/>
+          <line x1="116" y1="256" x2="116" y2="260"/>
+          <line x1="230" y1="256" x2="230" y2="260"/>
+          <line x1="306" y1="256" x2="306" y2="260"/>
+          <line x1="36" y1="188" x2="40" y2="188"/>
+          <line x1="36" y1="18" x2="40" y2="18"/>
+        </g>
+        <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+           font-size="10" fill="#5B6470">
+          <text x="116" y="271" text-anchor="middle" font-weight="700" fill="#00264C">200</text>
+          <text x="230" y="271" text-anchor="middle" font-weight="700" fill="#00264C">500</text>
+          <text x="306" y="271" text-anchor="middle">700</text>
+          <text x="33" y="191.5" text-anchor="end" font-weight="700" fill="#B02A2A">200</text>
+          <text x="33" y="21.5" text-anchor="end">700</text>
+          <text x="33" y="269" text-anchor="end">0</text>
+        </g>
+      </svg>
+    </figure>
+    <div>
+      <p>We're continuing the apartment example from class:
+        <span class="m"><var>Q</var><sub>D</sub> = 700 − <var>P</var></span>,
+        <span class="m"><var>Q</var><sub>S</sub> = <var>P</var></span>, and rent capped at $200.</p>
+      <p class="ask">The question is which of the 500 people are going to get the 200 available
+        apartments.</p>
+    </div>
+  </div>
+
+  <div class="keyidea">
+    <p class="h">Read the demand curve as a spectrum of renters</p>
+    <p>Order the renters from the one who values an apartment most to the one who values it
+      least. The horizontal axis is a renter's place on that spectrum. The height of the demand curve
+      is that renter's willingness to pay (WTP): renter 300 values an apartment at
+      <span class="m">700 − 300 = $400</span>.</p>
+    <p>The allocation rule determines which stretch of the demand curve is served. Consumer
+      surplus is the area under that stretch and above $200.</p>
+  </div>
+
+  <!-- unnumbered: still the setup, not the first scenario -->
+  <h2 id="rules">Three possible allocation rules</h2>
+
+  <p>With excess demand at the price ceiling, there are several mechanisms that could determine
+    who gets the available units. (The real world may be messy and not fall cleanly into one of
+    these.)</p>
+
+  <ul class="mechs">
+    <li><b>Highest WTP:</b> renters 1–200 get them, the case from class. Mechanism: subletting.
+      Anyone who values an apartment at less than $500 does better subletting it for $500, the
+      rent at which demand is 200.</li>
+    <li><b>Lowest WTP:</b> renters 301–500 get them. Mechanism: waiting in line. Apartments go to
+      the renters with the lowest opportunity cost of waiting, who may also have the lowest
+      WTP.</li>
+    <li><b>Random selection:</b> 200 renters drawn at random from all 500. Mechanism: a housing lottery,
+      like the ones some cities run for below-market apartments.</li>
+  </ul>
+
+  <!-- 1 -->
+  <h2 id="s1">1 · See it</h2>
+
+  <p>Pick a rule and watch which bars light up. Each bar is 25 renters. Its height above the
+    ceiling is their consumer surplus if they get an apartment.</p>
+
+  <div class="explorer" id="ex">
+    <p class="pickhead" id="rulehead">Who gets the apartments?</p>
+    <div class="rulepick" role="group" aria-labelledby="rulehead">
+      <button type="button" data-rule="high" aria-pressed="true">Highest WTP</button>
+      <button type="button" data-rule="low" aria-pressed="false">Lowest WTP</button>
+      <button type="button" data-rule="lottery" aria-pressed="false">Lottery</button>
+    </div>
+
+    <div class="ctl">
+      <label for="ceil">Price ceiling</label>
+      <input type="range" id="ceil" min="50" max="350" step="50" value="200">
+      <span class="m ceilval" id="ceillab">$200</span>
+    </div>
+    <p class="fixed">Fixed:
+      <span class="m"><var>Q</var><sub>D</sub> = 700 − <var>P</var></span>,
+      <span class="m"><var>Q</var><sub>S</sub> = <var>P</var></span>.
+      No ceiling: rent $350, 350 apartments.</p>
+
+    <div class="layout">
+      <figure class="graph">
+        <svg id="g" viewBox="0 0 360 360" xmlns="http://www.w3.org/2000/svg" role="img"
+             aria-label="Price ceiling graph. Ceiling $200. 500 renters want an apartment and 200 are supplied. Highest-WTP rule: renters 1 to 200 are served, with WTP from $700 down to $500."></svg>
+        <div class="legend">
+          <span><i class="sw cs"></i>gets an apartment (CS)</span>
+          <span><i class="sw out"></i>wants one, doesn't get one</span>
+          <span><i class="sw ps"></i>PS</span>
+          <span><i class="sw ceil"></i>ceiling</span>
+          <span id="ghostkey" hidden><i class="sw ghost"></i>CS if the highest-WTP renters got them</span>
+        </div>
+        <div class="lotto" id="lotto" hidden>
+          <button type="button" id="redraw">Draw again</button>
+        </div>
+        <p class="probe" id="probe" aria-live="polite">Hover over or tap a bar to see who's in it.</p>
+      </figure>
+
+      <div class="readout" id="readout" aria-live="polite">
+        <p class="served-line"><b>Served:</b> renters 1–200, the high end of the spectrum, with WTP
+          from $700 down to $500.</p>
+        <div class="item">
+          <p class="lab">Consumer surplus</p>
+          <div class="eq">CS = <span>½(200)(700 − 500)</span> + <span>200(500 − 200)</span>
+            = <span class="res">80,000</span></div>
+          <p class="note">A triangle on top of a rectangle.</p>
+        </div>
+        <div class="item">
+          <p class="lab">Producer surplus</p>
+          <div class="eq">PS = <span>½(200)(200)</span> = <span class="res">20,000</span></div>
+          <p class="note">The same under every rule.</p>
+        </div>
+        <div class="item">
+          <p class="lab">Deadweight loss</p>
+          <div class="eq">DWL = <span>122,500 − (20,000 + 80,000)</span> = <span class="res">22,500</span></div>
+          <p class="note">122,500 is total surplus with no ceiling: ½(700)(350).</p>
+        </div>
+      </div>
+    </div>
+
+    <noscript>
+      <p style="margin-top:12px"><b>This figure needs JavaScript.</b> The numbers above are
+        the highest-WTP case at $200; section 2 has all three.</p>
+    </noscript>
+
+    <ol class="trythis">
+      <li><b>On Lottery, press Draw again</b> a few times. Winners come from across the whole
+        spectrum.</li>
+      <li><b>Slide the ceiling up to $350.</b> The shortage disappears, so the available units
+        are allocated by price, and the three scenarios collapse to the same thing.</li>
+    </ol>
+  </div>
+
+  <!-- 2 -->
+  <h2 id="s2">2 · Summary of surplus and deadweight loss in each scenario</h2>
+
+  <p>Deadweight loss is total surplus with no ceiling (122,500) minus PS and CS.</p>
+
+  <div class="tablewrap">
+    <table class="sum">
+      <thead>
+        <tr><th>Rule</th><th>WTP of those served</th><th class="n">CS</th><th class="n">PS</th><th class="n">DWL</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Highest WTP</td><td>$700 to $500</td>
+            <td class="n">80,000</td><td class="n">20,000</td><td class="n">22,500</td></tr>
+        <tr><td>Lowest WTP</td><td>$400 to $200</td>
+            <td class="n">20,000</td><td class="n">20,000</td><td class="n">82,500</td></tr>
+        <tr><td>Random selection</td><td>$700 to $200, 40% chance each</td>
+            <td class="n">50,000</td><td class="n">20,000</td><td class="n">52,500</td></tr>
+        <tr class="base"><td>No ceiling</td><td>$700 to $350</td>
+            <td class="n">61,250</td><td class="n">61,250</td><td class="n">0</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="worked">
+    <p class="boxlabel">Where each CS comes from</p>
+    <div class="steps">
+      <div><b>Highest WTP:</b> <span class="m">½(200)(700 − 500) + 200(500 − 200) = 80,000</span></div>
+      <div><b>Lowest WTP:</b> <span class="m">½(500 − 300)(400 − 200) = 20,000</span></div>
+      <div><b>Random selection:</b> <span class="m"><span class="frac"><span>200</span><span>500</span></span> × ½(500)(700 − 200) = 50,000</span></div>
+      <div class="note">Chance of getting an apartment, times the whole triangle above $200.</div>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <h2 id="s3">3 · Where the deadweight loss comes from</h2>
+
+  <p>PS is the same under every rule, so the differences in deadweight loss all come from
+    consumer surplus. A ceiling loses surplus in two ways.</p>
+
+  <p><b>Too few apartments.</b> Landlords supply 200 instead of 350. That's the familiar
+    triangle between demand and supply from 200 to 350:
+    <span class="m">½(350 − 200)(500 − 200) = 22,500</span>. Every rule pays this.</p>
+
+  <p><b>The wrong renters may get them.</b> If the 200 apartments don't go to the 200 renters
+    who value them most, surplus is lost even on the apartments that are rented. The loss is
+    the 80,000 the highest-WTP renters would have gotten, minus the CS this rule delivers.</p>
+
+  <div class="worked">
+    <div class="steps">
+      <div><b>Highest WTP:</b> <span class="m">22,500 + (80,000 − 80,000) = 22,500</span></div>
+      <div><b>Lowest WTP:</b> <span class="m">22,500 + (80,000 − 20,000) = 82,500</span></div>
+      <div><b>Random selection:</b> <span class="m">22,500 + (80,000 − 50,000) = 52,500</span></div>
+    </div>
+  </div>
+
+  <p>Same answers as section 2. This is why the deadweight loss of a price ceiling depends
+    on more than supply and demand: it depends on how the units are allocated.</p>
+
+  <!-- 4 -->
+  <h2 id="s4">4 · Practice</h2>
+
+  <p>Same market, but the ceiling is now $150. Work each one, then set the ceiling to $150
+    in the explorer to check.</p>
+
+  <ol class="practice">
+    <li>
+      <div class="q">The lowest-WTP renters get the apartments. Which renters are served,
+        and what are their WTPs?</div>
+      <details>
+        <summary>Answer</summary>
+        <p class="result">Renters 401–550, WTP $300 down to $150.</p>
+        <p>150 apartments are supplied and 550 renters want one, so the lowest-WTP 150 are
+          renters 401–550. Their stretch of the demand curve starts at <span class="m"><var>Q</var> = 400</span>, where WTP is
+          700 − 400 = $300.</p>
+      </details>
+    </li>
+    <li>
+      <div class="q">Still lowest WTP. What is consumer surplus?</div>
+      <details>
+        <summary>Answer</summary>
+        <p class="result m">½(550 − 400)(300 − 150) = 11,250</p>
+        <p>One triangle: base 150 apartments, height $300 − $150.</p>
+      </details>
+    </li>
+    <li>
+      <div class="q">Now the apartments are allocated by random selection. What is consumer surplus?</div>
+      <details>
+        <summary>Answer</summary>
+        <p class="result m"><span class="frac"><span>150</span><span>550</span></span> × ½(550)(700 − 150) = 41,250</p>
+        <p>Each of the 550 renters has a 150/550 chance. Multiply by the whole triangle above $150.</p>
+      </details>
+    </li>
+    <li>
+      <div class="q">Still random selection. What is deadweight loss?</div>
+      <details>
+        <summary>Answer</summary>
+        <p class="result m">122,500 − (11,250 + 41,250) = 70,000</p>
+        <p>PS = ½(150)(150) = 11,250, under any rule.</p>
+      </details>
+    </li>
+  </ol>
+
+  <div class="footer">
+    <p><a href="../">All Econ 380 tools</a></p>
+  </div>
+
+</main>
+
+<script>
+/* Allocation explorer.
+   Demand Q_D = 700 - P, so the renter at place q in line has WTP 700 - q. Supply Q_S = P.
+   A ceiling c below 350 binds: Q_S = c apartments go to some c of the Q_D = 700 - c renters
+   who want one at the capped price. The rule decides which.
+   Renters come in bars of 25. Bar i is renters 25i+1 .. 25i+25 whatever the ceiling, and on
+   the slider's $50 grid every ceiling splits the line into whole bars, so the lit bars tile
+   the CS region exactly.
+   No libraries: every shape below is built by this file. */
+(function () {
+  "use strict";
+
+  var A = 700;        /* first renter's WTP; also where demand hits the Q axis */
+  var QSTAR = 350;    /* no-ceiling equilibrium: 700 - P = P */
+  var BAR = 25;
+  var NBARS = 26;     /* the $50 ceiling leaves 650 renters in line */
+  var TS0 = 0.5 * A * QSTAR;
+  var wtp = function (q) { return A - q; };
+
+  var NS = "http://www.w3.org/2000/svg";
+  var C  = { navy:"#00264C", accent:"#005A9C", orange:"#D07000", warm:"#B02A2A",
+             gray:"#5B6470", rule:"#d7dde3", white:"#fff", ps:"#bfd6e6", psText:"#2f5f86" };
+  var SANS  = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+  var SERIF = "Georgia, 'Times New Roman', serif";
+
+  function el(tag, attrs, text) {
+    var n = document.createElementNS(NS, tag);
+    for (var k in attrs) if (attrs[k] !== null) n.setAttribute(k, attrs[k]);
+    if (text !== undefined) n.textContent = text;
+    return n;
+  }
+  function set(n, attrs) { for (var k in attrs) n.setAttribute(k, attrs[k]); }
+  function fmt(v) { return Math.round(v).toLocaleString("en-US"); }
+
+  /* ---- the numbers ------------------------------------------------------ */
+  /* What the readout prints. Computed from the formulas in the notes, not from the bars;
+     the bars are checked against these below. */
+  function surplus(c, rule) {
+    var qs = c, qd = A - c, start = qd - qs;
+    var csHigh = 0.5 * qs * (A - wtp(qs)) + qs * (wtp(qs) - c);
+    var cs = rule === "high" ? csHigh
+           : rule === "low"  ? 0.5 * (qd - start) * (wtp(start) - c)
+           :                   (qs / qd) * (0.5 * qd * (A - c));
+    var ps = 0.5 * qs * c;
+    return {
+      qs: qs, qd: qd, start: start, cs: cs, csHigh: csHigh, ps: ps,
+      dwl: TS0 - (ps + cs),
+      /* the two sources of DWL (section 3), computed from the geometry instead */
+      few: 0.5 * (QSTAR - qs) * (wtp(qs) - qs),
+      who: csHigh - cs
+    };
+  }
+
+  /* area of bar i above the ceiling: a trapezoid under the demand line */
+  function barArea(i, c) {
+    var a = i * BAR, b = a + BAR;
+    return BAR * ((wtp(a) - c) + (wtp(b) - c)) / 2;
+  }
+
+  /* ---- the graph -------------------------------------------------------- */
+  var svg = document.getElementById("g");
+  var W = 360, H = 360, m = { l:44, r:12, t:20, b:38 };
+  var pw = W - m.l - m.r, ph = H - m.t - m.b;
+  var X = function (q) { return m.l + q / A * pw; };
+  var Y = function (p) { return m.t + (1 - p / A) * ph; };
+
+  var defs = el("defs", {});
+  var cp = el("clipPath", { id:"g-clip" });
+  cp.appendChild(el("rect", { x:m.l, y:m.t, width:pw, height:ph }));
+  defs.appendChild(cp);
+  svg.appendChild(defs);
+  svg.appendChild(el("rect", { x:m.l, y:m.t, width:pw, height:ph, fill:C.white }));
+
+  var plot = el("g", { "clip-path":"url(#g-clip)" });
+  svg.appendChild(plot);
+
+  var gBars = el("g", {}), gSeg = el("g", {});
+  var bars = [], segs = [];
+  for (var i = 0; i < NBARS; i++) {
+    var b = el("polygon", { "class":"bar" });
+    b.setAttribute("data-i", i);
+    bars.push(b); gBars.appendChild(b);
+    segs.push(gSeg.appendChild(el("line", { "class":"seg" })));
+  }
+
+  var psTri = el("polygon", { fill:C.ps });
+  var psLab = el("text", { "font-family":SANS, "font-size":"11", "font-weight":"700",
+                           fill:C.psText, "text-anchor":"middle" }, "PS");
+  var ghost = el("polygon", { fill:"none", stroke:C.orange, "stroke-width":1.6,
+                              "stroke-dasharray":"5 3.5", "pointer-events":"none" });
+
+  plot.appendChild(gBars);
+  plot.appendChild(psTri);
+  plot.appendChild(psLab);
+  plot.appendChild(el("line", { x1:X(0), y1:Y(A), x2:X(A), y2:Y(0),
+                                stroke:C.navy, "stroke-width":2 }));
+  plot.appendChild(el("line", { x1:X(0), y1:Y(0), x2:X(A), y2:Y(A),
+                                stroke:C.navy, "stroke-width":2 }));
+  plot.appendChild(gSeg);
+  plot.appendChild(ghost);
+
+  var guides = el("g", { stroke:C.orange, "stroke-width":1, "stroke-dasharray":"3 3",
+                         opacity:.85, "pointer-events":"none" });
+  plot.appendChild(guides);
+
+  plot.appendChild(el("circle", { cx:X(QSTAR), cy:Y(QSTAR), r:3.2, fill:C.white,
+                                  stroke:C.navy, "stroke-width":1.4 }));
+
+  var ceilLine = el("line", { stroke:C.warm, "stroke-width":2.2 });
+  plot.appendChild(ceilLine);
+
+  /* white halo keeps in-plot text readable where it crosses a line */
+  var halo = { stroke:C.white, "stroke-width":3.5, "paint-order":"stroke" };
+  function haloText(attrs, text) {
+    var t = el("text", attrs, text);
+    set(t, halo);
+    return t;
+  }
+  var ceilLab = haloText({ "font-family":SANS, "font-size":"11", "font-weight":"700",
+                           fill:C.warm, "text-anchor":"end" });
+  plot.appendChild(ceilLab);
+
+  var short = el("g", { "pointer-events":"none" });
+  var shortPath = el("path", { fill:"none", stroke:C.gray, "stroke-width":1.1 });
+  var shortLab = haloText({ "font-family":SANS, "font-size":"10.5", fill:C.gray,
+                            "text-anchor":"middle" });
+  short.appendChild(shortPath); short.appendChild(shortLab);
+  plot.appendChild(short);
+
+  var curveLab = el("g", { "font-family":SERIF, "font-size":"13", "font-style":"italic",
+                           fill:C.navy, "pointer-events":"none" });
+  curveLab.appendChild(el("text", { x:X(66) + 5, y:Y(652) }, "D"));
+  curveLab.appendChild(el("text", { x:X(640) - 14, y:Y(662) }, "S"));
+  plot.appendChild(curveLab);
+
+  /* axes, drawn over the plot */
+  var ax = el("g", { stroke:C.gray, "stroke-width":1.1 });
+  ax.appendChild(el("line", { x1:m.l, y1:m.t, x2:m.l, y2:m.t + ph }));
+  ax.appendChild(el("line", { x1:m.l, y1:m.t + ph, x2:m.l + pw, y2:m.t + ph }));
+  svg.appendChild(ax);
+
+  var ticks = el("g", { "font-family":SANS, "font-size":"10" });
+  svg.appendChild(ticks);
+  svg.appendChild(el("text", { x:m.l - 7, y:m.t + ph + 13, "text-anchor":"end",
+                               "font-family":SANS, "font-size":"10", fill:C.gray }, "0"));
+
+  var titles = el("g", { "font-family":SERIF, "font-size":"13", "font-style":"italic", fill:C.navy });
+  titles.appendChild(el("text", { x:m.l - 4, y:m.t - 6 }, "P"));
+  titles.appendChild(el("text", { x:m.l + pw, y:m.t + ph + 30, "text-anchor":"end" }, "Q"));
+  svg.appendChild(titles);
+
+  /* Axis numbers change with the ceiling and the rule, so they are placed each draw.
+     Highest priority first. A number on Q too close to one already placed drops to a
+     second row; on P, or with both rows taken, it is left off. */
+  function placeTicks(list) {
+    while (ticks.firstChild) ticks.removeChild(ticks.firstChild);
+    list.sort(function (a, b) { return a.prio - b.prio; });
+    var done = { x0:[], x1:[], y0:[] };
+    var seen = {};
+    list.forEach(function (t) {
+      if (seen[t.axis + t.v]) return;
+      var pos = t.axis === "x" ? X(t.v) : Y(t.v);
+      var gap = t.axis === "x" ? 24 : 15;
+      /* the Q title sits under 700, so 700 never takes the second row */
+      var rows = t.axis === "x" ? (t.v === A ? ["x0"] : ["x0", "x1"]) : ["y0"];
+      var row = null;
+      for (var r = 0; r < rows.length && row === null; r++) {
+        var clash = done[rows[r]].some(function (d) { return Math.abs(d - pos) < gap; });
+        if (!clash) row = r;
+      }
+      if (row === null) return;
+      done[rows[row]].push(pos);
+      seen[t.axis + t.v] = true;
+      var col = t.color || C.gray;
+      if (t.axis === "x") {
+        ticks.appendChild(el("line", { x1:pos, y1:m.t + ph, x2:pos, y2:m.t + ph + 4 + row * 10,
+                                       stroke:col, "stroke-width":1 }));
+        ticks.appendChild(el("text", { x:pos, y:m.t + ph + 14 + row * 11, "text-anchor":"middle", fill:col,
+                                       "font-weight":t.color ? "700" : "400" }, String(t.v)));
+      } else {
+        ticks.appendChild(el("line", { x1:m.l - 4, y1:pos, x2:m.l, y2:pos,
+                                       stroke:col, "stroke-width":1 }));
+        ticks.appendChild(el("text", { x:m.l - 6, y:pos + 3.5, "text-anchor":"end", fill:col,
+                                       "font-weight":t.color ? "700" : "400" }, String(t.v)));
+      }
+    });
+  }
+
+  /* ---- state and controls ----------------------------------------------- */
+  var slider  = document.getElementById("ceil");
+  var ceilLabHtml = document.getElementById("ceillab");
+  var ruleBtns = Array.prototype.slice.call(document.querySelectorAll(".rulepick button"));
+  var lotto   = document.getElementById("lotto");
+  var redraw  = document.getElementById("redraw");
+  var probe   = document.getElementById("probe");
+  var readout = document.getElementById("readout");
+  var ghostKey = document.getElementById("ghostkey");
+
+  var rule = "high", probed = -1;
+  var keys = [];            /* lottery tickets: the c lowest keys in line win */
+  var prevServed = null;
+
+  function newDraw() {
+    keys = [];
+    for (var k = 0; k < NBARS; k++) keys.push(Math.random());
+  }
+  newDraw();
+
+  function servedSet(c) {
+    var n = (A - c) / BAR, s = c / BAR, out = [], k;
+    for (k = 0; k < NBARS; k++) out.push(false);
+    if (rule === "high") for (k = 0; k < s; k++) out[k] = true;
+    else if (rule === "low") for (k = n - s; k < n; k++) out[k] = true;
+    else {
+      var idx = [];
+      for (k = 0; k < n; k++) idx.push(k);
+      idx.sort(function (a, b) { return keys[a] - keys[b]; });
+      for (k = 0; k < s; k++) out[idx[k]] = true;
+    }
+    return out;
+  }
+
+  function centre(served) {
+    var sum = 0, n = 0;
+    served.forEach(function (on, k) { if (on) { sum += k; n++; } });
+    return n ? sum / n : 0;
+  }
+
+  function pct(c) {
+    var p = 100 * c / (A - c);
+    return (Math.abs(p - Math.round(p)) < 1e-9 ? String(Math.round(p)) : p.toFixed(1)) + "%";
+  }
+
+  /* ---- draw ------------------------------------------------------------- */
+  function draw(animate) {
+    var c = parseFloat(slider.value);
+    var s = surplus(c, rule);
+    var n = s.qd / BAR;
+    var binding = c < QSTAR;
+    var served = servedSet(c);
+
+    ceilLabHtml.textContent = "$" + c;
+
+    /* Stagger the colour change along the line, in the direction the served stretch is
+       moving, so switching rules looks like the stretch sliding along the demand curve. */
+    var rightward = !prevServed || centre(served) >= centre(prevServed);
+    prevServed = served;
+
+    var realized = 0, checkSum = 0;
+    for (var k = 0; k < NBARS; k++) {
+      var bar = bars[k], seg = segs[k];
+      var a = k * BAR, b2 = a + BAR;
+      if (k >= n) {
+        bar.style.display = "none"; seg.style.display = "none";
+        bar.classList.remove("served"); seg.classList.remove("served");
+        continue;
+      }
+      bar.style.display = ""; seg.style.display = "";
+      var delay = animate ? ((rightward ? k : n - 1 - k) * 16) + "ms" : "0ms";
+      bar.style.transitionDelay = delay;
+      seg.style.transitionDelay = delay;
+
+      set(bar, { points: [X(a), Y(c), X(a), Y(wtp(a)), X(b2), Y(wtp(b2)), X(b2), Y(c)].join(" ") });
+      set(seg, { x1:X(a), y1:Y(wtp(a)), x2:X(b2), y2:Y(wtp(b2)) });
+
+      bar.classList.toggle("served", served[k]);
+      seg.classList.toggle("served", served[k]);
+      if (served[k]) { realized += barArea(k, c); }
+      checkSum += barArea(k, c);
+    }
+
+    /* The lit bars must add up to the printed CS. If they ever don't, the page is wrong. */
+    if (rule !== "lottery" && Math.abs(realized - s.cs) > 1e-6)
+      console.error("bars", realized, "!= formula", s.cs);
+    if (Math.abs((s.qs / s.qd) * checkSum - surplus(c, "lottery").cs) > 1e-6)
+      console.error("lottery average", (s.qs / s.qd) * checkSum, "!= formula");
+
+    set(psTri, { points: [X(0), Y(0), X(0), Y(c), X(s.qs), Y(c)].join(" ") });
+    set(psLab, { x: X(s.qs / 3), y: Y(c * 2 / 3) + 4 });
+    psLab.style.display = c >= 150 ? "" : "none";
+
+    set(ghost, { points: [X(0), Y(c), X(0), Y(A), X(s.qs), Y(wtp(s.qs)), X(s.qs), Y(c)].join(" ") });
+    var ghostOn = rule !== "high" && binding;
+    ghost.style.display = ghostOn ? "" : "none";
+    ghostKey.hidden = !ghostOn;
+
+    set(ceilLine, { x1:X(0), y1:Y(c), x2:X(A), y2:Y(c) });
+    /* below $150 there is no clear spot for it; the bold number on the P axis does the job */
+    set(ceilLab, { x:X(A) - 4, y:Y(c) - 6 });
+    ceilLab.textContent = "ceiling $" + c;
+    ceilLab.style.display = c >= 150 ? "" : "none";
+
+    short.style.display = binding ? "" : "none";
+    if (binding) {
+      var yb = Y(c) + 5;
+      set(shortPath, { d: "M" + X(s.qs) + " " + (yb - 3) + "V" + (yb + 2) +
+                          "H" + X(s.qd) + "V" + (yb - 3) });
+      set(shortLab, { x:(X(s.qs) + X(s.qd)) / 2, y:yb + 13 });
+      shortLab.textContent = "shortage " + (s.qd - s.qs);
+    }
+
+    /* guides to the corners of the served stretch, and the numbers on the axes */
+    while (guides.firstChild) guides.removeChild(guides.firstChild);
+    var tk = [
+      { axis:"y", v:c, color:C.warm, prio:0 },
+      { axis:"y", v:A, prio:3 },
+      { axis:"x", v:s.qs, prio:1 },
+      { axis:"x", v:s.qd, prio:1 },
+      { axis:"x", v:A, prio:3 }
+    ];
+    if (binding && rule === "high") {
+      guides.appendChild(el("line", { x1:X(0), y1:Y(wtp(s.qs)), x2:X(s.qs), y2:Y(wtp(s.qs)) }));
+      tk.push({ axis:"y", v:wtp(s.qs), color:C.orange, prio:1 });
+      tk[2].color = C.orange;
+    }
+    if (binding && rule === "low") {
+      guides.appendChild(el("line", { x1:X(0), y1:Y(wtp(s.start)), x2:X(s.start), y2:Y(wtp(s.start)) }));
+      guides.appendChild(el("line", { x1:X(s.start), y1:Y(wtp(s.start)), x2:X(s.start), y2:Y(0) }));
+      tk.push({ axis:"y", v:wtp(s.start), color:C.orange, prio:1 });
+      tk.push({ axis:"x", v:s.start, color:C.orange, prio:0 });
+      tk[3].color = C.orange;
+    }
+    placeTicks(tk);
+
+    lotto.hidden = rule !== "lottery";
+
+    writeReadout(c, s, binding, realized);
+    describe(c, s, binding);
+    if (probed >= n) clearProbe();
+    else if (probed >= 0) showProbe(probed);
+  }
+
+  function item(label, eq, note, extra) {
+    return '<div class="item"><p class="lab">' + label + '</p><div class="eq">' + eq + '</div>' +
+           (note ? '<p class="note">' + note + '</p>' : '') + (extra || '') + '</div>';
+  }
+
+  function writeReadout(c, s, binding, realized) {
+    var line, csEq, csNote, drawNote = "";
+    if (!binding) {
+      line = "<b>No shortage.</b> At $" + c + " the ceiling is the market rent, so all " +
+             s.qs + " renters who want an apartment get one, whatever the rule.";
+    } else if (rule === "high") {
+      line = "<b>Served:</b> renters 1–" + s.qs + ", the high end of the spectrum, with WTP from $" +
+             A + " down to $" + wtp(s.qs) + ".";
+    } else if (rule === "low") {
+      line = "<b>Served:</b> renters " + (s.start + 1) + "–" + s.qd + ", the low end of those who want one, " +
+             "with WTP from $" + wtp(s.start) + " down to $" + c + ".";
+    } else {
+      line = "<b>Served:</b> " + s.qs + " of the " + s.qd + " renters who want one, drawn from " +
+             "across the spectrum ($" + A + " down to $" + c + "). Each has a " + s.qs + "/" + s.qd +
+             " = " + pct(c) + " chance.";
+    }
+
+    if (rule === "high") {
+      csEq = "CS = <span>½(" + s.qs + ")(" + A + " − " + wtp(s.qs) + ")</span> + <span>" +
+             s.qs + "(" + wtp(s.qs) + " − " + c + ")</span> = <span class=\"res\">" + fmt(s.cs) + "</span>";
+      csNote = "A triangle on top of a rectangle.";
+    } else if (rule === "low") {
+      csEq = "CS = <span>½(" + s.qd + " − " + s.start + ")(" + wtp(s.start) + " − " + c +
+             ")</span> = <span class=\"res\">" + fmt(s.cs) + "</span>";
+      csNote = "One triangle, far down the demand curve.";
+    } else {
+      csEq = "CS = <span>(" + s.qs + "/" + s.qd + ")</span> × <span>½(" + s.qd + ")(" + A +
+             " − " + c + ")</span> = <span class=\"res\">" + fmt(s.cs) + "</span>";
+      csNote = "Chance of an apartment, times the whole triangle above $" + c + ".";
+      if (binding)
+        drawNote = '<p class="draw">This particular draw: ' + fmt(realized) +
+               '. It changes every draw. The ' + fmt(s.cs) + ' is the average.</p>';
+    }
+
+    var w = function (v) { return (100 * v / TS0).toFixed(3) + "%"; };
+
+    readout.innerHTML =
+      '<p class="served-line">' + line + '</p>' +
+      item("Consumer surplus", csEq, csNote, drawNote) +
+      item("Producer surplus", "PS = <span>½(" + s.qs + ")(" + c + ")</span> = <span class=\"res\">" +
+           fmt(s.ps) + "</span>", "The same under every rule.") +
+      item("Deadweight loss", "DWL = <span>" + fmt(TS0) + " − (" + fmt(s.ps) + " + " + fmt(s.cs) +
+           ")</span> = <span class=\"res\">" + fmt(s.dwl) + "</span>",
+           fmt(TS0) + " is total surplus with no ceiling: ½(" + A + ")(" + QSTAR + ").") +
+      '<div class="split"><p class="head">Where the ' + fmt(TS0) + ' goes</p>' +
+        '<div class="sbar" aria-hidden="true">' +
+          '<span class="cs" style="width:' + w(s.cs) + '"></span>' +
+          '<span class="ps" style="width:' + w(s.ps) + '"></span>' +
+          '<span class="few" style="width:' + w(s.few) + '"></span>' +
+          '<span class="who" style="width:' + w(s.who) + '"></span>' +
+        '</div>' +
+        '<div class="skey">' +
+          '<div><i class="sw cs"></i>Consumer surplus<span class="v">' + fmt(s.cs) + '</span></div>' +
+          '<div><i class="sw ps"></i>Producer surplus<span class="v">' + fmt(s.ps) + '</span></div>' +
+          '<div><i class="sw few"></i>Lost: too few apartments<span class="v">' + fmt(s.few) + '</span></div>' +
+          '<div><i class="sw who"></i>Lost: who got them<span class="v">' + fmt(s.who) + '</span></div>' +
+          '<div class="tot">Deadweight loss<span class="v">' + fmt(s.few + s.who) + '</span></div>' +
+        '</div></div>';
+  }
+
+  function describe(c, s, binding) {
+    var who = !binding ? "No shortage; every renter who wants an apartment gets one."
+      : rule === "high" ? "Highest-WTP rule: renters 1 to " + s.qs + " are served, with WTP from $700 down to $" + wtp(s.qs) + "."
+      : rule === "low"  ? "Lowest-WTP rule: renters " + (s.start + 1) + " to " + s.qd + " are served, with WTP from $" + wtp(s.start) + " down to $" + c + "."
+      : "Lottery: " + s.qs + " of the " + s.qd + " renters are served, scattered across the whole spectrum.";
+    svg.setAttribute("aria-label", "Price ceiling graph. Ceiling $" + c + ". " + s.qd +
+      " renters want an apartment and " + s.qs + " are supplied. " + who);
+  }
+
+  /* ---- probing a bar ---------------------------------------------------- */
+  function showProbe(k) {
+    var c = parseFloat(slider.value), n = (A - c) / BAR;
+    if (k >= n) { clearProbe(); return; }
+    if (probed >= 0) bars[probed].classList.remove("probed");
+    probed = k;
+    bars[k].classList.add("probed");
+    var a = k * BAR, served = servedSet(c)[k];
+    var status = served ? "they get apartments." : "they want one at $" + c + " but don't get one.";
+    probe.textContent = "Renters " + (a + 1) + "–" + (a + BAR) + ": WTP $" + wtp(a) +
+                        " down to $" + wtp(a + BAR) + ". Under this rule, " + status;
+  }
+  function clearProbe() {
+    if (probed >= 0) bars[probed].classList.remove("probed");
+    probed = -1;
+    probe.textContent = "Hover over or tap a bar to see who's in it.";
+  }
+
+  bars.forEach(function (bar, k) {
+    bar.addEventListener("pointerenter", function () { showProbe(k); });
+    bar.addEventListener("click", function () { showProbe(k); });
+  });
+
+  /* ---- wiring ----------------------------------------------------------- */
+  ruleBtns.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var r = btn.getAttribute("data-rule");
+      if (r === rule) return;
+      rule = r;
+      if (rule === "lottery") newDraw();
+      ruleBtns.forEach(function (o) { o.setAttribute("aria-pressed", String(o === btn)); });
+      draw(true);
+    });
+  });
+  slider.addEventListener("input", function () { draw(false); });
+  redraw.addEventListener("click", function () { newDraw(); draw(true); });
+
+  draw(false);
+})();
+</script>
+</body>
+</html>

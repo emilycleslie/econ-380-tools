@@ -18,6 +18,7 @@ math-proficiency/2/index.html Math Proficiency 2 — derivatives and critical po
 math-proficiency/3/index.html Math Proficiency 3 — partial derivatives
 math-proficiency/4/index.html Math Proficiency 4 — total differentials and total derivatives
 math-proficiency/5/index.html Math Proficiency 5 — solving the optimization system
+allocation/index.html         Allocation mechanisms — who gets the apartments under a price ceiling (L19)
 ```
 
 All five modules are built and linked. Adding a new tool means a new folder off the root and
@@ -34,6 +35,7 @@ a card on `index.html`.
 | Math Proficiency 3 | `https://emilycleslie.github.io/econ-380-tools/math-proficiency/3/` |
 | Math Proficiency 4 | `https://emilycleslie.github.io/econ-380-tools/math-proficiency/4/` |
 | Math Proficiency 5 | `https://emilycleslie.github.io/econ-380-tools/math-proficiency/5/` |
+| Allocation mechanisms | `https://emilycleslie.github.io/econ-380-tools/allocation/` |
 
 **The Math Proficiency 1 URL is what goes in the Learning Suite exam instructions.** It won't work
 until the repo exists and Pages is switched on.
